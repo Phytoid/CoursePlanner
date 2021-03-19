@@ -11,7 +11,7 @@ import { Student } from '../../models/student';
 export class SearchComponent implements OnInit {
   // filters = new FormControl();
   // filtersList: string[] = ["Course Plan Validity", "Course Plan Completeness", "Graduation Semester", "Graduation Year"];
-  // students: Student[];
+  //students: Student[];
 
   //constructor(private studentService: StudentService) { }
   constructor() { }
