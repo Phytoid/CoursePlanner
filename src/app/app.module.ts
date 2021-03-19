@@ -35,6 +35,8 @@ import { CourseInfoComponent } from './components/course-info/course-info.compon
     ReactiveFormsModule,
     FormsModule,
     MatCheckboxModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule
   ],
   providers: [StudentService],
   bootstrap: [AppComponent]
