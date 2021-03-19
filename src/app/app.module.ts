@@ -6,19 +6,30 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { StudentComponent } from './components/student/student.component';
 import { GpdComponent } from './components/gpd/gpd.component';
+import { SearchComponent } from './components/search/search.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddStudentComponent } from './components/add-student/add-student.component';
+import { StudentService } from './services/student.service'
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     StudentComponent,
-    GpdComponent
+    GpdComponent,
+    SearchComponent,
+    AddStudentComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatCheckboxModule,
   ],
-  providers: [],
+  providers: [StudentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
