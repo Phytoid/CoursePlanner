@@ -30,14 +30,11 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     AppRoutingModule,
-<<<<<<< HEAD
     ReactiveFormsModule,
     FormsModule,
     MatCheckboxModule,
-=======
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule
->>>>>>> 3712de869d8f2cc1d650e9b669db29ce875e2d92
   ],
   providers: [StudentService],
   bootstrap: [AppComponent]
