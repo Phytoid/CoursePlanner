@@ -13,6 +13,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddStudentComponent } from './components/add-student/add-student.component';
 import { StudentService } from './services/student.service'
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { environment } from '../environments/environment';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,9 +30,14 @@ import { StudentService } from './services/student.service'
   imports: [
     BrowserModule,
     AppRoutingModule,
+<<<<<<< HEAD
     ReactiveFormsModule,
     FormsModule,
     MatCheckboxModule,
+=======
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule
+>>>>>>> 3712de869d8f2cc1d650e9b669db29ce875e2d92
   ],
   providers: [StudentService],
   bootstrap: [AppComponent]
