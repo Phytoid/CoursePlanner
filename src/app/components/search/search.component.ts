@@ -9,13 +9,16 @@ import { Student } from '../../models/student';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  // filters = new FormControl();
-  // filtersList: string[] = ["Course Plan Validity", "Course Plan Completeness", "Graduation Semester", "Graduation Year"];
+
+  //////Students array to store students from database
   //students: Student[];
 
+  //////Constructor to inport Student model from .modeels/student
   //constructor(private studentService: StudentService) { }
+
   constructor() { }
   ngOnInit(): void {
+    /////////Code to possibly pull from database
     // this.studentService.getStudents().subscribe(students => {
     //   this.students = students;
     // })
