@@ -27,12 +27,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     
     console.log("init login")
-    this.db.database.ref().child("Persons").on('value', (shapshot) => {
-      shapshot.forEach((child) => {
-         
-          console.log(child.val())
-      })
-    })
+    
   }
     
 
@@ -41,8 +36,23 @@ export class LoginComponent implements OnInit {
 
   loginUser(event){
     console.log(event)
-    console.log(event.srcElement[0].value)
-    console.log(event.srcElement[1].value)
+    let email = event.srcElement[0].value;
+    let password = event.srcElement[1].value;
+    this.db.database.ref().child("Persons").on('value', (shapshot) => {
+      shapshot.forEach((child) => {
+          var data = child.val();
+          let email2 = data[Object.keys(data)[0]].email
+          if(email == email2) {
+            if(password == data[Object.keys(data)[0]].password) {
+              console.log("Success!")
+              return;
+            }
+          }
+
+          
+      })
+    })
+    console.log("Failed to login!")
     event.preventDefault()
   }
 
