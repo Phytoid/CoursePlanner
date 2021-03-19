@@ -7,6 +7,11 @@ import { LoginComponent } from './components/login/login.component';
 import { StudentComponent } from './components/student/student.component';
 import { GpdComponent } from './components/gpd/gpd.component';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { environment } from '../environments/environment';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,7 +21,9 @@ import { GpdComponent } from './components/gpd/gpd.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule
   ],
   providers: [],
   bootstrap: [AppComponent]
