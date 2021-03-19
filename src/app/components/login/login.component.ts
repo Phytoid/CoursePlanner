@@ -10,11 +10,14 @@ export class LoginComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log("init login")
   }
 
   loginUser(event){
-    //event.preventDefault()
     console.log(event)
+    console.log(event.srcElement[0].value)
+    console.log(event.srcElement[1].value)
+    event.preventDefault()
   }
 
 }
