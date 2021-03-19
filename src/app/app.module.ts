@@ -16,6 +16,7 @@ import { StudentService } from './services/student.service'
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
+import { CourseInfoComponent } from './components/course-info/course-info.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { environment } from '../environments/environment';
     GpdComponent,
     SearchComponent,
     AddStudentComponent,
+    CourseInfoComponent,
   ],
   imports: [
     BrowserModule,

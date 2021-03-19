@@ -20,19 +20,19 @@ interface User {
 
 export class LoginComponent implements OnInit {
   
-  //constructor() { }
-  constructor(private db: AngularFireDatabase) {}
+  constructor() { }
+  //constructor(private db: AngularFireDatabase) {}
 
 
   ngOnInit(): void {
     
-    console.log("init login")
-    this.db.database.ref().child("Persons").on('value', (shapshot) => {
-      shapshot.forEach((child) => {
+    // console.log("init login")
+    // this.db.database.ref().child("Persons").on('value', (shapshot) => {
+    //   shapshot.forEach((child) => {
          
-          console.log(child.val())
-      })
-    })
+    //       console.log(child.val())
+    //   })
+    // })
   }
     
 
