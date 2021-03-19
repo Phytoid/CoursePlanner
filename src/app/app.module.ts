@@ -17,6 +17,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
 import { CourseInfoComponent } from './components/course-info/course-info.component';
+import { EnrollmentTrendsComponent } from './components/enrollment-trends/enrollment-trends.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { CourseInfoComponent } from './components/course-info/course-info.compon
     SearchComponent,
     AddStudentComponent,
     CourseInfoComponent,
+    EnrollmentTrendsComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +37,7 @@ import { CourseInfoComponent } from './components/course-info/course-info.compon
     ReactiveFormsModule,
     FormsModule,
     MatCheckboxModule,
+    MatSelectModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule
   ],

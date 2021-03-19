@@ -5,13 +5,17 @@ import { LoginComponent } from './components/login/login.component';
 import { StudentComponent } from './components/student/student.component';
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CourseInfoComponent } from './components/course-info/course-info.component';
+import { EnrollmentTrendsComponent } from './components/enrollment-trends/enrollment-trends.component'
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'student', component: StudentComponent },
   { path: 'search', component: SearchComponent },
   { path: 'addStudent', component: AddStudentComponent },
-  { path: 'gpd', component: GpdComponent }
+  { path: 'gpd', component: GpdComponent },
+  { path: 'courseInfo', component: CourseInfoComponent},
+  { path: 'enrollmentTrends', component: EnrollmentTrendsComponent}
 ];
 
 @NgModule({
