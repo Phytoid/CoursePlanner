@@ -1,0 +1,49 @@
+.header{
+    font-size: 30px;
+    color: #000;
+    line-height: 100px;
+    padding-top: 6px;
+    background: #eee;
+    text-align: center;
+}
+
+.center{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+#card-content {
+    padding: 12px 44px;
+}
+
+#logout-btn{
+    background-color: rgb(64, 36, 167);
+    border: none;
+    border-radius: 21px;
+    cursor: pointer;
+    color: white;
+    height: 42.3px;
+    margin: 0 auto;
+    margin-top: 2px;
+    transition: 0.25s;
+    width: 100px;
+    position: absolute;
+    top: 35px;
+    right: 20px;
+    
+}
+#submit-btn {
+    background-color: rgb(64, 36, 167);
+    border: none;
+    border-radius: 21px;
+    cursor: pointer;
+    color: white;
+    font-family: "Raleway SemiBold", sans-serif;
+    height: 42.3px;
+    margin: 0 auto;
+    margin-top: 50px;
+    transition: 0.25s;
+    width: 153px;
+}
