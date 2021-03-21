@@ -19,6 +19,7 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
 import { environment } from '../environments/environment';
 import { CourseInfoComponent } from './components/course-info/course-info.component';
 import { EnrollmentTrendsComponent } from './components/enrollment-trends/enrollment-trends.component';
+import { DegreeReqsComponent } from './components/degree-reqs/degree-reqs.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { EnrollmentTrendsComponent } from './components/enrollment-trends/enroll
     AddStudentComponent,
     CourseInfoComponent,
     EnrollmentTrendsComponent,
+    DegreeReqsComponent,
   ],
   imports: [
     BrowserModule,
