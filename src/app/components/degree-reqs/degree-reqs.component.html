@@ -1,0 +1,28 @@
+<div class="header">
+    Student Search Page
+    
+    <button routerLink="/" routerLinkActive="active" class="btn" id="logout-btn">Logout</button>
+    <button class="btn" id="home-btn">Home</button>
+    <button routerLink="/addStudent" routerLinkActive="active" class="btn" id="add-btn">Back</button>
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Semester</th>
+                <th>Year</th>
+                <th>Satisfaction</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let student in students">
+                <th>{{student.id}}</th>
+                <th>{{student.last}}</th>
+                <th>{{student.first}}</th>
+                <th>{{student.dept}}</th>
+            </tr>
+        </tbody>
+    </table>
+</div>
