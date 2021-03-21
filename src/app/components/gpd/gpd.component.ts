@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { Router } from  "@angular/router";
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-gpd',
@@ -8,7 +10,11 @@ import { AngularFireDatabase } from '@angular/fire/database';
 })
 export class GpdComponent implements OnInit {
 
-  constructor(private db: AngularFireDatabase) { }
+  constructor(private authService: AuthService, public router: Router, private db: AngularFireDatabase) {
+    if (this.authService.isLoggedIn == false) {
+      this.router.navigate(['login'])
+    }
+  }
 
   ngOnInit(): void {
   }
@@ -25,5 +31,9 @@ export class GpdComponent implements OnInit {
         })
       })
     }
+  }
+
+  logout() {
+    this.authService.logout()
   }
 }
