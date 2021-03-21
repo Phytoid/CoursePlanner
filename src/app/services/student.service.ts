@@ -11,7 +11,7 @@ export class StudentService {
   students: Observable<Student[]>;
 
   constructor(public afs: AngularFirestore) { 
-    this.students = this.afs.collection('students').valueChanges();
+    this.students = this.afs.collection('Students').valueChanges();
   }
 
   getStudents(){

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { AngularFirestore} from '@angular/fire/firestore';
 
 import { Observable } from 'rxjs';
 import { RouterModule, Routes } from '@angular/router';
@@ -25,15 +24,10 @@ interface User {
 export class LoginComponent implements OnInit {
   
   //constructor() { }
-  constructor(private authService: AuthService, private db: AngularFireDatabase, private router: Router) {}
+  constructor(private authService: AuthService, private db: AngularFirestore, private router: Router) {}
 
   ngOnInit(): void {
-    this.db.database.ref().child("Persons").on('value', (shapshot) => {
-      shapshot.forEach((child) => {
-         
-          console.log(child.val())
-      })
-    })
+
   }
 
   loginUser(event){
