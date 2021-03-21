@@ -1,0 +1,41 @@
+<div class="header">
+    Course Information
+    
+    <button routerLink="/" routerLinkActive="active" class="btn" id="logout-btn">Logout</button>
+    <button class="btn" id="home-btn">Home</button>
+</div>
+
+<div>
+    <form class="form-inline waves-light" mdbWavesEffect>
+        <div class="md-form mt-0">
+          <input class="searchBar" type="text" placeholder="Search">
+          <mat-form-field appearance="fill">
+            <mat-label>Department</mat-label>
+            <select matNativeControl required>
+              <option value="cse">CSE</option>
+              <option value="ams" >AMS</option>
+              <option value="bio">BIO</option>
+            </select>
+          </mat-form-field>
+        </div>
+    </form>
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Department</th>
+                <th>Course Identifier</th>
+                <th>Course Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let student in students">
+                <th>{{department.name}}</th>
+                <th>{{course.course_identifier}}</th>
+                <th>{{course.course_name}}</th>
+            </tr>
+        </tbody>
+    </table>
+</div>

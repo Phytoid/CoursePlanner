@@ -1,0 +1,113 @@
+.header{
+    font-size: 30px;
+    color: #000;
+    line-height: 150px;
+    padding-top: 6px;
+    background: #eee;
+    text-align: center;
+}
+
+#logout-btn{
+    background-color: rgb(64, 36, 167);
+    border: none;
+    border-radius: 21px;
+    cursor: pointer;
+    color: white;
+    height: 42.3px;
+    margin: 0 auto;
+    margin-top: 2px;
+    transition: 0.25s;
+    width: 100px;
+    position: absolute;
+    top: 35px;
+    right: 20px;    
+}
+
+#home-btn{
+    background-color: rgb(64, 36, 167);
+    border: none;
+    border-radius: 21px;
+    cursor: pointer;
+    color: white;
+    height: 42.3px;
+    margin: 0 auto;
+    margin-top: 2px;
+    transition: 0.25s;
+    width: 100px;
+    position: absolute;
+    top: 100px;
+    right: 20px;    
+}
+
+#add-btn{
+    background-color: rgb(255, 36, 36);
+    border: none;
+    border-radius: 21px;
+    cursor: pointer;
+    color: white;
+    height: 42.3px;
+    margin: 0 auto;
+    margin-top: 2px;
+    transition: 0.25s;
+    width: 100px;
+    position: absolute;
+    top: 175px;
+    right: 20px;    
+}
+
+#checkBox{
+    left:200px;
+    top:200px;
+}
+
+.searchBar{
+    margin-top: 35px;
+    margin-left: 20px;
+}
+
+#checkBox{
+    margin-left: 20px;
+}
+
+table{
+    border: 1px solid black;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+th, td{
+    border: 1px solid black;
+}
+.same-line{
+    width: 100%;
+    height: 100%;
+    border: solid 1px #ccc;
+    display: inline-block;
+}
+#select-wrapper{
+    display: flex;
+}
+#addCourse-btn{
+    background-color: rgb(64, 36, 167);
+    border: none;
+    border-radius: 21px;
+    cursor: pointer;
+    color: white;
+    height: 42.3px;
+    margin: 0 auto;
+    margin-top: 2px;
+    transition: 0.25s;
+    width: 100px;
+}
+#viewChart-btn{
+    background-color: rgb(64, 36, 167);
+    border: none;
+    border-radius: 21px;
+    cursor: pointer;
+    color: white;
+    height: 42.3px;
+    margin: 0 auto;
+    margin-top: 2px;
+    transition: 0.25s;
+    width: 100px;  
+}

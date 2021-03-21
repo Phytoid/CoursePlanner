@@ -1,0 +1,98 @@
+<div class="header">
+    Course Information
+    
+    <button routerLink="/" routerLinkActive="active" class="btn" id="logout-btn">Logout</button>
+    <button class="btn" id="home-btn">Home</button>
+</div>
+<div id="select-wrapper">
+    <div class="same-line"> Select Course
+        <form class="form-inline waves-light" mdbWavesEffect>
+            <div>
+              <mat-form-field appearance="fill">
+                <label>Department</label>
+                <select matNativeControl required>
+                  <option value="cse">CSE</option>
+                  <option value="ams" >AMS</option>
+                  <option value="bio">BIO</option>
+                </select>
+              </mat-form-field>
+            </div>
+        </form>
+        <form class="form-inline waves-light" mdbWavesEffect>
+            <div>
+              <mat-form-field appearance="fill">
+                <label>Course</label>
+                <select matNativeControl required>
+                  <option value="cse 101">CSE 101</option>
+                  <option value="ams 110" >AMS 110</option>
+                  <option value="bio 101">BIO 101</option>
+                </select>
+              </mat-form-field>
+            </div>
+        </form>
+    </div>
+    <div class="same-line"> Select Semester
+        <form class="form-inline waves-light" mdbWavesEffect>
+            <div>
+              <mat-form-field appearance="fill">
+                <label>Semester Start</label>
+                <select matNativeControl required>
+                  <option value="fall">Fall</option>
+                  <option value="spring" >Spring</option>
+                </select>
+              </mat-form-field>
+            </div>
+        </form>
+        <form class="form-inline waves-light" mdbWavesEffect>
+            <div>
+              <mat-form-field appearance="fill">
+                <label>Semester End</label>
+                <select matNativeControl required>
+                    <option value="fall">Fall</option>
+                    <option value="spring" >Spring</option>
+                </select>
+              </mat-form-field>
+            </div>
+        </form>
+    </div>
+    <div class="same-line"> Select Year
+        <form class="form-inline waves-light" mdbWavesEffect>
+            <div>
+              <mat-form-field appearance="fill">
+                <label>Year Start</label>
+                <select matNativeControl required>
+                  <option value="2020">2020</option>
+                  <option value="2021" >2021</option>
+                </select>
+              </mat-form-field>
+            </div>
+        </form>
+        <form class="form-inline waves-light" mdbWavesEffect>
+            <div>
+              <mat-form-field appearance="fill">
+                <label>Year End</label>
+                <select matNativeControl required>
+                    <option value="2020">2020</option>
+                    <option value="2021" >2021</option>
+                </select>
+              </mat-form-field>
+            </div>
+        </form>
+    </div>
+</div>
+<button id="addCourse-btn">Add Course to Table</button>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Department</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let student in students">
+                <th>{{department.name}}</th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<button id="viewChart-btn">View Chart</button>
