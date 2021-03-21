@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from  "@angular/router";
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-gpd',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GpdComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService, public router: Router) {
+    if (this.authService.isLoggedIn == false) {
+      this.router.navigate(['login'])
+    }
+  }
 
   ngOnInit(): void {
+  }
+
+  logout() {
+    this.authService.logout()
   }
 
 }
