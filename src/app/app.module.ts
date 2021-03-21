@@ -14,7 +14,7 @@ import { AddStudentComponent } from './components/add-student/add-student.compon
 import { StudentService } from './services/student.service'
 
 import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { environment } from '../environments/environment';
 import { CourseInfoComponent } from './components/course-info/course-info.component';
@@ -40,7 +40,7 @@ import { EnrollmentTrendsComponent } from './components/enrollment-trends/enroll
     MatCheckboxModule,
     MatSelectModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireDatabaseModule,
+    AngularFirestoreModule,
     AngularFireAuthModule
   ],
   providers: [StudentService],
