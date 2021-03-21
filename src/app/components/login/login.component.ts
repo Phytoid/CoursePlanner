@@ -28,8 +28,6 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private db: AngularFireDatabase, private router: Router) {}
 
   ngOnInit(): void {
-    
-    console.log("init login")
     this.db.database.ref().child("Persons").on('value', (shapshot) => {
       shapshot.forEach((child) => {
          

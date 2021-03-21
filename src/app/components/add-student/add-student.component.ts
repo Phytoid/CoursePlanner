@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
@@ -15,7 +16,11 @@ export class AddStudentComponent implements OnInit {
   submitted = false;
   error: string;
   
-  constructor() { }
+  constructor(private authService: AuthService, public router: Router) {
+    if (this.authService.isLoggedIn == false) {
+      this.router.navigate(['login'])
+    }
+  }
 
   ngOnInit(): void {
   }

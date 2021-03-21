@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from  "@angular/router";
+import { AuthService } from 'src/app/auth/auth.service';
 import { FormControl } from '@angular/forms';
 // import { StudentService} from '../../services/student.service';
 import { Student } from '../../models/student';
@@ -14,7 +16,11 @@ export class SearchComponent implements OnInit {
   //students: Student[];
 
   //constructor(private studentService: StudentService) { }
-  constructor() { }
+  constructor(private authService: AuthService, public router: Router) {
+    if (this.authService.isLoggedIn == false) {
+      this.router.navigate(['login'])
+    }
+  }
   ngOnInit(): void {
     // this.studentService.getStudents().subscribe(students => {
     //   this.students = students;
