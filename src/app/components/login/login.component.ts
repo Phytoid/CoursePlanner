@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
   //constructor() { }
   constructor(private authService: AuthService, private db: AngularFireDatabase, private router: Router) {}
 
-
   ngOnInit(): void {
     
     console.log("init login")
@@ -38,10 +37,6 @@ export class LoginComponent implements OnInit {
       })
     })
   }
-    
-
-    
-  
 
   loginUser(event){
     console.log("Calling login!")
