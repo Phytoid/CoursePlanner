@@ -14,8 +14,10 @@ const routes: Routes = [
   { path: 'search', component: SearchComponent },
   { path: 'addStudent', component: AddStudentComponent },
   { path: 'gpd', component: GpdComponent },
+  { path: 'login', component: LoginComponent},
   { path: 'courseInfo', component: CourseInfoComponent},
-  { path: 'enrollmentTrends', component: EnrollmentTrendsComponent}
+  { path: 'enrollmentTrends', component: EnrollmentTrendsComponent},
+  { path: 'login', component: LoginComponent},
 ];
 
 @NgModule({
