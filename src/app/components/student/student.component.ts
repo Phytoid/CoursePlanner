@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from  "@angular/router";
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-student',
@@ -8,7 +10,11 @@ import { Component, OnInit } from '@angular/core';
 export class StudentComponent implements OnInit {
   studentName: string;
   
-  constructor() { }
+  constructor(private authService: AuthService, public router: Router) {
+    if (this.authService.isLoggedIn == false) {
+      this.router.navigate(['login'])
+    }
+  }
 
   ngOnInit(): void {
   }
