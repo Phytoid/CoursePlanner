@@ -30,12 +30,9 @@ export class SearchComponent implements OnInit {
       this.students = s;
       this.temp = s;
     });
-    /////////Code to possibly pull from database
-    // this.studentService.getStudents().subscribe(students => {
-    //   this.students = students;
-    // })
   }
 
+  ///Create ngform for filters and use filter to search through data//////////
   onSubmit(f: NgForm){
     var searchStudents: Student[] = [];
     this.students = this.temp;
@@ -43,14 +40,11 @@ export class SearchComponent implements OnInit {
     const str:String = f.value.name;
 
     this.students.forEach(element => {
-      console.log(element);
-      if(str.toLowerCase() == element.id.toLowerCase() || (str.toLowerCase() == element.first.toLowerCase() || str.toLowerCase() == element.last.toLowerCase() )){
+      if(str.toLowerCase() == element.id.toLowerCase() || element.first.toLowerCase().indexOf(str.toLowerCase()) >= 0 || element.last.toLowerCase().indexOf(str.toLowerCase()) >= 0 ){
         searchStudents.push(element);
       }
     });
-    if(searchStudents.length > 0){
-      this.students = searchStudents;
-    }
+    this.students = searchStudents;
     //this.students = this.searchStudents;
   }
 }
