@@ -1,5 +1,6 @@
 export interface Student{
     id?:string;
+    sbuID?:string;
     last?:string;
     first?:string;
     dept?:string;
