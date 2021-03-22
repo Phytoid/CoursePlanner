@@ -13,6 +13,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddStudentComponent } from './components/add-student/add-student.component';
 import { StudentService } from './services/student.service'
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule  } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field'
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from "@angular/fire/auth";
@@ -35,6 +38,9 @@ import { DegreeReqsComponent } from './components/degree-reqs/degree-reqs.compon
     DegreeReqsComponent,
   ],
   imports: [
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,

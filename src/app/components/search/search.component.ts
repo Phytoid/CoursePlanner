@@ -3,7 +3,9 @@ import { Observable } from 'rxjs';
 import { Router } from  "@angular/router";
 import { AuthService } from 'src/app/auth/auth.service';
 import { FormControl, NgForm } from '@angular/forms';
-// import { StudentService} from '../../services/student.service';
+import { MatInputModule  } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Student } from '../../models/student';
 import { StudentService } from 'src/app/services/student.service';
 

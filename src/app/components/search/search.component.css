@@ -79,3 +79,12 @@ table{
 th, td{
     border: 1px solid black;
 }
+
+#filter{
+    border: 1px solid black;
+    margin-left: 5px;
+}
+
+#label{
+    margin-left: 22px;
+}
