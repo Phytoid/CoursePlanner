@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from  "@angular/router";
 import { AuthService } from 'src/app/auth/auth.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 // import { StudentService} from '../../services/student.service';
 import { Student } from '../../models/student';
 import { StudentService } from 'src/app/services/student.service';
@@ -14,6 +14,7 @@ import { StudentService } from 'src/app/services/student.service';
 })
 export class SearchComponent implements OnInit {
   students: Student[];
+  searchStudents: Student[] = [];
   //////Students array to store students from database
   //students: Student[];
 
@@ -29,5 +30,20 @@ export class SearchComponent implements OnInit {
     // this.studentService.getStudents().subscribe(students => {
     //   this.students = students;
     // })
+  }
+
+  onSubmit(f: NgForm){
+    //console.log(f.value);
+    const str:String = f.value.name;
+    console.log(str);
+    this.students.forEach(element => {
+      if(str == element.id || (str.indexOf(element.first) >= 0 && str.indexOf(element.last) >= 0)){
+        this.searchStudents.push(element);
+      }
+    });
+    if(this.searchStudents.length > 0){
+      this.students = this.searchStudents;
+    }
+    //this.students = this.searchStudents;
   }
 }

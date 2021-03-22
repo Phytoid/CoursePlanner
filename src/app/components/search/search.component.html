@@ -9,11 +9,14 @@
 <div>
     <form class="form-inline waves-light" mdbWavesEffect>
         <div class="md-form mt-0">
-          <input class="searchBar" type="text" placeholder="Search">
-          <mat-checkbox id="checkBox" labelPosition="before" >Course Plan Validity</mat-checkbox>
+            <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+                <input class="searchBar" type="text" placeholder="Search" name="name" ngModel>
+            </form>
+          <!-- <input class="searchBar" type="text" placeholder="Search"> -->
+          <!-- <mat-checkbox id="checkBox" labelPosition="before" >Course Plan Validity</mat-checkbox>
           <mat-checkbox id="checkBox" labelPosition="before" >Course Plan Completeness</mat-checkbox>
           <mat-checkbox id="checkBox" labelPosition="before" >Graduation Semester</mat-checkbox>
-          <mat-checkbox id="checkBox" labelPosition="before" >Graduation Year</mat-checkbox>
+          <mat-checkbox id="checkBox" labelPosition="before" >Graduation Year</mat-checkbox> -->
         </div>
     </form>
 </div>
@@ -36,7 +39,7 @@
                 <th>Graduated</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody >
             <tr *ngFor="let student of students">
                 <th>{{student.id}}</th>
                 <th>{{student.last}}</th>
