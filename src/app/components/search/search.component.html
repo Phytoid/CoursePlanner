@@ -10,10 +10,19 @@
     <form class="form-inline waves-light" mdbWavesEffect>
         <div class="md-form mt-0">
           <input class="searchBar" type="text" placeholder="Search">
-          <mat-checkbox id="checkBox" labelPosition="before" >Course Plan Validity</mat-checkbox>
+          <mat-form-field appearance="fill">
+            <mat-label>Filters</mat-label>
+            <select matNativeControl required>
+                <option value="courseValidity">Course Plan Validity</option>
+                <option value="courseCompleteness">Course Plan Completeness</option>
+                <option value="gradSemester">Graduation Semester</option>
+                <option value="gradYear">Graduation Year</option>
+            </select>
+          </mat-form-field>
+          <!-- <mat-checkbox id="checkBox" labelPosition="before" >Course Plan Validity</mat-checkbox>
           <mat-checkbox id="checkBox" labelPosition="before" >Course Plan Completeness</mat-checkbox>
           <mat-checkbox id="checkBox" labelPosition="before" >Graduation Semester</mat-checkbox>
-          <mat-checkbox id="checkBox" labelPosition="before" >Graduation Year</mat-checkbox>
+          <mat-checkbox id="checkBox" labelPosition="before" >Graduation Year</mat-checkbox> -->
         </div>
     </form>
 </div>
