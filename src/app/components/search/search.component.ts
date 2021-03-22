@@ -16,7 +16,8 @@ import { StudentService } from 'src/app/services/student.service';
 })
 export class SearchComponent implements OnInit {
   students: Student[];
-  searchStudents: Student[] = [];
+  temp: Student[];
+  //searchStudents: Student[] = [];
   //////Students array to store students from database
   //students: Student[];
 
@@ -27,6 +28,7 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.studentService.getStudents().subscribe(s => {
       this.students = s;
+      this.temp = s;
     });
     /////////Code to possibly pull from database
     // this.studentService.getStudents().subscribe(students => {
@@ -35,16 +37,19 @@ export class SearchComponent implements OnInit {
   }
 
   onSubmit(f: NgForm){
+    var searchStudents: Student[] = [];
+    this.students = this.temp;
     //console.log(f.value);
     const str:String = f.value.name;
-    console.log(str);
+
     this.students.forEach(element => {
-      if(str == element.id || (str.indexOf(element.first) >= 0 && str.indexOf(element.last) >= 0)){
-        this.searchStudents.push(element);
+      console.log(element);
+      if(str.toLowerCase() == element.id.toLowerCase() || (str.toLowerCase() == element.first.toLowerCase() || str.toLowerCase() == element.last.toLowerCase() )){
+        searchStudents.push(element);
       }
     });
-    if(this.searchStudents.length > 0){
-      this.students = this.searchStudents;
+    if(searchStudents.length > 0){
+      this.students = searchStudents;
     }
     //this.students = this.searchStudents;
   }
