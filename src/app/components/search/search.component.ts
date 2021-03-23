@@ -21,6 +21,15 @@ export class SearchComponent implements AfterViewInit {
       this.studentService.getStudents().subscribe(s => {
       this.dataSource = new MatTableDataSource(s);
       this.dataSource.sort = this.sort;
+      this.dataSource.filterPredicate = function(data, substring: string): boolean {
+        return data.last.toLowerCase().includes(substring) || data.first.toLowerCase().includes(substring);
+      };
+      this.dataSource.sortingDataAccessor = (data: any, word: string): string => {
+        if (typeof data[word] === 'string') {
+          return data[word].toLowerCase();
+        }
+        return data[word];
+      };
     });
   }
 
