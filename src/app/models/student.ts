@@ -12,5 +12,13 @@ export interface Student{
     gradYear?:string;
     semesters?:number;
     graduated?:boolean;
+    email?:string;
+    entrySemester?:string;
+    entryYear?:string;
+    reqVersionSemester?:string;
+    reqVersionYear?:string;
+    advisor?:string;
+    project?:string;
+    comments?:string[];
   }
   
