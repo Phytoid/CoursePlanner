@@ -37,6 +37,7 @@ export class AddStudentComponent implements OnInit {
   addStudent(event) {
     console.log("Adding Student!")
     
+    
     this.s = {
       id: event.srcElement[2].value,
       sbuID: event.srcElement[2].value,
@@ -46,13 +47,14 @@ export class AddStudentComponent implements OnInit {
       track: event.srcElement[5].value,
       satisfied: 0,
       pending: 0,
-      unsatisfied: event.srcElement[0].value,
-      gradSemester: event.srcElement[0].value,
+      unsatisfied: 0,
+      gradSemester: event.srcElement[11].value,
       gradYear: event.srcElement[12].value,
-      semesters: event.srcElement[11].value,
+      semesters: event.srcElement[6].value,
       graduated: false,
     }
-    this.afs.firestore.collection('Students').add(this.s);
+    this.afs.firestore.collection('Students').doc(this.s.id).set(this.s);
+    this.router.navigate(['search']);
   }
 
 }
