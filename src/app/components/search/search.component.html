@@ -17,7 +17,7 @@
             <br>
             <mat-label id="label">Department</mat-label>
             <mat-form-field id="filter">
-              <select matNativeControl required>
+              <select matNativeControl required (selectionChange)="deptChange($event)">
                   <option value="CSE">CSE</option>
                   <option value="AMS">AMS</option>
                   <option value="BMI">BMI</option>
