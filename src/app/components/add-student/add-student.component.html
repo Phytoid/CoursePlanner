@@ -8,7 +8,7 @@
 <div class="float-container">
     <div class="float-child">
     <!-- <div style="margin: 0 auto; width: 20%; margin-top: 20px;"> -->
-        <form>
+        <form (submit)="addStudent($event)" >
             <div class="form-group">
                 <label for="first">First Name</label>
                 <input id="first" type="text" class="form-control">

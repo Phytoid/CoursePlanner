@@ -9,6 +9,7 @@ export interface Student{
     pending?:number;
     unsatisfied?:number;
     gradSemester?:string;
+    gradYear?:string;
     semesters?:number;
     graduated?:boolean;
   }
