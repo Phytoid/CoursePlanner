@@ -36,10 +36,21 @@ export class AddStudentComponent implements OnInit {
 
   addStudent(event) {
     console.log("Adding Student!")
-    let first_name = event.srcElement[0].value
+    
     this.s = {
-      first: 'A',
-      last: 'B'
+      id: event.srcElement[2].value,
+      sbuID: event.srcElement[2].value,
+      last: event.srcElement[1].value,
+      first: event.srcElement[0].value,
+      dept: event.srcElement[4].value,
+      track: event.srcElement[5].value,
+      satisfied: 0,
+      pending: 0,
+      unsatisfied: event.srcElement[0].value,
+      gradSemester: event.srcElement[0].value,
+      gradYear: event.srcElement[12].value,
+      semesters: event.srcElement[11].value,
+      graduated: false,
     }
     this.afs.firestore.collection('Students').add(this.s);
   }
