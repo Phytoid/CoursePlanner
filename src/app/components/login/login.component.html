@@ -3,11 +3,13 @@
         <div id="card-title">
             <h2>MAST LOGIN</h2>
         </div>
-        <form (submit)="loginUser($event)" class="form">
+        <form (submit)="loginUser($event)" class="form" ngNativeValidate>
             <label for="user-email" style="padding-top:13px">
                 Username
             </label>
+            
             <input id="user-email" class="form-content" type="text" name="username" autocomplete="on" required />
+            
             <div class="form-border"></div>
             <label for="user-password" style="padding-top:22px">
                 Password
