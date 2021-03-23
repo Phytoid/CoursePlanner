@@ -40,7 +40,7 @@ export class SearchComponent implements OnInit {
     const str:String = f.value.name;
 
     this.students.forEach(element => {
-      if(str.toLowerCase() == element.id.toLowerCase() || element.first.toLowerCase().indexOf(str.toLowerCase()) >= 0 || element.last.toLowerCase().indexOf(str.toLowerCase()) >= 0 ){
+      if(str.toLowerCase() == element.sbuID.toLowerCase() || element.first.toLowerCase().indexOf(str.toLowerCase()) >= 0 || element.last.toLowerCase().indexOf(str.toLowerCase()) >= 0 ){
         searchStudents.push(element);
       }
     });
