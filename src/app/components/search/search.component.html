@@ -8,9 +8,11 @@
 <div>
     <form class="form-inline waves-light" mdbWavesEffect>
         <div class="md-form mt-0">
+            <mat-label id="label">Search</mat-label>
             <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Name Filter">
+                <input class="searchBar" matInput (keyup)="applyFilter($event.target.value)">
             </mat-form-field>
+            <br>
             <br>
           <mat-label id="label">Course Plan Validity</mat-label>
           <mat-form-field id="filter">
@@ -47,61 +49,63 @@
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field> -->
+          
         </div>
     </form>
 </div>
+<br>
 <div>
-    <mat-table #table matSort class="mat-elevation-z8" [dataSource]="dataSource"> 
+    <table mat-table #table matSort class="mat-elevation-z8" [dataSource]="dataSource"> 
         <ng-container matColumnDef="sbuID">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>SBU ID</mat-header-cell>
-            <mat-cell *matCellDef="let student">{{student.sbuID}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header >SBU ID</th>
+            <td mat-cell *matCellDef="let student">{{student.sbuID}}</td>
         </ng-container>
         <ng-container matColumnDef="firstName">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</mat-header-cell>
-            <mat-cell *matCellDef="let student">{{student.last}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+            <td mat-cell *matCellDef="let student">{{student.last}}</td>
         </ng-container>
         <ng-container matColumnDef="lastName">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>First Name</mat-header-cell>
-            <mat-cell *matCellDef="let student">{{student.first}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+            <td mat-cell *matCellDef="let student">{{student.first}}</td>
         </ng-container>
         <ng-container matColumnDef="dept">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Department</mat-header-cell>
-            <mat-cell *matCellDef="let student">{{student.dept}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Department</th>
+            <td mat-cell *matCellDef="let student">{{student.dept}}</td>
         </ng-container>
         <ng-container matColumnDef="track">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Track</mat-header-cell>
-            <mat-cell *matCellDef="let student">{{student.track}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Track</th>
+            <td mat-cell *matCellDef="let student">{{student.track}}</td>
         </ng-container>
         <ng-container matColumnDef="satisfied">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Satisfied</mat-header-cell>
-            <mat-cell *matCellDef="let student">{{student.satisfied}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Satisfied</th>
+            <td mat-cell *matCellDef="let student">{{student.satisfied}}</td>
         </ng-container>
         <ng-container matColumnDef="pending">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Pending</mat-header-cell>
-            <mat-cell *matCellDef="let student">{{student.unsatisfied}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Pending</th>
+            <td mat-cell *matCellDef="let student">{{student.unsatisfied}}</td>
         </ng-container>
         <ng-container matColumnDef="unsatisfied">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Unsatisfied</mat-header-cell>
-            <mat-cell *matCellDef="let student">{{student.unsatisfied}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Unsatisfied</th>
+            <td mat-cell *matCellDef="let student">{{student.unsatisfied}}</td>
         </ng-container>
         <ng-container matColumnDef="gradYear">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Graduation Year</mat-header-cell>
-            <mat-cell *matCellDef="let student">{{student.gradYear}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Graduation Year</th>
+            <td mat-cell *matCellDef="let student">{{student.gradYear}}</td>
         </ng-container>
         <ng-container matColumnDef="gradSemester">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Graduation Semester</mat-header-cell>
-            <mat-cell *matCellDef="let student">{{student.gradSemester}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Graduation Semester</th>
+            <td mat-cell *matCellDef="let student">{{student.gradSemester}}</td>
         </ng-container>
         <ng-container matColumnDef="semesters">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Semesters in Program</mat-header-cell>
-            <mat-cell *matCellDef="let student">{{student.semesters}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Semesters in Program</th>
+            <td mat-cell *matCellDef="let student">{{student.semesters}}</td>
         </ng-container>
         <ng-container matColumnDef="graduated">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Graduated</mat-header-cell>
-            <mat-cell *matCellDef="let student">{{student.graduated}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Graduated</th>
+            <td mat-cell *matCellDef="let student">{{student.graduated}}</td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="searchColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: searchColumns;"></tr>
-    </mat-table>
+    </table>
 </div>

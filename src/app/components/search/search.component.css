@@ -78,8 +78,19 @@ mat-table{
     margin-top: 30px;
 }
 
-mat-header-cell, td{
+mat-header-cell, td, th{
     border: 1px solid black;
+    text-align: center;
+    font-size: medium;
+}
+
+table {
+    width: 100%;
+  }
+  
+th.mat-sort-header-sorted {
+color: black;
+
 }
 
 #filter{
