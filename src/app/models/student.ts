@@ -1,5 +1,6 @@
 export interface Student{
     id?:string;
+    sbuID?:string;
     last?:string;
     first?:string;
     dept?:string;
@@ -8,6 +9,7 @@ export interface Student{
     pending?:number;
     unsatisfied?:number;
     gradSemester?:string;
+    gradYear?:string;
     semesters?:number;
     graduated?:boolean;
   }

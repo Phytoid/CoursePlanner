@@ -5,7 +5,6 @@
     <button class="btn" id="home-btn">Home</button>
     <button routerLink="/addStudent" routerLinkActive="active" class="btn" id="add-btn">Add Student</button>
 </div>
-
 <div>
     <form class="form-inline waves-light" mdbWavesEffect>
         <div class="md-form mt-0">
@@ -13,24 +12,44 @@
                 <input class="searchBar" type="text" placeholder="Search" name="name" ngModel>
             </form>
             <br>
-          <!-- <input class="searchBar" type="text" placeholder="Search"> -->
-          <mat-label id="label">Filters:</mat-label>
+          <mat-label id="label">Course Plan Validity</mat-label>
           <mat-form-field id="filter">
             <select matNativeControl required>
-                <option value="courseValidity">Course Plan Validity</option>
-                <option value="courseCompleteness">Course Plan Completeness</option>
-                <option value="gradSemester">Graduation Semester</option>
-                <option value="gradYear">Graduation Year</option>
+                <option value="courseInvalid">Valid</option>
+                <option value="courseValid">Invalid</option>
             </select>
           </mat-form-field>
-          <!-- <mat-checkbox id="checkBox" labelPosition="before" >Course Plan Validity</mat-checkbox>
-          <mat-checkbox id="checkBox" labelPosition="before" >Course Plan Completeness</mat-checkbox>
-          <mat-checkbox id="checkBox" labelPosition="before" >Graduation Semester</mat-checkbox>
-          <mat-checkbox id="checkBox" labelPosition="before" >Graduation Year</mat-checkbox> -->
+          <mat-label id="label">Course Plan Completeness</mat-label>
+          <mat-form-field id="filter">
+            <select matNativeControl required>
+                <option value="courseValidity">Complete</option>
+                <option value="courseCompleteness">Incomplete</option>
+            </select>
+          </mat-form-field>
+          <mat-label id="label">Graduation Semester</mat-label>
+          <mat-form-field id="filter">
+            <select matNativeControl required>
+                <option value="semesterFall">Fall</option>
+                <option value="semesterSpring">Spring</option>
+            </select>
+          </mat-form-field>
+        <mat-label id="label">Graduation Year</mat-label>
+        <mat-form-field id="filter">
+          <select matNativeControl required>
+              <option value="yearAscending">Ascending</option>
+              <option value="yearDescending">Descending</option>
+          </select>
+        </mat-form-field>
+        <!-- </mat-form-field>
+          <mat-label id="label">Choose a date</mat-label>
+          <mat-form-field id="filter">
+            <input matInput [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field> -->
         </div>
     </form>
 </div>
-
 <div>
     <table class="table">
         <thead>
@@ -45,13 +64,14 @@
                 <th>Pending</th>
                 <th>Unsatisfied</th>
                 <th>Graduation Semester</th>
+                <th>Graduation Year</th>
                 <th>Semesters in Program</th>
                 <th>Graduated</th>
             </tr>
         </thead>
         <tbody >
             <tr *ngFor="let student of students">
-                <th>{{student.id}}</th>
+                <th>{{student.sbuID}}</th>
                 <th>{{student.last}}</th>
                 <th>{{student.first}}</th>
                 <th>{{student.dept}}</th>
@@ -61,6 +81,7 @@
                 <th>{{student.pending}}</th>
                 <th>{{student.unsatisfied}}</th>
                 <th>{{student.gradSemester}}</th>
+                <th>{{student.gradYear}}</th>
                 <th>{{student.semesters}}</th>
                 <th>{{student.graduated}}</th>
             </tr>

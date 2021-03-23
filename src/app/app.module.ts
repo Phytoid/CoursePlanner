@@ -15,14 +15,17 @@ import { StudentService } from './services/student.service'
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule  } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { AngularFireModule } from '@angular/fire';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { environment } from '../environments/environment';
 import { CourseInfoComponent } from './components/course-info/course-info.component';
 import { EnrollmentTrendsComponent } from './components/enrollment-trends/enrollment-trends.component';
 import { DegreeReqsComponent } from './components/degree-reqs/degree-reqs.component';
+
 
 
 @NgModule({
@@ -45,6 +48,9 @@ import { DegreeReqsComponent } from './components/degree-reqs/degree-reqs.compon
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule, 
+    MatRippleModule,
     MatCheckboxModule,
     MatSelectModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
