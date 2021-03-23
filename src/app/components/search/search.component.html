@@ -8,9 +8,9 @@
 <div>
     <form class="form-inline waves-light" mdbWavesEffect>
         <div class="md-form mt-0">
-            <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
-                <input class="searchBar" type="text" placeholder="Search" name="name" ngModel>
-            </form>
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Name Filter">
+            </mat-form-field>
             <br>
           <mat-label id="label">Course Plan Validity</mat-label>
           <mat-form-field id="filter">
@@ -51,40 +51,57 @@
     </form>
 </div>
 <div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>SBU ID</th>
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Dept</th>
-                <th>Track</th>
-                <th>Course Plan</th>
-                <th>Satisfied</th>
-                <th>Pending</th>
-                <th>Unsatisfied</th>
-                <th>Graduation Semester</th>
-                <th>Graduation Year</th>
-                <th>Semesters in Program</th>
-                <th>Graduated</th>
-            </tr>
-        </thead>
-        <tbody >
-            <tr *ngFor="let student of students">
-                <th>{{student.sbuID}}</th>
-                <th>{{student.last}}</th>
-                <th>{{student.first}}</th>
-                <th>{{student.dept}}</th>
-                <th>{{student.track}}</th>
-                <th><button type="button">Course Plan</button> <br> <button type="button">Suggest Course Plan</button></th>
-                <th>{{student.satisfied}}</th>
-                <th>{{student.pending}}</th>
-                <th>{{student.unsatisfied}}</th>
-                <th>{{student.gradSemester}}</th>
-                <th>{{student.gradYear}}</th>
-                <th>{{student.semesters}}</th>
-                <th>{{student.graduated}}</th>
-            </tr>
-        </tbody>
-    </table>
+    <mat-table #table matSort class="mat-elevation-z8" [dataSource]="dataSource"> 
+        <ng-container matColumnDef="sbuID">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>SBU ID</mat-header-cell>
+            <mat-cell *matCellDef="let student">{{student.sbuID}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="firstName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</mat-header-cell>
+            <mat-cell *matCellDef="let student">{{student.last}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="lastName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>First Name</mat-header-cell>
+            <mat-cell *matCellDef="let student">{{student.first}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="dept">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Department</mat-header-cell>
+            <mat-cell *matCellDef="let student">{{student.dept}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="track">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Track</mat-header-cell>
+            <mat-cell *matCellDef="let student">{{student.track}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="satisfied">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Satisfied</mat-header-cell>
+            <mat-cell *matCellDef="let student">{{student.satisfied}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="pending">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Pending</mat-header-cell>
+            <mat-cell *matCellDef="let student">{{student.unsatisfied}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="unsatisfied">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Unsatisfied</mat-header-cell>
+            <mat-cell *matCellDef="let student">{{student.unsatisfied}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="gradYear">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Graduation Year</mat-header-cell>
+            <mat-cell *matCellDef="let student">{{student.gradYear}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="gradSemester">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Graduation Semester</mat-header-cell>
+            <mat-cell *matCellDef="let student">{{student.gradSemester}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="semesters">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Semesters in Program</mat-header-cell>
+            <mat-cell *matCellDef="let student">{{student.semesters}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="graduated">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Graduated</mat-header-cell>
+            <mat-cell *matCellDef="let student">{{student.graduated}}</mat-cell>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="searchColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: searchColumns;"></tr>
+    </mat-table>
 </div>

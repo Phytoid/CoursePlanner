@@ -9,6 +9,9 @@ import { GpdComponent } from './components/gpd/gpd.component';
 import { SearchComponent } from './components/search/search.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddStudentComponent } from './components/add-student/add-student.component';
 import { StudentService } from './services/student.service'
@@ -53,6 +56,9 @@ import { DegreeReqsComponent } from './components/degree-reqs/degree-reqs.compon
     MatRippleModule,
     MatCheckboxModule,
     MatSelectModule,
+    MatSortModule,
+    MatTableModule,
+    MatDialogModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule

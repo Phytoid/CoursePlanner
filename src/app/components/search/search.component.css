@@ -1,3 +1,5 @@
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 .header{
     font-size: 30px;
     color: #000;
@@ -69,14 +71,14 @@
     margin-left: 20px;
 }
 
-table{
+mat-table{
     border: 1px solid black;
     width: 100%;
     border-collapse: collapse;
     margin-top: 30px;
 }
 
-th, td{
+mat-header-cell, td{
     border: 1px solid black;
 }
 

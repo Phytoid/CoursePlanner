@@ -1,50 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Router } from  "@angular/router";
-import { AuthService } from 'src/app/auth/auth.service';
-import { FormControl, NgForm } from '@angular/forms';
-import { MatInputModule  } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Student } from '../../models/student';
+import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { StudentService } from 'src/app/services/student.service';
+
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
-  students: Student[];
-  temp: Student[];
-  //searchStudents: Student[] = [];
-  //////Students array to store students from database
-  //students: Student[];
+export class SearchComponent implements AfterViewInit {
+  searchColumns: string[] = ['sbuID', 'lastName', 'firstName', 'dept', 'track', 'satisfied', 'pending', 'unsatisfied', 'gradSemester', 'gradYear', 'semesters', 'graduated']
+  dataSource: MatTableDataSource<any>
 
-  //////Constructor to inport Student model from .modeels/student
-  //constructor(private studentService: StudentService) { }
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(public studentService: StudentService) { }
-  ngOnInit(): void {
-    this.studentService.getStudents().subscribe(s => {
-      this.students = s;
-      this.temp = s;
+
+  ngAfterViewInit(): void {
+      this.studentService.getStudents().subscribe(s => {
+      this.dataSource = new MatTableDataSource(s);
+      this.dataSource.sort = this.sort;
     });
   }
 
-  ///Create ngform for filters and use filter to search through data//////////
-  onSubmit(f: NgForm){
-    var searchStudents: Student[] = [];
-    this.students = this.temp;
-    //console.log(f.value);
-    const str:String = f.value.name;
-
-    this.students.forEach(element => {
-      if(str.toLowerCase() == element.sbuID.toLowerCase() || element.first.toLowerCase().indexOf(str.toLowerCase()) >= 0 || element.last.toLowerCase().indexOf(str.toLowerCase()) >= 0 ){
-        searchStudents.push(element);
-      }
-    });
-    this.students = searchStudents;
-    //this.students = this.searchStudents;
+  applyFilter(substring: string) {
+    substring = substring.trim()
+    substring = substring.toLowerCase();
+    this.dataSource.filter = substring;
   }
 }
