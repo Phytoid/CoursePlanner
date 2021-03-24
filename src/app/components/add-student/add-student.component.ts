@@ -41,30 +41,6 @@ export class AddStudentComponent implements OnInit {
   }
 
   addStudent(event) {
-    console.log(event.srcElement[0].value);
-    console.log(event.srcElement[1].value);
-    console.log(event.srcElement[2].value);
-    console.log(event.srcElement[3].value);
-    console.log(event.srcElement[4].value);
-    console.log(event.srcElement[5].value);
-    console.log(event.srcElement[6].value);
-    console.log(event.srcElement[7].value);
-    console.log(event.srcElement[8].value);
-    console.log(event.srcElement[9].value);
-    console.log(event.srcElement[10].value);
-    console.log(event.srcElement[11].value);
-    console.log(event.srcElement[12].value);
-    console.log(event.srcElement[13].value);
-    console.log(event.srcElement[14].value);
-    console.log(event.srcElement[15].value);
-    console.log(event.srcElement[16].value);
-    console.log(event.srcElement[17].value);
-    console.log(event.srcElement[18].value);
-    console.log(event.srcElement[19].value);
-    console.log(event.srcElement[20].value);
-    console.log(event.srcElement[21].value);
-    console.log(event.srcElement[22].value);
-    console.log(event.srcElement[23].value);
     this.s = {
       first: event.srcElement[0].value,
       last: event.srcElement[1].value,
@@ -85,6 +61,7 @@ export class AddStudentComponent implements OnInit {
       unsatisfied: 0,
       semesters: 0,
       graduated: false,
+      validCoursePlan: true,
     }
     this.s.comments = [];
     this.s.comments.push(event.srcElement[22].value);
