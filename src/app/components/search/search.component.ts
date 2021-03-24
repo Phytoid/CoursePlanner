@@ -2,7 +2,8 @@ import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { StudentService } from 'src/app/services/student.service';
-import { NgbDateStruct, NgbCalendar, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap'
+import { NgbDateStruct, NgbCalendar, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-search',
@@ -18,7 +19,7 @@ export class SearchComponent implements AfterViewInit {
   date: { year: number};
   @ViewChild('dp') dp: NgbDatepicker;
 
-  constructor(public studentService: StudentService, private calendar: NgbCalendar) { }
+  constructor(private authService: AuthService, public studentService: StudentService, private calendar: NgbCalendar) { }
 
   ngAfterViewInit(): void {
       this.studentService.getStudents().subscribe(s => {
@@ -44,7 +45,7 @@ export class SearchComponent implements AfterViewInit {
   }
 
   semSelect(semester: string){
-    if(semester=="All") this.clearFilter();
+    if(semester==="All") this.clearFilter();
     else{
     semester = semester.trim().toLowerCase();
     this.dataSource.filterPredicate = function(data, substring: string): boolean {
@@ -54,7 +55,6 @@ export class SearchComponent implements AfterViewInit {
   }
 
   deptSelect(dept: string){
-    console.log(dept)
     if(dept=="All") this.clearFilter();
     else{
     dept = dept.trim().toLowerCase();
@@ -85,5 +85,9 @@ export class SearchComponent implements AfterViewInit {
     //console.log("cleared")
     this.dataSource.filter = '';
     return;
+  }
+
+  logout() {
+    this.authService.logout()
   }
 }
