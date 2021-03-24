@@ -2,7 +2,7 @@ import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { StudentService } from 'src/app/services/student.service';
-
+import { NgbDateStruct, NgbCalendar, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap'
 
 @Component({
   selector: 'app-search',
@@ -12,10 +12,13 @@ import { StudentService } from 'src/app/services/student.service';
 export class SearchComponent implements AfterViewInit {
   searchColumns: string[] = ['sbuID', 'lastName', 'firstName', 'dept', 'track', 'coursePlan', 'satisfied', 'pending', 'unsatisfied', 'gradSemester', 'gradYear', 'semesters', 'graduated']
   dataSource: MatTableDataSource<any>
-
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public studentService: StudentService) { }
+  model: NgbDateStruct;
+  date: { year: number};
+  @ViewChild('dp') dp: NgbDatepicker;
+
+  constructor(public studentService: StudentService, private calendar: NgbCalendar) { }
 
   ngAfterViewInit(): void {
       this.studentService.getStudents().subscribe(s => {
@@ -38,12 +41,22 @@ export class SearchComponent implements AfterViewInit {
       };
     });
   }
+
   deptChange(event){
     console.log(event.source.value, event.source.selected);
   }
+
   applyFilter(substring: string) {
     substring = substring.trim()
     substring = substring.toLowerCase();
     this.dataSource.filter = substring;
   }
+
+  navigateEvent(event) {
+    this.date = event.next;
+  }
+
+  public getColor(val: boolean): string{
+    return val === true ? "green" : "darkred";
+ }
 }
