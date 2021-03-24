@@ -16,7 +16,7 @@ export class GpdComponent implements OnInit {
   s: Student[];
   students: Observable<Student[]>;
   constructor(private authService: AuthService, public router: Router, public studentService: StudentService, public afs: AngularFirestore) {
-    if (this.authService.isLoggedIn == false) {
+    if (!this.authService.isLoggedIn) {
       this.router.navigate(['login'])
     }
   }

@@ -27,7 +27,7 @@ export class AddStudentComponent implements OnInit {
   tracks:String[]
 
   constructor(private authService: AuthService, public router: Router, public afs: AngularFirestore) {
-    if (this.authService.isLoggedIn == false) {
+    if (!this.authService.isLoggedIn) {
       this.router.navigate(['login'])
     }
   }

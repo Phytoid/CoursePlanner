@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class CourseInfoComponent implements OnInit {
 
   constructor(private authService: AuthService, public router: Router) {
-    if (this.authService.isLoggedIn == false) {
+    if (!this.authService.isLoggedIn) {
       this.router.navigate(['login'])
     }
   }
