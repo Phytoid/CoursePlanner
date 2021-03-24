@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
@@ -24,6 +24,7 @@ export class AddStudentComponent implements OnInit {
   submitted = false;
   error: string;
   s:Student;
+  tracks:String[]
 
   constructor(private authService: AuthService, public router: Router, public afs: AngularFirestore) {
     if (this.authService.isLoggedIn == false) {
@@ -50,7 +51,6 @@ export class AddStudentComponent implements OnInit {
       gradSemester: event.srcElement[10].value,
       gradYear: event.srcElement[11].value,
       advisor: event.srcElement[12].value,
-      project: event.srcElement[13].value,
       satisfied: 0,
       pending: 0,
       unsatisfied: 0,
@@ -62,6 +62,24 @@ export class AddStudentComponent implements OnInit {
 
     this.afs.firestore.collection('Students').doc(this.s.id).set(this.s);
     this.router.navigate(['search']);
+  }
+
+  getTrack(event){
+    console.log(event.srcElement.value);
+    document.getElementById("track").style.display = "inline" 
+    var dept = event.srcElement.value;
+    if(dept == "BMI"){
+      this.tracks = ["II w/ T", "II w/ P", "CI w/ T", "CI w/ P", "TB w/ T", "TB w/ P"];
+    }
+    else if(dept == "AMS"){
+      this.tracks = ["CAM", "CB", "OR", "S", "QF"];
+    }
+    else if(dept == "ESE"){
+      this.tracks = ["NT", "T"]
+    }
+    else{
+      this.tracks = ["AP", "SP", "T"]
+    }
   }
 
 }

@@ -45,7 +45,7 @@ export class SearchComponent implements AfterViewInit {
   }
 
   semSelect(semester: string){
-    if(semester=="All") this.clearFilter();
+    if(semester==="All") this.clearFilter();
     else{
     semester = semester.trim().toLowerCase();
     this.dataSource.filterPredicate = function(data, substring: string): boolean {
