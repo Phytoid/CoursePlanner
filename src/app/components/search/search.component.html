@@ -9,54 +9,52 @@
 <div>
     <form class="form-inline waves-light" mdbWavesEffect>
         <div class="md-form mt-0">
-            <mat-label id="label">Search</mat-label>
+            <mat-label id="label">Name Filter</mat-label>
             <mat-form-field>
                 <input class="searchBar" matInput (keyup)="applyFilter($event.target.value)">
             </mat-form-field>
-            <br>
-            <br>
-          <mat-label id="label">Course Plan Validity</mat-label>
-          <mat-form-field id="filter">
+            <mat-label id="label">Course Plan Validity</mat-label>
+            <mat-form-field id="filter">
+                <select matNativeControl required>
+                    <option value="courseInvalid">Valid</option>
+                    <option value="courseValid">Invalid</option>
+                </select>
+            </mat-form-field>
+            <mat-label id="label">Course Plan Completeness</mat-label>
+            <mat-form-field id="filter">
+                <select matNativeControl required>
+                    <option value="courseValidity">Complete</option>
+                    <option value="courseCompleteness">Incomplete</option>
+                </select>
+            </mat-form-field>
+            <mat-label id="label">Graduation Semester</mat-label>
+            <mat-form-field id="filter">
+                <select matNativeControl required>
+                    <option value="semesterFall">Fall</option>
+                    <option value="semesterSpring">Spring</option>
+                </select>
+            </mat-form-field>
+            <mat-label id="label">Graduation Year</mat-label>
+            <mat-form-field id="filter">
             <select matNativeControl required>
-                <option value="courseInvalid">Valid</option>
-                <option value="courseValid">Invalid</option>
+                <option value="yearAscending">Ascending</option>
+                <option value="yearDescending">Descending</option>
             </select>
-          </mat-form-field>
-          <mat-label id="label">Course Plan Completeness</mat-label>
-          <mat-form-field id="filter">
-            <select matNativeControl required>
-                <option value="courseValidity">Complete</option>
-                <option value="courseCompleteness">Incomplete</option>
-            </select>
-          </mat-form-field>
-          <mat-label id="label">Graduation Semester</mat-label>
-          <mat-form-field id="filter">
-            <select matNativeControl required>
-                <option value="semesterFall">Fall</option>
-                <option value="semesterSpring">Spring</option>
-            </select>
-          </mat-form-field>
-        <mat-label id="label">Graduation Year</mat-label>
-        <mat-form-field id="filter">
-          <select matNativeControl required>
-              <option value="yearAscending">Ascending</option>
-              <option value="yearDescending">Descending</option>
-          </select>
-        </mat-form-field>
-        <!-- </mat-form-field>
-          <mat-label id="label">Choose a date</mat-label>
-          <mat-form-field id="filter">
-            <input matInput [matDatepicker]="picker">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field> -->
-          
+            </mat-form-field>
+            <!-- </mat-form-field>
+            <mat-label id="label">Choose a date</mat-label>
+            <mat-form-field id="filter">
+                <input matInput [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field> -->
+            
         </div>
     </form>
 </div>
 <br>
 <div>
-    <table mat-table #table matSort class="mat-elevation-z8" [dataSource]="dataSource"> 
+    <table mat-table #table matSort class="mat-elevation-z8" [dataSource]="dataSource" matSortActive="lastName" matSortDirection="asc"> 
         <ng-container matColumnDef="sbuID">
             <th mat-header-cell *matHeaderCellDef mat-sort-header >SBU ID</th>
             <td mat-cell *matCellDef="let student">{{student.sbuID}}</td>
@@ -77,13 +75,20 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Track</th>
             <td mat-cell *matCellDef="let student">{{student.track}}</td>
         </ng-container>
+        <ng-container matColumnDef="coursePlan">
+            <th mat-header-cell *matHeaderCellDef>Course Plan</th>
+            <td mat-cell *matCellDef="let student">
+                <button mat-button class="coursePlanButton" style="background-color:lavender;font-family:verdana">Suggest Course Plan</button>
+                <button mat-button class="coursePlanButton" style="background-color:lavenderblush;font-family:verdana">View Course Plan</button>
+            </td>
+        </ng-container>
         <ng-container matColumnDef="satisfied">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Satisfied</th>
             <td mat-cell *matCellDef="let student">{{student.satisfied}}</td>
         </ng-container>
         <ng-container matColumnDef="pending">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Pending</th>
-            <td mat-cell *matCellDef="let student">{{student.unsatisfied}}</td>
+            <td mat-cell *matCellDef="let student">{{student.pending}}</td>
         </ng-container>
         <ng-container matColumnDef="unsatisfied">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Unsatisfied</th>

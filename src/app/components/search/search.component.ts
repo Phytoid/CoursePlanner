@@ -10,7 +10,7 @@ import { StudentService } from 'src/app/services/student.service';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements AfterViewInit {
-  searchColumns: string[] = ['sbuID', 'lastName', 'firstName', 'dept', 'track', 'satisfied', 'pending', 'unsatisfied', 'gradSemester', 'gradYear', 'semesters', 'graduated']
+  searchColumns: string[] = ['sbuID', 'lastName', 'firstName', 'dept', 'track', 'coursePlan', 'satisfied', 'pending', 'unsatisfied', 'gradSemester', 'gradYear', 'semesters', 'graduated']
   dataSource: MatTableDataSource<any>
 
   @ViewChild(MatSort) sort: MatSort;
@@ -25,10 +25,16 @@ export class SearchComponent implements AfterViewInit {
         return data.last.toLowerCase().includes(substring) || data.first.toLowerCase().includes(substring);
       };
       this.dataSource.sortingDataAccessor = (data: any, word: string): string => {
-        if (typeof data[word] === 'string') {
+        if (word === 'lastName') {
+          word = 'last'
+        }
+        if (word === 'firstName') {
+          word = 'first'
+        }
+        if (typeof data[word] === 'string') { // Only run this function if string or error
           return data[word].toLowerCase();
         }
-        return data[word];
+        return data[word]; // Just return if not a string
       };
     });
   }
