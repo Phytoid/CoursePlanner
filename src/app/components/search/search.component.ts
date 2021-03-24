@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { StudentService } from 'src/app/services/student.service';
 import { NgbDateStruct, NgbCalendar, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -19,7 +20,11 @@ export class SearchComponent implements AfterViewInit {
   date: { year: number};
   @ViewChild('dp') dp: NgbDatepicker;
 
-  constructor(private authService: AuthService, public studentService: StudentService, private calendar: NgbCalendar) { }
+  constructor(private authService: AuthService, public studentService: StudentService, private calendar: NgbCalendar, public router: Router) { 
+    if (!this.authService.isLoggedIn) {
+      this.router.navigate(['login'])
+    }
+  }
 
   ngAfterViewInit(): void {
       this.studentService.getStudents().subscribe(s => {
@@ -96,9 +101,8 @@ export class SearchComponent implements AfterViewInit {
     this.dataSource.filter = substring;
   }
 
-  navigateEvent(event) {
-    // console.log(event.target.value);
-    this.date = event.next;
+  changeDate(event) {
+    console.log(event);
   }
 
   public getColor(val: boolean): string{

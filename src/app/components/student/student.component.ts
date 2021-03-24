@@ -11,7 +11,8 @@ export class StudentComponent implements OnInit {
   studentName: string;
   
   constructor(private authService: AuthService, public router: Router) {
-    if (this.authService.isLoggedIn == false) {
+  
+    if (!this.authService.isLoggedIn) {
       this.router.navigate(['login'])
     }
   }
@@ -19,4 +20,7 @@ export class StudentComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  logout() {
+    this.authService.logout()
+  }
 }

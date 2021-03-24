@@ -23,8 +23,10 @@ export class AuthService {
 
   async login(email: string, password: string) {
     var result = await firebase.auth().signInWithEmailAndPassword(email, password)
+    
     localStorage.setItem('user', JSON.stringify(this.user));
     if (email.localeCompare("bmi@stonybrook.edu") == 0 || email.localeCompare("ams@stonybrook.edu") == 0 || email.localeCompare("cse@stonybrook.edu") == 0 || email.localeCompare("ece@stonybrook.edu") == 0) {
+      console.log(localStorage.getItem('user'));
       this.router.navigate(['gpd']);
     } else {
       this.router.navigate(['student']);
@@ -32,13 +34,21 @@ export class AuthService {
   }
 
   async logout() {
-    await firebase.auth().signOut();
     localStorage.removeItem('user');
+    await firebase.auth().signOut();
     this.router.navigate(['login']);
   }
 
   get isLoggedIn() {
-    return localStorage.getItem('user') !== null;
+    console.log("signing in");
+    var loggedIn = true;
+    if(localStorage.getItem('user') == "null" || localStorage.getItem('user') === null || !localStorage.getItem('user')){
+      loggedIn = false
+    }
+    return loggedIn;
   }
+  // console.log(localStorage.getItem('user'));
+  //   // var loggedIn = localStorage.getItem('user');
+  //   return localStorage.getItem('user') == null;
 }
 
