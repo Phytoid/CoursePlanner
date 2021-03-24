@@ -64,6 +64,29 @@ export class SearchComponent implements AfterViewInit {
     this.dataSource.filter = dept;}
   }
 
+  completenessChange(comp: string){
+    var num;
+    console.log(comp)
+    if(comp=="All") this.clearFilter();
+    else{
+    comp = comp.trim().toLowerCase();
+    if (comp === "incomplete"){
+      //if incomplete is selected, then unsatisfied and pending courses are not 0, so we can filter those out
+      num = "0";
+      this.dataSource.filterPredicate = function(data, substring: string): boolean {
+        return data.unsatisfied && data.pending;
+      };
+      this.dataSource.filter = num;}
+    }
+    if (comp === "complete"){
+      // if complete is selected, we want pending and unsatisfied equal 0
+      this.dataSource.filterPredicate = function(data, substring: string): boolean {
+        return data.unsatisfied == 0 || data.pending ==  0;
+      };
+      // data already filtered, use any value except for ''
+      this.dataSource.filter = '1';}
+  }
+
   applyFilter(substring: string) {
     substring = substring.trim()
     substring = substring.toLowerCase();
@@ -74,6 +97,7 @@ export class SearchComponent implements AfterViewInit {
   }
 
   navigateEvent(event) {
+    // console.log(event.target.value);
     this.date = event.next;
   }
 
