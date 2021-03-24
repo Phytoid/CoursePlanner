@@ -36,7 +36,7 @@
                 </select>
             </mat-form-field>
             <mat-label id="label">Graduation Year</mat-label>
-            <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" name="year"></ngb-datepicker>
+            <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" name="year" [maxDate]="{year:2021, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}"></ngb-datepicker>
             <br>
             <mat-label id="label">Department</mat-label>
             <mat-form-field id="filter">
