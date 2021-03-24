@@ -21,9 +21,6 @@ export class SearchComponent implements AfterViewInit {
       this.studentService.getStudents().subscribe(s => {
       this.dataSource = new MatTableDataSource(s);
       this.dataSource.sort = this.sort;
-      this.dataSource.filterPredicate = function(data, substring: string): boolean {
-        return data.last.toLowerCase().includes(substring) || data.first.toLowerCase().includes(substring);
-      };
       this.dataSource.sortingDataAccessor = (data: any, word: string): string => {
         if (typeof data[word] === 'string') {
           return data[word].toLowerCase();
@@ -32,12 +29,36 @@ export class SearchComponent implements AfterViewInit {
       };
     });
   }
-  deptChange(event){
-    console.log(event.source.value, event.source.selected);
+  semSelect(semester: string){
+    if(semester=="All") this.clearFilter();
+    else{
+    semester = semester.trim().toLowerCase();
+    this.dataSource.filterPredicate = function(data, substring: string): boolean {
+      return data.gradSemester.toLowerCase().includes(substring);
+    };
+    this.dataSource.filter = semester;}
+  }
+  deptSelect(dept: string){
+    console.log(dept)
+    if(dept=="All") this.clearFilter();
+    else{
+    dept = dept.trim().toLowerCase();
+    this.dataSource.filterPredicate = function(data, substring: string): boolean {
+      return data.dept.toLowerCase().includes(substring);
+    };
+    this.dataSource.filter = dept;}
   }
   applyFilter(substring: string) {
     substring = substring.trim()
     substring = substring.toLowerCase();
+    this.dataSource.filterPredicate = function(data, substring: string): boolean {
+      return data.last.toLowerCase().includes(substring) || data.first.toLowerCase().includes(substring);
+    };
     this.dataSource.filter = substring;
+  }
+  clearFilter(){
+    //console.log("cleared")
+    this.dataSource.filter = '';
+    return;
   }
 }
