@@ -27,15 +27,15 @@
             <br>
           <mat-label id="label">Course Plan Validity</mat-label>
           <mat-form-field id="filter">
-            <select matNativeControl required>
+            <select matNativeControl (change)="validitySelect($event.target.value)">
                 <option value="All">All</option>
-                <option value="courseInvalid">Valid</option>
-                <option value="courseValid">Invalid</option>
+                <option value="courseValid">Valid</option>
+                <option value="courseInvalid">Invalid</option>
             </select>
           </mat-form-field>
           <mat-label id="label">Course Plan Completeness</mat-label>
           <mat-form-field id="filter">
-            <select matNativeControl required (change)="completenessChange($event.target.value)">
+            <select matNativeControl required (change)="completenessSelect($event.target.value)">
                 <option value="All">All</option>
                 <option value="complete">Complete</option>
                 <option value="incomplete">Incomplete</option>
