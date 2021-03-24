@@ -40,41 +40,43 @@
             <br>
             <mat-label id="label">Department</mat-label>
             <mat-form-field id="filter">
-                <select matNativeControl required (selectionChange)="deptChange($event)">
-                    <option value="CSE">CSE</option>
-                    <option value="AMS">AMS</option>
-                    <option value="BMI">BMI</option>
-                    <option value="ECE">ECE</option>
+              <select matNativeControl (change)="deptSelect($event.target.value)">
+                  <option>All</option>
+                  <option value="CSE">CSE</option>
+                  <option value="AMS">AMS</option>
+                  <option value="BMI">BMI</option>
+                  <option value="ECE">ECE</option>
               </select>
             </mat-form-field>
-            <mat-label id="label">Course Plan Validity</mat-label>
-            <mat-form-field id="filter">
-                <select matNativeControl required>
-                    <option value="courseInvalid">Valid</option>
-                    <option value="courseValid">Invalid</option>
-                </select>
-            </mat-form-field>
-            <mat-label id="label">Course Plan Completeness</mat-label>
-            <mat-form-field id="filter">
-                <select matNativeControl required>
-                    <option value="courseValidity">Complete</option>
-                    <option value="courseCompleteness">Incomplete</option>
-                </select>
-            </mat-form-field>
-            <mat-label id="label">Graduation Semester</mat-label>
-            <mat-form-field id="filter">
-                <select matNativeControl required>
-                    <option value="yearAscending">Ascending</option>
-                    <option value="yearDescending">Descending</option>
-                </select>
-            </mat-form-field>
-            <!-- </mat-form-field>
-            <mat-label id="label">Choose a date</mat-label>
-            <mat-form-field id="filter">
-                <input matInput [matDatepicker]="picker">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field> -->
+          <mat-label id="label">Course Plan Validity</mat-label>
+          <mat-form-field id="filter">
+            <select matNativeControl required>
+                <option value="courseInvalid">Valid</option>
+                <option value="courseValid">Invalid</option>
+            </select>
+          </mat-form-field>
+          <mat-label id="label">Course Plan Completeness</mat-label>
+          <mat-form-field id="filter">
+            <select matNativeControl required>
+                <option value="courseValidity">Complete</option>
+                <option value="courseCompleteness">Incomplete</option>
+            </select>
+          </mat-form-field>
+          <mat-label id="label">Graduation Semester</mat-label>
+          <mat-form-field id="filter">
+            <select matNativeControl (change)="semSelect($event.target.value)">
+                <option value="Fall">All</option>
+                <option value="Fall">Fall</option>
+                <option value="Spring">Spring</option>
+            </select>
+          </mat-form-field>
+        <mat-label id="label">Graduation Year</mat-label>
+        <mat-form-field id="filter">
+          <select matNativeControl required>
+              <option value="yearAscending">Ascending</option>
+              <option value="yearDescending">Descending</option>
+          </select>
+        </mat-form-field>
         </div>
     </form>
 </div>
