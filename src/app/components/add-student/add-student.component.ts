@@ -35,9 +35,6 @@ export class AddStudentComponent implements OnInit {
   }
 
   addStudent(event) {
-    console.log("Adding Student!")
-    
-    
     this.s = {
       first: event.srcElement[0].value,
       last: event.srcElement[1].value,
