@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements AfterViewInit {
-  searchColumns: string[] = ['sbuID', 'lastName', 'firstName', 'dept', 'track', 'coursePlan', 'satisfied', 'pending', 'unsatisfied', 'gradSemester', 'gradYear', 'semesters', 'graduated']
+  searchColumns: string[] = ['sbuID', 'lastName', 'firstName', 'dept', 'track', 'coursePlan', 'satisfied', 'pending', 'unsatisfied', 'validCoursePlan', 'gradSemester', 'gradYear', 'semesters', 'graduated']
   dataSource: MatTableDataSource<any>
   @ViewChild(MatSort) sort: MatSort;
 
