@@ -5,6 +5,7 @@ import { StudentService } from 'src/app/services/student.service';
 import { NgbDateStruct, NgbCalendar, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -12,12 +13,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements AfterViewInit {
-  searchColumns: string[] = ['sbuID', 'lastName', 'firstName', 'dept', 'track', 'coursePlan', 'satisfied', 'pending', 'unsatisfied', 'gradSemester', 'gradYear', 'semesters', 'graduated']
+  filterDictionary = {nameFilter: "", graduationYear: "", graduationSemester: "", coursePlanCompleteness: "", coursePlanValidity: ""};
+  searchColumns: string[] = ['sbuID', 'lastName', 'firstName', 'dept', 'track', 'coursePlan', 'satisfied', 'pending', 'unsatisfied', 'validCoursePlan', 'gradSemester', 'gradYear', 'semesters', 'graduated']
   dataSource: MatTableDataSource<any>
   @ViewChild(MatSort) sort: MatSort;
 
   model: NgbDateStruct;
-  date: { year: number};
+  date: {year: number};
   @ViewChild('dp') dp: NgbDatepicker;
 
   constructor(private authService: AuthService, public studentService: StudentService, private calendar: NgbCalendar, public router: Router) { 
@@ -45,51 +47,108 @@ export class SearchComponent implements AfterViewInit {
     });
   }
 
-  deptChange(event){
-    console.log(event.source.value, event.source.selected);
-  }
-
   semSelect(semester: string){
-    if(semester==="All") this.clearFilter();
-    else{
-    semester = semester.trim().toLowerCase();
-    this.dataSource.filterPredicate = function(data, substring: string): boolean {
-      return data.gradSemester.toLowerCase().includes(substring);
-    };
-    this.dataSource.filter = semester;}
+    if (semester !== "All") {
+      semester = semester.trim().toLowerCase();
+      this.filterDictionary.graduationSemester = semester;
+    } else {
+      this.filterDictionary.graduationSemester = "";
+    }
+    this.finalFilter();
   }
 
-  deptSelect(dept: string){
-    if(dept=="All") this.clearFilter();
-    else{
-    dept = dept.trim().toLowerCase();
-    this.dataSource.filterPredicate = function(data, substring: string): boolean {
-      return data.dept.toLowerCase().includes(substring);
-    };
-    this.dataSource.filter = dept;}
+  completenessSelect(comp: string){
+    if (comp !== "All") {
+      comp = comp.trim().toLowerCase();
+      this.filterDictionary.coursePlanCompleteness = comp;
+    } else {
+      this.filterDictionary.coursePlanCompleteness = "";
+    }
+    this.finalFilter();
+  }
+
+  changeDate(date: string) {
+    date = date.trim().toLowerCase();
+    this.filterDictionary.graduationYear = date;
+    this.finalFilter();
   }
 
   applyFilter(substring: string) {
-    substring = substring.trim()
-    substring = substring.toLowerCase();
-    this.dataSource.filterPredicate = function(data, substring: string): boolean {
-      return data.last.toLowerCase().includes(substring) || data.first.toLowerCase().includes(substring);
-    };
-    this.dataSource.filter = substring;
+    if (substring !== "") {
+      substring = substring.trim().toLowerCase();
+      this.filterDictionary.nameFilter = substring;
+    } else {
+      this.filterDictionary.nameFilter = "";
+    }
+    this.finalFilter();
   }
 
-  changeDate(event) {
-    console.log(event);
+  validitySelect(validity: string){
+    if (validity !== "All") {
+      validity = validity.trim().toLowerCase();
+      this.filterDictionary.coursePlanValidity = validity;
+    } else {
+      this.filterDictionary.coursePlanValidity = "";
+    }
+    this.finalFilter();
   }
 
   public getColor(val: boolean): string{
     return val === true ? "green" : "darkred";
   }
+
+  customFilterPredicate() {
+    let nf = this.filterDictionary.nameFilter;
+    let gs = this.filterDictionary.graduationSemester;
+    let gy = this.filterDictionary.graduationYear;
+    let cc = this.filterDictionary.coursePlanCompleteness;
+    let cv = this.filterDictionary.coursePlanValidity;
+    const myFilterPredicate = this.dataSource.filterPredicate = function(data): boolean {
+      if (nf !== "") {
+        if ((data.last.toLowerCase().includes(nf) || data.first.toLowerCase().includes(nf)) == false) {
+          return false;
+        }
+      }
+      if (gs !== "") {
+        if (data.gradSemester.toLowerCase().includes(gs) == false) {
+          return false;
+        }
+      }
+      if (gy !== "") {
+        if (data.gradYear.toLowerCase().includes(gy) == false) {
+          return false;
+        }
+      }
+      if (cv !== "") {
+        if (cv.toLowerCase() === "coursevalid") {
+          if (data.validCoursePlan === false) {
+            return false;
+          }
+        } else {
+          if (data.validCoursePlan === true) {
+            return false;
+          }
+        }
+      }
+      if (cc !== "") {
+        if (cc.toLowerCase() === "complete") {
+          if (data.unsatisfied !== 0) {
+            return false;
+          }
+        } else {
+          if (data.unsatisfied === 0) {
+            return false;
+          }
+        }
+      }
+      return true;
+    };
+    return myFilterPredicate;
+  }
   
-  clearFilter(){
-    //console.log("cleared")
-    this.dataSource.filter = '';
-    return;
+  finalFilter(){
+    this.dataSource.filterPredicate = this.customFilterPredicate();
+    this.dataSource.filter = JSON.stringify(this.filterDictionary); 
   }
 
   logout() {

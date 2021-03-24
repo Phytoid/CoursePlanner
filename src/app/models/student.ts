@@ -20,5 +20,6 @@ export interface Student{
     advisor?:string;
     project?:string;
     comments?:string[];
+    validCoursePlan?:boolean;
   }
   
