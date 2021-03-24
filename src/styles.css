@@ -6,3 +6,8 @@
 .ngb-dp-arrow-btn {
     display: none;
 }
+
+.mat-sort-header-content {
+    margin: auto !important;
+    font-size: 12pt !important;
+}
