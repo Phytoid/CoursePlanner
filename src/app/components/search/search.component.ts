@@ -38,7 +38,9 @@ export class SearchComponent implements AfterViewInit {
       };
     });
   }
-
+  deptChange(event){
+    console.log(event.source.value, event.source.selected);
+  }
   applyFilter(substring: string) {
     substring = substring.trim()
     substring = substring.toLowerCase();
