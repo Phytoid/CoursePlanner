@@ -53,7 +53,7 @@
             </div>
             <div class="form-group">
                 <label for="entryYear">Entry Year</label>
-                <input id="entryYear" type="number" min="1900" max="2100" step="1" value="2020" class="form-control" required />
+                <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}" style="display:block"></ngb-datepicker>
             </div>
             <div class="form-group">
                 <label for="reqSemester">Requirement Version Semester</label>
@@ -64,7 +64,7 @@
             </div>
             <div class="form-group">
                 <label for="reqYear">Requirement Version Year</label>
-                <input id="entryYear" type="number" min="1900" max="2100" step="1" value="2020" class="form-control" required />
+                <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}" style="display:block"></ngb-datepicker>
             </div>
             <div class="form-group">
                 <label for="gradSemester">Graduation Semester</label>
@@ -75,11 +75,11 @@
             </div>
             <div class="form-group">
                 <label for="gradYear">Graduation Year</label>
-                <input id="entryYear" type="number" min="1900" max="2100" step="1" value="2020" class="form-control" required />
+                <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}" style="display:block"></ngb-datepicker>
             </div>
             <div class="form-group">
                 <label for="advisor">Advisor</label>
-                <input id="advisor" type="text" class="form-control" required />
+                <input id="advisor" type="text" class="form-control" />
             </div>
             <div class="form-group">
                 <div>

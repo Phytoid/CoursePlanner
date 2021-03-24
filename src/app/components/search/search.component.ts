@@ -78,8 +78,8 @@ export class SearchComponent implements AfterViewInit {
     this.dataSource.filter = substring;
   }
 
-  navigateEvent(event) {
-    this.date = event.next;
+  changeDate(event) {
+    console.log(event);
   }
 
   public getColor(val: boolean): string{
