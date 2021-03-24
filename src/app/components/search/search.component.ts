@@ -2,7 +2,8 @@ import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { StudentService } from 'src/app/services/student.service';
-
+import { NgbDateStruct, NgbCalendar, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-search',
@@ -10,25 +11,39 @@ import { StudentService } from 'src/app/services/student.service';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements AfterViewInit {
-  searchColumns: string[] = ['sbuID', 'lastName', 'firstName', 'dept', 'track', 'satisfied', 'pending', 'unsatisfied', 'gradSemester', 'gradYear', 'semesters', 'graduated']
+  searchColumns: string[] = ['sbuID', 'lastName', 'firstName', 'dept', 'track', 'coursePlan', 'satisfied', 'pending', 'unsatisfied', 'gradSemester', 'gradYear', 'semesters', 'graduated']
   dataSource: MatTableDataSource<any>
-
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public studentService: StudentService) { }
+  model: NgbDateStruct;
+  date: { year: number};
+  @ViewChild('dp') dp: NgbDatepicker;
+
+  constructor(private authService: AuthService, public studentService: StudentService, private calendar: NgbCalendar) { }
 
   ngAfterViewInit(): void {
       this.studentService.getStudents().subscribe(s => {
       this.dataSource = new MatTableDataSource(s);
       this.dataSource.sort = this.sort;
       this.dataSource.sortingDataAccessor = (data: any, word: string): string => {
-        if (typeof data[word] === 'string') {
+        if (word === 'lastName') {
+          word = 'last'
+        }
+        if (word === 'firstName') {
+          word = 'first'
+        }
+        if (typeof data[word] === 'string') { // Only run this function if string or error
           return data[word].toLowerCase();
         }
-        return data[word];
+        return data[word]; // Just return if not a string
       };
     });
   }
+
+  deptChange(event){
+    console.log(event.source.value, event.source.selected);
+  }
+
   semSelect(semester: string){
     if(semester==="All") this.clearFilter();
     else{
@@ -38,9 +53,9 @@ export class SearchComponent implements AfterViewInit {
     };
     this.dataSource.filter = semester;}
   }
+
   deptSelect(dept: string){
-    //console.log(dept)
-    if(dept==="All") this.clearFilter();
+    if(dept=="All") this.clearFilter();
     else{
     dept = dept.trim().toLowerCase();
     this.dataSource.filterPredicate = function(data, substring: string): boolean {
@@ -48,6 +63,7 @@ export class SearchComponent implements AfterViewInit {
     };
     this.dataSource.filter = dept;}
   }
+
   applyFilter(substring: string) {
     substring = substring.trim()
     substring = substring.toLowerCase();
@@ -56,9 +72,22 @@ export class SearchComponent implements AfterViewInit {
     };
     this.dataSource.filter = substring;
   }
+
+  navigateEvent(event) {
+    this.date = event.next;
+  }
+
+  public getColor(val: boolean): string{
+    return val === true ? "green" : "darkred";
+  }
+  
   clearFilter(){
     //console.log("cleared")
     this.dataSource.filter = '';
     return;
+  }
+
+  logout() {
+    this.authService.logout()
   }
 }

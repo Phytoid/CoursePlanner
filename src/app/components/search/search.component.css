@@ -51,7 +51,7 @@
     margin: 0 auto;
     margin-top: 2px;
     transition: 0.25s;
-    width: 100px;
+    width: 10%;
     position: absolute;
     top: 175px;
     right: 20px;    
@@ -71,26 +71,38 @@
     margin-left: 20px;
 }
 
-mat-table{
+table {
     border: 1px solid black;
     width: 100%;
     border-collapse: collapse;
     margin-top: 30px;
 }
 
-mat-header-cell, td, th{
+td, th {
     border: 1px solid black;
     text-align: center;
-    font-size: medium;
+    margin: auto !important;
 }
 
 table {
     width: 100%;
-  }
+}
   
 th.mat-sort-header-sorted {
-color: black;
+    color: black;
+    margin: auto !important;
+}
 
+th.mat-header-cell {
+    color: black;
+    text-align: center !important;
+    margin: auto !important;
+    text-decoration: underline;
+}
+
+th.mat-sort-header-content {
+    text-align: center !important;
+    margin: auto !important;
 }
 
 #filter{
@@ -109,3 +121,16 @@ color: black;
     border: 1px solid black;
     margin-left: 5px;
 }
+
+#filterBar {
+    width: 85%;
+}
+
+.coursePlanButton {
+    display: block;
+    margin: auto;
+}
+
+::ng-deep ngb-datepicker-navigation-select select:first-child {
+    display: none;
+  }
