@@ -105,7 +105,7 @@ export class SearchComponent implements AfterViewInit {
     let cv = this.filterDictionary.coursePlanValidity;
     const myFilterPredicate = this.dataSource.filterPredicate = function(data): boolean {
       if (nf !== "") {
-        if (data.last.toLowerCase().includes(nf) || data.first.toLowerCase().includes(nf) == false) {
+        if ((data.last.toLowerCase().includes(nf) || data.first.toLowerCase().includes(nf)) == false) {
           return false;
         }
       }
@@ -121,12 +121,10 @@ export class SearchComponent implements AfterViewInit {
       }
       if (cv !== "") {
         if (cv.toLowerCase() === "coursevalid") {
-          console.log(data.validCoursePlan)
           if (data.validCoursePlan === false) {
             return false;
           }
         } else {
-          console.log(data.validCoursePlan)
           if (data.validCoursePlan === true) {
             return false;
           }
