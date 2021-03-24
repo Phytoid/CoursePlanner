@@ -17,7 +17,7 @@
             <mat-label id="label">Graduation Semester</mat-label>
             <mat-form-field id="filter">
                 <select matNativeControl (change)="semSelect($event.target.value)">
-                    <option value="Fall">All</option>
+                    <option value="All">All</option>
                     <option value="Fall">Fall</option>
                     <option value="Spring">Spring</option>
                 </select>
@@ -28,6 +28,7 @@
           <mat-label id="label">Course Plan Validity</mat-label>
           <mat-form-field id="filter">
             <select matNativeControl required>
+                <option value="All">All</option>
                 <option value="courseInvalid">Valid</option>
                 <option value="courseValid">Invalid</option>
             </select>
@@ -35,6 +36,7 @@
           <mat-label id="label">Course Plan Completeness</mat-label>
           <mat-form-field id="filter">
             <select matNativeControl required>
+                <option value="All">All</option>
                 <option value="courseValidity">Complete</option>
                 <option value="courseCompleteness">Incomplete</option>
             </select>
