@@ -54,7 +54,6 @@ export class SearchComponent implements AfterViewInit {
   }
 
   deptSelect(dept: string){
-    console.log(dept)
     if(dept=="All") this.clearFilter();
     else{
     dept = dept.trim().toLowerCase();
@@ -85,5 +84,9 @@ export class SearchComponent implements AfterViewInit {
     //console.log("cleared")
     this.dataSource.filter = '';
     return;
+  }
+
+  logout() {
+    this.authService.logout()
   }
 }
