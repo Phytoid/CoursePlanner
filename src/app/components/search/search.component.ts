@@ -30,7 +30,7 @@ export class SearchComponent implements AfterViewInit {
     });
   }
   semSelect(semester: string){
-    if(semester=="All") this.clearFilter();
+    if(semester==="All") this.clearFilter();
     else{
     semester = semester.trim().toLowerCase();
     this.dataSource.filterPredicate = function(data, substring: string): boolean {
@@ -39,8 +39,8 @@ export class SearchComponent implements AfterViewInit {
     this.dataSource.filter = semester;}
   }
   deptSelect(dept: string){
-    console.log(dept)
-    if(dept=="All") this.clearFilter();
+    //console.log(dept)
+    if(dept==="All") this.clearFilter();
     else{
     dept = dept.trim().toLowerCase();
     this.dataSource.filterPredicate = function(data, substring: string): boolean {
