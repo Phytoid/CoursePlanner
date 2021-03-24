@@ -21,7 +21,7 @@ export class SearchComponent implements AfterViewInit {
   @ViewChild('dp') dp: NgbDatepicker;
 
   constructor(private authService: AuthService, public studentService: StudentService, private calendar: NgbCalendar, public router: Router) { 
-    if (!this.authService.isLoggedIn) {
+    if (!this.authService.isLoggedIn || localStorage.getItem('userType') != 'GPD') {
       this.router.navigate(['login'])
     }
   }

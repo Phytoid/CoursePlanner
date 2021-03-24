@@ -32,7 +32,7 @@ export class AddStudentComponent implements OnInit {
   @ViewChild('dp') dp: NgbDatepicker;
 
   constructor(private authService: AuthService, public router: Router, public afs: AngularFirestore) {
-    if (!this.authService.isLoggedIn) {
+    if (!this.authService.isLoggedIn || localStorage.getItem('userType') != 'GPD') {
       this.router.navigate(['login'])
     }
   }
