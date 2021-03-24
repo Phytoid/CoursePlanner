@@ -71,7 +71,7 @@ export class SearchComponent implements AfterViewInit {
 
   completenessChange(comp: string){
     var num;
-    console.log(comp)
+    //console.log(comp)
     if(comp=="All") this.clearFilter();
     else{
     comp = comp.trim().toLowerCase();
@@ -101,8 +101,13 @@ export class SearchComponent implements AfterViewInit {
     this.dataSource.filter = substring;
   }
 
-  changeDate(event) {
-    console.log(event);
+  changeDate(year: string) {
+    //console.log(event);
+    year = year.trim().toLowerCase();
+    this.dataSource.filterPredicate = function(data, substring: string): boolean {
+      return data.gradYear.toLowerCase().includes(substring);
+    };
+    this.dataSource.filter = year;
   }
 
   public getColor(val: boolean): string{
