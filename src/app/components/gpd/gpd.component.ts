@@ -21,9 +21,25 @@ export class GpdComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    var gpd = 'ESE';
+    if(localStorage.getItem('gpdType') == 'AMS'){
+      gpd = 'AMS';
+    }
+    else if(localStorage.getItem('gpdType') == 'CSE'){
+      gpd = 'CSE';
+    }
+    else if(localStorage.getItem('gpdType') == 'BMI'){
+      gpd = 'BMI';
+    }
     this.studentService.getStudents().subscribe(s => {
-      this.s = s;
-    })
+      var arr: any = []
+      s.forEach(element => {
+        if(element.dept == gpd){
+          arr.push(element);
+        }  
+      });
+      this.s = arr;
+    });
   }
 
   onDelete(){

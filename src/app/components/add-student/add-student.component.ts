@@ -26,7 +26,7 @@ export class AddStudentComponent implements OnInit {
   error: string;
   s:Student;
   tracks:String[]
-  dept: String;
+  dept: String
   model: NgbDateStruct;
   date: { year: number};
   @ViewChild('dp') dp: NgbDatepicker;
@@ -38,7 +38,7 @@ export class AddStudentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dept = localStorage.getItem('gpdType');
+    this.dept=localStorage.getItem('gpdType');
   }
 
   addStudent(event) {
