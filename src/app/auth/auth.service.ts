@@ -7,6 +7,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth'
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 
 @Injectable({
@@ -30,7 +31,10 @@ export class AuthService {
   }
   
   async login(email: string, password: string) {
-    var result = await firebase.auth().signInWithEmailAndPassword(email, password)
+    var result = await firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+      alert(error.message);
+      this.logout();
+    });
     localStorage.setItem('user', JSON.stringify(this.user));
     if (email.localeCompare("bmi@stonybrook.edu") == 0 || email.localeCompare("ams@stonybrook.edu") == 0 || email.localeCompare("cse@stonybrook.edu") == 0 || email.localeCompare("ece@stonybrook.edu") == 0) {
       localStorage.setItem('userType', 'GPD');
@@ -62,7 +66,6 @@ export class AuthService {
   }
 
   get isLoggedIn() {
-    console.log("signing in");
     var loggedIn = true;
     if(localStorage.getItem('user') == "null" || localStorage.getItem('user') === null || !localStorage.getItem('user')){
       loggedIn = false
