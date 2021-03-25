@@ -34,6 +34,18 @@ export class AuthService {
     localStorage.setItem('user', JSON.stringify(this.user));
     if (email.localeCompare("bmi@stonybrook.edu") == 0 || email.localeCompare("ams@stonybrook.edu") == 0 || email.localeCompare("cse@stonybrook.edu") == 0 || email.localeCompare("ece@stonybrook.edu") == 0) {
       localStorage.setItem('userType', 'GPD');
+      if(email.localeCompare("bmi@stonybrook.edu") == 0){
+        localStorage.setItem('gpdType', 'BMI');
+      }
+      else if(email.localeCompare("ams@stonybrook.edu") == 0){
+        localStorage.setItem('gpdType', 'AMS');
+      }
+      else if(email.localeCompare("cse@stonybrook.edu") == 0){
+        localStorage.setItem('gpdType', 'CSE');
+      }
+      else{
+        localStorage.setItem('gpdType', 'ESE');
+      }
       this.router.navigate(['gpd']);
     } else {
       localStorage.setItem('userType', 'Student')
@@ -44,6 +56,7 @@ export class AuthService {
   async logout() {
     localStorage.removeItem('user');
     localStorage.removeItem('email');
+    localStorage.removeItem('userType');
     await firebase.auth().signOut();
     this.router.navigate(['login']);
   }

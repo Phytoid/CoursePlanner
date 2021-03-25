@@ -29,7 +29,24 @@ export class SearchComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-      this.studentService.getStudents().subscribe(s => {
+    var gpd = 'ESE';
+    if(localStorage.getItem('gpdType') == 'AMS'){
+      gpd = 'AMS';
+    }
+    else if(localStorage.getItem('gpdType') == 'CSE'){
+      gpd = 'CSE';
+    }
+    else if(localStorage.getItem('gpdType') == 'BMI'){
+      gpd = 'BMI';
+    }
+    this.studentService.getStudents().subscribe(s => {
+      var arr: any = []
+      s.forEach(element => {
+        if(element.dept == gpd){
+          arr.push(element);
+        }  
+      });
+      s = arr;
       this.dataSource = new MatTableDataSource(s);
       this.dataSource.sort = this.sort;
       this.dataSource.sortingDataAccessor = (data: any, word: string): string => {
