@@ -14,6 +14,7 @@ import { map } from 'rxjs/operators';
 })
 export class GpdComponent implements OnInit {
   s: Student[];
+  gpd: String;
   constructor(private authService: AuthService, public router: Router, public studentService: StudentService, public afs: AngularFirestore) {
     if (!this.authService.isLoggedIn || localStorage.getItem('userType') != 'GPD') {
       this.router.navigate(['login'])
@@ -21,9 +22,25 @@ export class GpdComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.gpd = 'ESE';
+    if(localStorage.getItem('gpdType') == 'AMS'){
+      this.gpd = 'AMS';
+    }
+    else if(localStorage.getItem('gpdType') == 'CSE'){
+      this.gpd = 'CSE';
+    }
+    else if(localStorage.getItem('gpdType') == 'BMI'){
+      this.gpd = 'BMI';
+    }
     this.studentService.getStudents().subscribe(s => {
-      this.s = s;
-    })
+      var arr: any = []
+      s.forEach(element => {
+        if(element.dept == this.gpd){
+          arr.push(element);
+        }  
+      });
+      this.s = arr;
+    });
   }
 
   onDelete(){

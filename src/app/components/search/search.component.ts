@@ -114,6 +114,11 @@ export class SearchComponent implements AfterViewInit {
     return val === true ? "green" : "darkred";
   }
 
+  resetYearFilter() {
+    this.filterDictionary.graduationYear = "";
+    this.finalFilter();
+  }
+
   customFilterPredicate() {
     let nf = this.filterDictionary.nameFilter;
     let gs = this.filterDictionary.graduationSemester;

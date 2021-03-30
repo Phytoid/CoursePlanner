@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit {
   }
 
   loginUser(event){
-    console.log("Calling login!")
     let email = event.srcElement[0].value;
     let password = event.srcElement[1].value;
     this.authService.login(email, password);

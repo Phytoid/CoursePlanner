@@ -30,7 +30,7 @@
                 <!-- <input id="dept" type="text" class="form-control" required /> -->
                 <select class="form-control" required (change)="getTrack($event)">
                     <option value="" disabled selected>Select Department</option>
-                    <option value="dept">{{dept}}</option>
+                    <option [ngValue]="dept">{{dept}}</option>
                 </select>
             </div>
             <div class="form-group" id="track" name="trackForm" style="display:none;">
