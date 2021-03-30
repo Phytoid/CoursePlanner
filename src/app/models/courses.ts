@@ -1,3 +1,5 @@
+import { Semester } from "./semester.enum";
+
 export interface Courses {
     course_identifier?:String;
     course_name?:String;
@@ -13,9 +15,3 @@ export interface Courses {
     description?:String;
 }
 
-enum Semester{
-    fall = "fall",
-    spring = "spring",
-    summer1 = "summer1",
-    summer2 = "summer2"
-}
