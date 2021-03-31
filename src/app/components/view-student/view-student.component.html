@@ -1,0 +1,120 @@
+<div class="header">
+    {{s.first}} {{s.last}}
+    
+    <button class="btn" id="home-btn" routerLink="../gpd">Home</button>
+    
+</div>
+
+<div>
+    <button class="btn btn-primary" id="deleteBtn" style="margin-right: 15px;" (click)="deleteStudent()">Delete</button>
+</div>
+<div class="float-container">
+    <div class="float-child">
+    <!-- <div style="margin: 0 auto; width: 20%; margin-top: 20px;"> -->
+        <form (submit)="editStudent($event)" ngNativeValidate>
+            <div class="form-group">
+                <label for="first">First Name</label>
+                <input id="first" type="text" class="form-control" required value="{{s.first}}" disabled = true/>
+            </div>
+            <div class="form-group">
+                <label for="last">Last Name</label>
+                <input id="last" type="text" class="form-control" required value="{{s.last}}" disabled = true/>
+            </div>
+            <div class="form-group">
+                <label for="sbuID">SBUID</label>
+                <input id="sbuID" type="text" class="form-control" required value="{{s.sbuID}}" disabled = true/>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" type="email" class="form-control" required value="{{s.email}}"/>
+            </div>
+            <div class="form-group" name="departmentForm">
+                <label for="dept">Department</label>
+                <!-- <input id="dept" type="text" class="form-control" required /> -->
+                <select class="form-control" required >
+                    <!-- <option value="" disabled selected>Select Department</option> -->
+                    <option [ngValue]="dept">{{dept}}</option>
+                </select>
+            </div>
+            <div class="form-group" id="track" name="trackForm" style="display:none;">
+                <label for="track">Track</label>
+                <select id="track" type="text" class="form-control" value="{{s.track}}">
+                    <option *ngFor="let track of tracks">
+                        {{track}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="entrySemester">Entry Semester</label>
+                <select class="form-control" required value="{{s.entrySemester}}">
+                    <option value="Spring">Spring</option>
+                    <option value="Fall">Fall</option>
+                </select>
+            </div>
+            <div>
+                <label for="currentGradYear">Current Entry Year</label>
+                <mat-card> {{s.entryYear}} </mat-card>
+            </div>
+            <div class="form-group">
+                <label for="entryYear">Entry Year</label>
+                <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}" style="display:block"></ngb-datepicker>
+            </div>
+            <div class="form-group">
+                <label for="reqSemester">Requirement Version Semester</label>
+                <select class="form-control" required value="{{s.reqVersionSemester}}">
+                    <option value="Spring">Spring</option>
+                    <option value="Fall">Fall</option>
+                </select>
+            </div>
+            <div>
+                <label for="currentGradYear">Current Requirement Version Year</label>
+                <mat-card> {{s.reqVersionYear}} </mat-card>
+            </div>
+            <div class="form-group">
+                <label for="reqYear">Requirement Version Year</label>
+                <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}" style="display:block"></ngb-datepicker>
+            </div>
+            <div class="form-group">
+                <label for="gradSemester">Graduation Semester</label>
+                <select class="form-control" required value="{{s.gradSemester}}">
+                    <option value="Spring">Spring</option>
+                    <option value="Fall">Fall</option>
+                </select>
+            </div>
+            <div>
+                <label for="currentGradYear">Current Graduation Year</label>
+                <mat-card> {{s.gradYear}} </mat-card>
+            </div>
+            <div class="form-group">
+                <label for="gradYear">Graduation Year</label>
+                <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}" style="display:block"></ngb-datepicker>
+            </div>
+            <div class="form-group">
+                <label for="advisor">Advisor</label>
+                <input id="advisor" type="text" class="form-control" value="{{s.advisor}}"/>
+            </div>
+            <div>
+                <label for="comment">Comments:</label>
+                <div>
+                    <mat-card *ngFor="let comment of s.comments" (dblclick)="deleteComment(event)">{{comment}} <br>
+                        <!-- <button id="deleteBtn" (click)="deleteComment(event)">Delete</button> -->
+                    </mat-card>
+                    
+                </div>
+            </div>
+            <br>
+            <div class="form-group">
+                <div>
+                    <label for="comment">Add Comments</label>
+                    <input type="text" name="comments" id="comments" style="height: 125px;">
+                </div>
+            </div>
+            
+            <div>
+                <button class="btn btn-primary" style="margin-right: 15px;">Confirm</button>
+                <button class="btn btn-primary" [routerLink]="['/search']" routerLinkActive="router-link-active" >Back</button>
+            </div>
+            
+        </form>
+    </div>
+</div>

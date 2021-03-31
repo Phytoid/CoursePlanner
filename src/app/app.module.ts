@@ -29,7 +29,8 @@ import { CourseInfoComponent } from './components/course-info/course-info.compon
 import { EnrollmentTrendsComponent } from './components/enrollment-trends/enrollment-trends.component';
 import { DegreeReqsComponent } from './components/degree-reqs/degree-reqs.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { ViewStudentComponent } from './components/view-student/view-student.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -43,8 +44,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CourseInfoComponent,
     EnrollmentTrendsComponent,
     DegreeReqsComponent,
+    ViewStudentComponent,
   ],
   imports: [
+    MatCardModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,

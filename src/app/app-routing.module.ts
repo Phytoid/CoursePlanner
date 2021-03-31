@@ -1,3 +1,4 @@
+import { ViewStudentComponent } from './components/view-student/view-student.component';
 import {GpdComponent} from './components/gpd/gpd.component';
 import { AddStudentComponent } from './components/add-student/add-student.component';
 import { SearchComponent } from './components/search/search.component';
@@ -19,6 +20,8 @@ const routes: Routes = [
   { path: 'courseInfo', component: CourseInfoComponent},
   { path: 'enrollmentTrends', component: EnrollmentTrendsComponent},
   { path: 'degreeReqs', component: DegreeReqsComponent},
+  { path: 'viewStudent', component: ViewStudentComponent},
+
 ];
 
 @NgModule({
