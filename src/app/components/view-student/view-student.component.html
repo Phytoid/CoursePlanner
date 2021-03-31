@@ -1,11 +1,13 @@
 <div class="header">
     {{s.first}} {{s.last}}
     
-    <button class="btn" id="home-btn" routerLink="../gpd">Home</button>
+    <button *ngIf="whosLoggedIn != 'Student'; else elseBlock" class="btn" id="home-btn" routerLink="../gpd">Home</button>
+    <button #elseBlock class="btn" id="home-btn" routerLink="../student">Home</button>
+
     
 </div>
 
-<div>
+<div *ngIf="whosLoggedIn != 'Student'">
     <button class="btn btn-primary" id="deleteBtn" style="margin-right: 15px;" (click)="deleteStudent()">Delete</button>
 </div>
 <div class="float-container">
@@ -89,21 +91,27 @@
                 <label for="gradYear">Graduation Year</label>
                 <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}" style="display:block"></ngb-datepicker>
             </div>
-            <div class="form-group">
+            <div class="form-group" >
                 <label for="advisor">Advisor</label>
-                <input id="advisor" type="text" class="form-control" value="{{s.advisor}}"/>
+                <input *ngIf="whosLoggedIn != 'Student'; else elseBlock" id="advisor" type="text" class="form-control" value="{{s.advisor}}"/>
+                <input #elseBlock id="advisor" type="text" class="form-control" value="{{s.advisor}}" disabled=true/>
             </div>
             <div>
                 <label for="comment">Comments:</label>
-                <div>
+                <div *ngIf="whosLoggedIn != 'Student'; else elseBlock" >
                     <mat-card *ngFor="let comment of s.comments" (dblclick)="deleteComment(event)">{{comment}} <br>
                         <!-- <button id="deleteBtn" (click)="deleteComment(event)">Delete</button> -->
                     </mat-card>
-                    
                 </div>
+                <div #elseBlock>
+                        <mat-card *ngFor="let comment of s.comments">{{comment}} <br>
+                            <!-- <button id="deleteBtn" (click)="deleteComment(event)">Delete</button> -->
+                        </mat-card>
+                </div>
+                
             </div>
             <br>
-            <div class="form-group">
+            <div class="form-group" *ngIf="whosLoggedIn != 'Student'">
                 <div>
                     <label for="comment">Add Comments</label>
                     <input type="text" name="comments" id="comments" style="height: 125px;">

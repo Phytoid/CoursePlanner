@@ -25,14 +25,17 @@ export class ViewStudentComponent implements OnInit {
   sbuID: string;
   studentObs: Observable<Student>;
   comments: string[] = [];
+  whosLoggedIn: string;
 
   constructor(private authService: AuthService, public router: Router, public afs: AngularFirestore) {
-    if (!this.authService.isLoggedIn || localStorage.getItem('userType') != 'GPD') {
+    if (!this.authService.isLoggedIn) {
       this.router.navigate(['login'])
     }
    }
 
   ngOnInit(): void {
+    this.whosLoggedIn = localStorage.getItem('userType')
+    console.log(this.whosLoggedIn);
     this.router.routerState.root.queryParams.subscribe(params => {
       this.sbuID = params['sbuID'];
     })
@@ -56,7 +59,7 @@ export class ViewStudentComponent implements OnInit {
   }
 
   editStudent(event) {
-    if(confirm("Are you sure you want to edit this student's information?")){
+    if(confirm("Are you sure you want to edit this information?")){
       this.s = {
         first: event.srcElement[0].value,
         last: event.srcElement[1].value,
@@ -85,10 +88,16 @@ export class ViewStudentComponent implements OnInit {
       }
       this.s.comments = this.comments;
       this.afs.firestore.collection('Students').doc(this.s.id).set(this.s);
+      if(this.whosLoggedIn != "Student"){
+        this.router.navigate(['search']);
+      }
+      else{
+        this.router.navigate(['student']);
+      }
     }
-    this.router.navigate(['search']);
+    
   }
-  
+
   deleteComment(event){
     var index = this.comments.indexOf(event);
     this.comments.splice(index, 1);
