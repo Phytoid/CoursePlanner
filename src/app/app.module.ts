@@ -29,6 +29,7 @@ import { CourseInfoComponent } from './components/course-info/course-info.compon
 import { EnrollmentTrendsComponent } from './components/enrollment-trends/enrollment-trends.component';
 import { DegreeReqsComponent } from './components/degree-reqs/degree-reqs.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SuggestCoursePlanComponent } from './components/suggest-course-plan/suggest-course-plan.component';
 
 
 
@@ -43,6 +44,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CourseInfoComponent,
     EnrollmentTrendsComponent,
     DegreeReqsComponent,
+    SuggestCoursePlanComponent,
   ],
   imports: [
     BrowserAnimationsModule,
