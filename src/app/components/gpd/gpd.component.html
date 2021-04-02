@@ -4,22 +4,28 @@
     <!-- <button id="logout-btn" (click)="logout()" routerLink="">Logout</button> -->
 </div>
 
+
+
 <body>
     <div class="center">
-        <div id="card-content">
-            <button id="submit-btn">Import Student Data</button>
+        <div id="card-content">           
+            <input id="upload-student-data" type="file" hidden/> 
+            <label for="upload-student-data" id="submit-btn">Import Student Data</label>
         </div>
         <div id="card-content">
-            <button id="submit-btn">Import Grades</button>
+            <input id="upload-grades" type="file" hidden/> 
+            <label for="upload-grades" id="submit-btn">Import Grades</label>
         </div>
         <div id="card-content">
             <button id="submit-btn">Scrape Course Information</button>
         </div>
         <div id="card-content">
-            <button id="submit-btn">Import Degree Requirements</button>
+            <input id="upload-degree-reqs" type="file" hidden/> 
+            <label for="upload-degree-reqs" id="submit-btn">Import Degree Requirements</label>
         </div>
         <div id="card-content">
-            <button id="submit-btn">Import Course Offerings</button>
+            <input id="upload-course" type="file" hidden/> 
+            <label for="upload-course" id="submit-btn">Import Courses Offerings</label>
         </div>
     </div> 
     <div class="center">
