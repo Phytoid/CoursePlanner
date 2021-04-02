@@ -47,8 +47,31 @@ export class GpdComponent implements OnInit {
   async uploadStudentData(event) {
     console.log("upload student!\n");
     let fileList: FileList = event.target.files;
-    let text = await fileList.item(0).text();
-    console.log(text);
+    if(fileList.length != 2) {
+      alert("Importing Student Data Requires Two Files: One For Student Information And One For Course Plans.");
+      return;
+    }
+    let course_data_header = "sbu_id,department,course_num,section,semester,year,grade";
+    let student_data_header = "sbu_id,first_name,last_name,email,department,track,entry_semester,entry_year,requirement_version_semester,requirement_version_year,graduation_semester,graduation_year,password";
+
+
+
+    let text1 = await fileList.item(0).text(); // sbu_id,first_name,last_name,email,department,track,entry_semester,entry_year,requirement_version_semester,requirement_version_year,graduation_semester,graduation_year,password
+    let text2 = await fileList.item(1).text(); // sbu_id,department,course_num,section,semester,year,grade
+    console.log(text1);
+    console.log(text2);
+
+  }
+
+  async uploadGrade(event) {
+
+  }
+
+  async uploadDegreeReqs(event) {
+
+  }
+  async uploadCourse(event) {
+    
   }
 
   onDelete(){
