@@ -9,7 +9,7 @@
 <body>
     <div class="center">
         <div id="card-content">           
-            <input id="upload-student-data" type="file" hidden/> 
+            <input (change)="uploadStudentData($event)" id="upload-student-data" type="file" hidden/> 
             <label for="upload-student-data" id="submit-btn">Import Student Data</label>
         </div>
         <div id="card-content">

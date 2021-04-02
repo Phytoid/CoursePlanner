@@ -22,6 +22,7 @@ export class GpdComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this.gpd = 'ESE';
     if(localStorage.getItem('gpdType') == 'AMS'){
       this.gpd = 'AMS';
@@ -41,6 +42,13 @@ export class GpdComponent implements OnInit {
       });
       this.s = arr;
     });
+  }
+
+  async uploadStudentData(event) {
+    console.log("upload student!\n");
+    let fileList: FileList = event.target.files;
+    let text = await fileList.item(0).text();
+    console.log(text);
   }
 
   onDelete(){
