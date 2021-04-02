@@ -24,7 +24,9 @@
                 </select>
             </mat-form-field>
         </div>
-        <button>Add Course to List</button>
+        <div>
+            <button>Add Course to List</button>
+        </div>
     </span>
     <span class="dropdowns"> 
         Add Courses to Avoid
@@ -46,7 +48,9 @@
                 </select>
             </mat-form-field>
         </div>
-        <button>Add Course to Avoid List</button>
+        <div>
+            <button>Add Course to Avoid List</button>
+        </div>
     </span>
     <span class="dropdowns"> 
         Time Constraints
@@ -62,7 +66,7 @@
                 <input matInput type="time">
             </mat-form-field>
         </div>
-        <button>Add Course to List</button>
+        <div><br></div>
     </span>
     <span class="dropdowns"> 
         Max Number of Courses
@@ -83,8 +87,7 @@
         </div>
         <div>
             <mat-label id="label">Year</mat-label>
-            <ngb-datepicker #dp name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}"></ngb-datepicker>
+            <ngb-datepicker #dp id= "yearchooser" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}"></ngb-datepicker>
         </div>
-        <button>Add Course to List</button>
     </span>
 </div>
