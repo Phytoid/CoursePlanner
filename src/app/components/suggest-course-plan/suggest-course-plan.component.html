@@ -1,6 +1,90 @@
 <div class="header">
-    Add Student Page
-    
-    <button class="btn" id="home-btn" routerLink="../gpd">Home</button>
-    
+    Suggest Course Plan
+    <button class="btn" id="back-btn" [routerLink]="['/search']" routerLinkActive="router-link-active">Back</button>    
+</div>
+
+<div id="drop-container">
+    <span class="dropdowns"> 
+        Add Preferred Courses
+        <div>
+            <mat-label id="label">Choose Department</mat-label>
+            <mat-form-field style="width:75%" id="filter">
+                <select matNativeControl>
+                    <option value="CSE">CSE</option>
+                    <option value="ESE">ESE</option>
+                    <option value="BMI">BMI</option>
+                    <option value="AMS">AMS</option>
+                </select>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label id="label">Choose Course</mat-label>
+            <mat-form-field style="width:75%" id="filter">
+                <select matNativeControl>
+                </select>
+            </mat-form-field>
+        </div>
+        <button>Add Course to List</button>
+    </span>
+    <span class="dropdowns"> 
+        Add Courses to Avoid
+        <div>
+            <mat-label id="label">Choose Department</mat-label>
+            <mat-form-field style="width:75%" id="filter">
+                <select matNativeControl>
+                    <option value="CSE">CSE</option>
+                    <option value="ESE">ESE</option>
+                    <option value="BMI">BMI</option>
+                    <option value="AMS">AMS</option>
+                </select>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label id="label">Choose Course</mat-label>
+            <mat-form-field style="width:75%" id="filter">
+                <select matNativeControl>
+                </select>
+            </mat-form-field>
+        </div>
+        <button>Add Course to Avoid List</button>
+    </span>
+    <span class="dropdowns"> 
+        Time Constraints
+        <div>
+            <mat-label id="label">Start Time</mat-label>
+            <mat-form-field style="width:75%" id="filter">
+                <input matInput type="time">
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label id="label">End Time</mat-label>
+            <mat-form-field style="width:75%" id="filter">
+                <input matInput type="time">
+            </mat-form-field>
+        </div>
+        <button>Add Course to List</button>
+    </span>
+    <span class="dropdowns"> 
+        Max Number of Courses
+        <div>
+            <mat-label id="label">Number</mat-label>
+            <mat-form-field style="width:75%" id="filter">
+                <input matInput type="text">
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label id="label">Semester</mat-label>
+            <mat-form-field style="width:75%" id="filter">
+                <select matNativeControl>
+                    <option value="Fall">Fall</option>
+                    <option value="Spring">Spring</option>
+                </select>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label id="label">Year</mat-label>
+            <ngb-datepicker #dp name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}"></ngb-datepicker>
+        </div>
+        <button>Add Course to List</button>
+    </span>
 </div>

@@ -7,8 +7,8 @@
     text-align: center;
 }
 
-#logout-btn{
-    background-color: rgb(64, 36, 167);
+#back-btn{
+    background-color: rgb(255, 36, 36);
     border: none;
     border-radius: 21px;
     cursor: pointer;
@@ -17,23 +17,7 @@
     margin: 0 auto;
     margin-top: 2px;
     transition: 0.25s;
-    width: 100px;
-    position: absolute;
-    top: 35px;
-    right: 20px;    
-}
-
-#home-btn{
-    background-color: rgb(64, 36, 167);
-    border: none;
-    border-radius: 21px;
-    cursor: pointer;
-    color: white;
-    height: 42.3px;
-    margin: 0 auto;
-    margin-top: 2px;
-    transition: 0.25s;
-    width: 100px;
+    width: 10%;
     position: absolute;
     top: 100px;
     right: 20px;    
@@ -68,3 +52,29 @@ label{
 ::ng-deep ngb-datepicker-navigation-select select:first-child {
     display: none;
 }
+
+span.dropdowns{
+    display: inline-block;
+    width: 20%;
+    height: 15%;
+    padding: 5px;
+    margin: 20px;
+    border: 1px solid black;
+    background-color: white;
+    position: static;
+    text-align: center;
+
+}
+
+#drop-container{
+    margin: auto;
+    width: auto;
+    height: auto;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+
+::ng-deep .mat-form-field{
+    background-color:lightcyan !important;
+  }
