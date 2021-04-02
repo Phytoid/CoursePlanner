@@ -24,6 +24,14 @@ export class AuthService {
         this.user = user;
         localStorage.setItem('user', JSON.stringify(this.user));
         localStorage.setItem('email', this.user.email);
+        this.studentService.getStudents().subscribe(s => {
+          for(var i = 0; i < s.length; i++){
+            if(s[i].email == this.user.email){
+              localStorage.setItem('sbuID', s[i].sbuID);
+              break;
+            }
+          }
+        });
       } else {
         localStorage.setItem('user', null);
       }

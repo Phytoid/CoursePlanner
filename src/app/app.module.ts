@@ -31,6 +31,8 @@ import { DegreeReqsComponent } from './components/degree-reqs/degree-reqs.compon
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SuggestCoursePlanComponent } from './components/suggest-course-plan/suggest-course-plan.component';
 
+import { ViewStudentComponent } from './components/view-student/view-student.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -45,8 +47,10 @@ import { SuggestCoursePlanComponent } from './components/suggest-course-plan/sug
     EnrollmentTrendsComponent,
     DegreeReqsComponent,
     SuggestCoursePlanComponent,
+    ViewStudentComponent,
   ],
   imports: [
+    MatCardModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,

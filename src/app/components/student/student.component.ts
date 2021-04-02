@@ -15,28 +15,21 @@ export class StudentComponent implements OnInit {
   student: Student;
   email: string;
   students: Student[];
+  isLoaded: Boolean = false;
 
   constructor(private authService: AuthService, public router: Router, public studentService: StudentService, public afs: AngularFirestore) {
     if (!this.authService.isLoggedIn || localStorage.getItem('userType') != 'Student') {
-      console.log(localStorage.getItem('userType'));
       this.router.navigate(['login'])
     }
-    //this.student = this.authService.getStudent();
-    // this.email = this.authService.getEmail();
-    // this.studentService.getStudents().subscribe(s => {
-    //   console.log(s);
-    //   this.students = s;
-    //   for(var i = 0; i < this.students.length; i++){
-    //     if(this.students[i].email == this.email){
-    //       this.student = this.students[i];
-    //       this.studentName = this.student.first + " " + this.student.last;
-    //     }
-    //   }
-    // });
   }
 
   ngOnInit(): void {
-    //this.student = this.authService.getStudent();
+
+    this.email = localStorage.getItem('email');
+    this.afs.collection('Students').doc(localStorage.getItem('sbuID')).valueChanges().subscribe(val => {
+      console.log(val);
+      this.student= val;
+    });
   }
 
 

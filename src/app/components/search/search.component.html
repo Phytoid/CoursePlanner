@@ -50,7 +50,7 @@
     <table mat-table #table matSort class="mat-elevation-z8" [dataSource]="dataSource" matSortActive="sbu" matSortDirection="asc"> 
         <ng-container matColumnDef="sbuID">
             <th mat-header-cell *matHeaderCellDef mat-sort-header >SBU ID</th>
-            <td mat-cell *matCellDef="let student">{{student.sbuID}}</td>
+            <td mat-cell *matCellDef="let student" [routerLink]="['/viewStudent']" [queryParams]="{sbuID: student.sbuID}" style="background-color:bisque"> {{student.sbuID}}</td>
         </ng-container>
         <ng-container matColumnDef="lastName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
