@@ -82,10 +82,75 @@ export class GpdComponent implements OnInit {
       alert("One or more files were not of the right format");
       return;
     }
+    
+    // Parse Course Plan Information
+    for (var i = 0; i < text1.length; i++) {
+      
+    }
 
-
-
-
+    // Parse Student Information
+    for (var i = 0; i < text2.length; i++) {
+      if (text2[i] == student_data_header) {
+        continue;
+      } else if (text2[i] == "") {
+        continue;
+      } else {
+        var str_array = text2[i].split(",")
+        if (str_array.length != 13) {
+          if (str_array.length < 13) {
+            // Popup that insufficient number of fields.
+          } else {
+            let open_quotes = 0
+            let close_quotes = 0
+            for (var j = 0; j < str_array.length; j++) {
+              if (str_array[j].startsWith("\"")) {
+                open_quotes++;
+              }
+              if (str_array[j].endsWith("\"")) {
+                close_quotes;;
+              }
+            }
+            if ((open_quotes == close_quotes) && (str_array.length - open_quotes == 13)) {
+              let starting_index = -1
+              let closing_index = -1
+              for (var j = 0; j < str_array.length; j++) {
+                if (str_array[j].startsWith("\"")) {
+                  starting_index = j
+                }
+                if (str_array[j].endsWith("\"")) {
+                  closing_index = j
+                  if (starting_index != -1) {
+                    var subset = str_array.slice(starting_index, closing_index + 1)
+                    var str = subset.join(" ")
+                    str_array[starting_index] = str
+                    str_array = str_array.splice(closing_index - starting_index, starting_index + 1)
+                    starting_index = -1
+                    closing_index = -1
+                  }
+                }
+              }
+            } else {
+              // Popup that number of fields is incorrect.
+            }
+          }
+        }
+        //this.s = {
+        // first: str_array[1],
+        //  last: str_array[2],
+        //  id: parseInt(str_array[0]),
+        //  sbuID: parseInt(str_array[0]),
+        //  email: str_array[3],
+        //  dept: str_array[4],
+        //  track: str_array[5],
+        //  entrySemester: str_array[6],
+        //  entryYear: parseInt(str_array[7]),
+        //  reqVersionSemester: str_array[8],
+        //  reqVersionYear: parseInt(str_array[9]),
+        //  gradSemester: str_array[10],
+        //  gradYear: parseInt(str_array[11]),
+        //}
+      }
+    }
   }
 
   async uploadGrade(event) {
