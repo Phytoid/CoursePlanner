@@ -54,8 +54,8 @@ export class GpdComponent implements OnInit {
     let course_data_header = "sbu_id,department,course_num,section,semester,year,grade";
     let student_data_header = "sbu_id,first_name,last_name,email,department,track,entry_semester,entry_year,requirement_version_semester,requirement_version_year,graduation_semester,graduation_year,password";
 
-    let text1 = await (await fileList.item(0).text()).split(/\r?\n/); // sbu_id,first_name,last_name,email,department,track,entry_semester,entry_year,requirement_version_semester,requirement_version_year,graduation_semester,graduation_year,password
-    let text2 = await (await fileList.item(1).text()).split(/\r?\n/); // sbu_id,department,course_num,section,semester,year,grade1
+    let text1 =  (await fileList.item(0).text()).split(/\r?\n/); // sbu_id,first_name,last_name,email,department,track,entry_semester,entry_year,requirement_version_semester,requirement_version_year,graduation_semester,graduation_year,password
+    let text2 =  (await fileList.item(1).text()).split(/\r?\n/); // sbu_id,department,course_num,section,semester,year,grade1
     
     var course_data = 0;
     var student_data = 0;
@@ -82,9 +82,6 @@ export class GpdComponent implements OnInit {
       alert("One or more files were not of the right format");
       return;
     }
-
-
-
 
   }
 
