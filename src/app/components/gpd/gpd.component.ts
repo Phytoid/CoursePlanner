@@ -114,9 +114,10 @@ export class GpdComponent implements OnInit {
             if (open_quotes !== -1 && close_quotes !== -1) {
               var subset = str_array.slice(open_quotes, close_quotes + 1)
               var str = subset.join("")
-              console.log(str)
               str_array[open_quotes] = str
-              str_array = str_array.splice(close_quotes - open_quotes, open_quotes + 1)
+              console.log(str_array)
+              str_array.splice(open_quotes + 1, close_quotes - open_quotes)
+              console.log(str_array)
               open_quotes = -1
               close_quotes = -1
             }
