@@ -177,7 +177,7 @@ export class GpdComponent implements OnInit {
       return;
     } 
 
-    for(var i = 0; i < grades.length; i++) {
+    for(var i = 1; i < grades.length; i++) {
       
       let line = grades[i].split(',');
       let studentID = line[0];
@@ -187,15 +187,26 @@ export class GpdComponent implements OnInit {
       let semester = line[4];
       let year = line[5];
       let grade = line[6];
+      console.log(line);
 
+    
+      let semester_and_year = semester+year;
+      let course = department + courseID;
+      console.log(semester_and_year);
 
-      //let student = this.afs.collection('Students').doc(studentID).collection('coursePlan').doc('coursePlan').;
-      // console.log(student);
+      var updateGrade = {}
+      
+
+      this.afs.collection('Students').doc(studentID).collection('coursePlan').doc('coursePlan').update({
+        [semester_and_year + '.' + course] : `${grade}`
+      }).then(() => {
+
+      }).catch((error) => {
+        console.log("Student ID: " + studentID + " does not exist.");
+      });
       
     }
 
-    
-    
   }
 
   async uploadDegreeReqs(event) {
