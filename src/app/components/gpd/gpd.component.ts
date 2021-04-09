@@ -1,3 +1,4 @@
+import { Plan } from './../../models/plan';
 import { StudentService } from './../../services/student.service';
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
@@ -160,14 +161,91 @@ export class GpdComponent implements OnInit {
   }
 
   async uploadGrade(event) {
+    console.log("upload grades!\n");
+    let fileList: FileList = event.target.files;
+    if(fileList.length != 1) {
+      alert("Importing Student Grades Requires One File.");
+      return;
+    }
+    let course_data_header = "sbu_id,department,course_num,section,semester,year,grade";
 
+    let grades =  (await fileList.item(0).text()).split(/\r?\n/); // sbu_id,department,course_num,section,semester,year,grade1
+    
+    if(grades[0] != course_data_header) {
+      alert("Grades File Does Not Match Format.");
+      return;
+    } 
+
+    for(var i = 0; i < grades.length; i++) {
+      
+      let line = grades[i].split(',');
+      let studentID = line[0];
+      let department = line[1];
+      let courseID = line[2];
+      let section = line[3];
+      let semester = line[4];
+      let year = line[5];
+      let grade = line[6];
+
+
+      //let student = this.afs.collection('Students').doc(studentID).collection('coursePlan').doc('coursePlan').;
+      // console.log(student);
+      
+    }
+
+    
+    
   }
 
   async uploadDegreeReqs(event) {
 
   }
   async uploadCourse(event) {
-    
+    console.log("upload Courses!\n");
+    let fileList: FileList = event.target.files;
+    let course_data_header = "department,course_num,section,semester,year,timeslot";
+    let text =  (await fileList.item(0).text()).split(/\r?\n/);
+    console.log(text);
+    for(var i = 0; i < text.length; i++){
+      if (text[i] == course_data_header) {
+        continue;
+      } else if (text[i] == "") {
+        continue;
+      } else {
+        var str_array = text[i].split(",")
+        console.log(str_array);
+        var id = str_array[0] + str_array[1];
+        id = id.replace(/\s+/g, '');
+        var courseID = str_array[1];
+        var section = str_array[2];
+        var semester = str_array[3];
+        var year = str_array[4];
+        var timeSlot = str_array[5];
+        var time_array = timeSlot.split(" ");
+        var days = time_array[0];
+        var times = time_array[1].split("-");
+        var startTime = times[0];
+        var endTime = times[1];
+        console.log(id);
+        this.afs.collection("Courses").doc(id).set({
+        courseID: courseID,
+        section: section,
+        semester: semester,
+        year: year,
+        day: days,
+        startTime: startTime,
+        endTime: endTime
+        })
+        .then(() => {
+            console.log("Document successfully written!");
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+          
+        
+      }
+    }
   }
 
   onDelete(){
