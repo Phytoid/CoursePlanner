@@ -161,7 +161,51 @@ export class GpdComponent implements OnInit {
 
   }
   async uploadCourse(event) {
-    
+    console.log("upload Courses!\n");
+    let fileList: FileList = event.target.files;
+    let course_data_header = "department,course_num,section,semester,year,timeslot";
+    let text =  (await fileList.item(0).text()).split(/\r?\n/);
+    console.log(text);
+    for(var i = 0; i < text.length; i++){
+      if (text[i] == course_data_header) {
+        continue;
+      } else if (text[i] == "") {
+        continue;
+      } else {
+        var str_array = text[i].split(",")
+        console.log(str_array);
+        var id = str_array[0] + str_array[1];
+        id = id.replace(/\s+/g, '');
+        var courseID = str_array[1];
+        var section = str_array[2];
+        var semester = str_array[3];
+        var year = str_array[4];
+        var timeSlot = str_array[5];
+        var time_array = timeSlot.split(" ");
+        var days = time_array[0];
+        var times = time_array[1].split("-");
+        var startTime = times[0];
+        var endTime = times[1];
+        console.log(id);
+        this.afs.collection("Courses").doc(id).set({
+        courseID: courseID,
+        section: section,
+        semester: semester,
+        year: year,
+        day: days,
+        startTime: startTime,
+        endTime: endTime
+        })
+        .then(() => {
+            console.log("Document successfully written!");
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+          
+        
+      }
+    }
   }
 
   onDelete(){
