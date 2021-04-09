@@ -183,7 +183,7 @@ export class GpdComponent implements OnInit {
 
 
       //let student = this.afs.collection('Students').doc(studentID).collection('coursePlan').doc('coursePlan').;
-      console.log(student);
+      // console.log(student);
       
     }
 
