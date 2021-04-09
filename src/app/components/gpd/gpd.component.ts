@@ -1,3 +1,4 @@
+import { Plan } from './../../models/plan';
 import { StudentService } from './../../services/student.service';
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
