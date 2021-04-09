@@ -155,7 +155,40 @@ export class GpdComponent implements OnInit {
   }
 
   async uploadGrade(event) {
+    console.log("upload grades!\n");
+    let fileList: FileList = event.target.files;
+    if(fileList.length != 1) {
+      alert("Importing Student Grades Requires One File.");
+      return;
+    }
+    let course_data_header = "sbu_id,department,course_num,section,semester,year,grade";
 
+    let grades =  (await fileList.item(0).text()).split(/\r?\n/); // sbu_id,department,course_num,section,semester,year,grade1
+    
+    if(grades[0] != course_data_header) {
+      alert("Grades File Does Not Match Format.");
+      return;
+    } 
+
+    for(var i = 0; i < grades.length; i++) {
+      
+      let line = grades[i].split(',');
+      let studentID = line[0];
+      let department = line[1];
+      let courseID = line[2];
+      let section = line[3];
+      let semester = line[4];
+      let year = line[5];
+      let grade = line[6];
+
+
+      //let student = this.afs.collection('Students').doc(studentID).collection('coursePlan').doc('coursePlan').;
+      console.log(student);
+      
+    }
+
+    
+    
   }
 
   async uploadDegreeReqs(event) {
