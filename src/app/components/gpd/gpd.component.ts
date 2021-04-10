@@ -101,55 +101,62 @@ export class GpdComponent implements OnInit {
           if (str_array.length < 13) {
             // Popup that insufficient number of fields.
           } else {
-            let open_quotes = 0
-            let close_quotes = 0
+            let open_quotes = -1
+            let close_quotes = -1
             for (var j = 0; j < str_array.length; j++) {
               if (str_array[j].startsWith("\"")) {
-                open_quotes++;
+                open_quotes = j;
               }
               if (str_array[j].endsWith("\"")) {
-                close_quotes;;
+                close_quotes = j;
               }
             }
-            if ((open_quotes == close_quotes) && (str_array.length - open_quotes == 13)) {
-              let starting_index = -1
-              let closing_index = -1
-              for (var j = 0; j < str_array.length; j++) {
-                if (str_array[j].startsWith("\"")) {
-                  starting_index = j
-                }
-                if (str_array[j].endsWith("\"")) {
-                  closing_index = j
-                  if (starting_index != -1) {
-                    var subset = str_array.slice(starting_index, closing_index + 1)
-                    var str = subset.join(" ")
-                    str_array[starting_index] = str
-                    str_array = str_array.splice(closing_index - starting_index, starting_index + 1)
-                    starting_index = -1
-                    closing_index = -1
-                  }
-                }
-              }
-            } else {
-              // Popup that number of fields is incorrect.
+            if (open_quotes !== -1 && close_quotes !== -1) {
+              var subset = str_array.slice(open_quotes, close_quotes + 1)
+              var str = subset.join("")
+              str_array[open_quotes] = str
+              console.log(str_array)
+              str_array.splice(open_quotes + 1, close_quotes - open_quotes)
+              console.log(str_array)
+              open_quotes = -1
+              close_quotes = -1
             }
           }
         }
-        //this.s = {
-        // first: str_array[1],
-        //  last: str_array[2],
-        //  id: parseInt(str_array[0]),
-        //  sbuID: parseInt(str_array[0]),
-        //  email: str_array[3],
-        //  dept: str_array[4],
-        //  track: str_array[5],
-        //  entrySemester: str_array[6],
-        //  entryYear: parseInt(str_array[7]),
-        //  reqVersionSemester: str_array[8],
-        //  reqVersionYear: parseInt(str_array[9]),
-        //  gradSemester: str_array[10],
-        //  gradYear: parseInt(str_array[11]),
-        //}
+        var students = [];
+        this.studentService.getStudents().subscribe(student => {
+          student.forEach(element => {
+            if (element.id == str_array[0]) {
+              students.push(element);
+            }
+          });
+        });
+        console.log(this.gpd);
+        console.log(str_array[4]);
+        if (str_array[4].toLocaleLowerCase() !== this.gpd.toLocaleLowerCase()) {
+          continue;
+        }
+        console.log(students.length);
+        if (students.length > 0) {
+          for (i = 0; i < students.length; i++) {
+            students[i].first = str_array[1];
+            students[i].last = str_array[2];
+            students[i].id = str_array[0];
+            students[i].sbuID = str_array[0];
+            students[i].email = str_array[3];
+            students[i].dept = str_array[4];
+            students[i].track = str_array[5];
+            students[i].entrySemester = str_array[6];
+            students[i].entryYear = str_array[7];
+            students[i].reqVersionSemester = str_array[8];
+            students[i].reqVersionYear = str_array[9];
+            students[i].gradSemester = str_array[10];
+            students[i].gradYear = str_array[11];
+          }
+        } else {
+          var st: Student = {first : str_array[1], last : str_array[2], id : str_array[0], sbuID: str_array[0], email : str_array[3], dept : str_array[4], track : str_array[5], entrySemester : str_array[6], entryYear : str_array[7], reqVersionSemester : str_array[8], reqVersionYear : str_array[9], gradSemester : str_array[10], gradYear : str_array[11], comments : []};
+          this.afs.firestore.collection('Students').doc(st.id).set(st);
+        }
       }
     }
   }
@@ -170,7 +177,7 @@ export class GpdComponent implements OnInit {
       return;
     } 
 
-    for(var i = 0; i < grades.length; i++) {
+    for(var i = 1; i < grades.length; i++) {
       
       let line = grades[i].split(',');
       let studentID = line[0];
@@ -180,15 +187,26 @@ export class GpdComponent implements OnInit {
       let semester = line[4];
       let year = line[5];
       let grade = line[6];
+      console.log(line);
 
+    
+      let semester_and_year = semester+year;
+      let course = department + courseID;
+      console.log(semester_and_year);
 
-      //let student = this.afs.collection('Students').doc(studentID).collection('coursePlan').doc('coursePlan').;
-      // console.log(student);
+      var updateGrade = {}
+      
+
+      this.afs.collection('Students').doc(studentID).collection('coursePlan').doc('coursePlan').update({
+        [semester_and_year + '.' + course] : `${grade}`
+      }).then(() => {
+
+      }).catch((error) => {
+        console.log("Student ID: " + studentID + " does not exist.");
+      });
       
     }
 
-    
-    
   }
 
   async uploadDegreeReqs(event) {
