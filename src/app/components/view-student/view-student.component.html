@@ -1,9 +1,13 @@
 <div class="header">
     {{s.first}} {{s.last}}
     
-    <button *ngIf="whosLoggedIn != 'Student'; else elseBlock" class="btn" id="home-btn" routerLink="../gpd">Home</button>
-    <button #elseBlock class="btn" id="home-btn" routerLink="../student">Home</button>
-
+    <div *ngIf="whosLoggedIn != 'Student'; else elseBlock">
+        <button class="btn" id="home-btn" routerLink="/gpd">Home</button>
+    </div>
+    <ng-template #elseBlock>
+        <button class="btn" id="home-btn" routerLink="../student">Home</button>
+    </ng-template>
+    
     
 </div>
 
@@ -94,7 +98,9 @@
             <div class="form-group" >
                 <label for="advisor">Advisor</label>
                 <input *ngIf="whosLoggedIn != 'Student'; else elseBlock" id="advisor" type="text" class="form-control" value="{{s.advisor}}"/>
-                <input #elseBlock id="advisor" type="text" class="form-control" value="{{s.advisor}}" disabled=true/>
+                <ng-template #elseBlock>
+                    <input id="advisor" type="text" class="form-control" value="{{s.advisor}}" disabled=true/>
+                </ng-template>
             </div>
             <div>
                 <label for="comment">Comments:</label>
@@ -103,11 +109,11 @@
                         <!-- <button id="deleteBtn" (click)="deleteComment(event)">Delete</button> -->
                     </mat-card>
                 </div>
-                <div #elseBlock>
+                <ng-template #elseBlock>
                         <mat-card *ngFor="let comment of s.comments">{{comment}} <br>
                             <!-- <button id="deleteBtn" (click)="deleteComment(event)">Delete</button> -->
                         </mat-card>
-                </div>
+                </ng-template>
                 
             </div>
             <br>
@@ -120,9 +126,11 @@
             
             <div>
                 <button class="btn btn-primary" style="margin-right: 15px;">Confirm</button>
-                <button class="btn btn-primary" [routerLink]="['/search']" routerLinkActive="router-link-active" >Back</button>
             </div>
             
         </form>
+        <br>
+        <br>
+        <button class="btn btn-primary" [routerLink]="['/search']" routerLinkActive="router-link-active" >Back</button>
     </div>
 </div>

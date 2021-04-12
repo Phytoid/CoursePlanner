@@ -255,8 +255,6 @@ export class GpdComponent implements OnInit {
         .catch((error) => {
             console.error("Error writing document: ", error);
         });
-          
-        
       }
     }
   }
