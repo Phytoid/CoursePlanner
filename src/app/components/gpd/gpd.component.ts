@@ -55,7 +55,7 @@ export class GpdComponent implements OnInit {
     let course_data_header = "sbu_id,department,course_num,section,semester,year,grade";
     let student_data_header = "sbu_id,first_name,last_name,email,department,track,entry_semester,entry_year,requirement_version_semester,requirement_version_year,graduation_semester,graduation_year,password";
 
-    let text1 =  (await fileList.item(0).text()).split(/\r?\n/); // sbu_id,first_name,last_name,email,department,track,entry_semester,entry_year,requirement_version_semester,requirement_version_year,graduation_semester,graduation_year,password
+    let text1 = (await fileList.item(0).text()).split(/\r?\n/); // sbu_id,first_name,last_name,email,department,track,entry_semester,entry_year,requirement_version_semester,requirement_version_year,graduation_semester,graduation_year,password
     let text2 =  (await fileList.item(1).text()).split(/\r?\n/); // sbu_id,department,course_num,section,semester,year,grade1
     
     var course_data = 0;
@@ -71,10 +71,7 @@ export class GpdComponent implements OnInit {
       course_data++;
     } else if(text2[0] == student_data_header) {
       student_data++;
-    } 
-
-    console.log(course_data);
-    console.log(student_data);
+    }
 
     if(course_data > 1 || student_data > 1) {
       alert("Both files are of the same type.")
@@ -83,23 +80,30 @@ export class GpdComponent implements OnInit {
       alert("One or more files were not of the right format");
       return;
     }
+
+    if (text1[0] == course_data_header) {
+      var temp = text1;
+      text1 = text2;
+      text2 = temp;
+    }
     
     // Parse Course Plan Information
-    for (var i = 0; i < text1.length; i++) {
+    for (var i = 0; i < text2.length; i++) {
       
     }
 
     // Parse Student Information
-    for (var i = 0; i < text2.length; i++) {
-      if (text2[i] == student_data_header) {
+    for (var i = 0; i < text1.length; i++) {
+      if (text1[i] == student_data_header) {
         continue;
-      } else if (text2[i] == "") {
+      } else if (text1[i] == "") {
         continue;
       } else {
-        var str_array = text2[i].split(",")
+        var str_array = text1[i].split(",")
         if (str_array.length != 13) {
           if (str_array.length < 13) {
-            // Popup that insufficient number of fields.
+            alert("WARNING:\nA line of your student data file has an insufficient number of fields. Please verify your files and try again.")
+            return
           } else {
             let open_quotes = -1
             let close_quotes = -1
@@ -123,40 +127,37 @@ export class GpdComponent implements OnInit {
             }
           }
         }
-        var students = [];
-        this.studentService.getStudents().subscribe(student => {
-          student.forEach(element => {
-            if (element.id == str_array[0]) {
-              students.push(element);
-            }
-          });
-        });
-        console.log(this.gpd);
-        console.log(str_array[4]);
-        if (str_array[4].toLocaleLowerCase() !== this.gpd.toLocaleLowerCase()) {
-          continue;
-        }
-        console.log(students.length);
-        if (students.length > 0) {
-          for (i = 0; i < students.length; i++) {
-            students[i].first = str_array[1];
-            students[i].last = str_array[2];
-            students[i].id = str_array[0];
-            students[i].sbuID = str_array[0];
-            students[i].email = str_array[3];
-            students[i].dept = str_array[4];
-            students[i].track = str_array[5];
-            students[i].entrySemester = str_array[6];
-            students[i].entryYear = str_array[7];
-            students[i].reqVersionSemester = str_array[8];
-            students[i].reqVersionYear = str_array[9];
-            students[i].gradSemester = str_array[10];
-            students[i].gradYear = str_array[11];
+      }
+      var students = [];
+      this.studentService.getStudents().subscribe(student => {
+        student.forEach(element => {
+          if (element.id == str_array[0]) {
+            students.push(element);
           }
-        } else {
-          var st: Student = {first : str_array[1], last : str_array[2], id : str_array[0], sbuID: str_array[0], email : str_array[3], dept : str_array[4], track : str_array[5], entrySemester : str_array[6], entryYear : str_array[7], reqVersionSemester : str_array[8], reqVersionYear : str_array[9], gradSemester : str_array[10], gradYear : str_array[11], comments : []};
-          this.afs.firestore.collection('Students').doc(st.id).set(st);
+        });
+      });
+      if (str_array[4].toLocaleLowerCase() !== this.gpd.toLocaleLowerCase()) {
+        continue;
+      }
+      if (students.length > 0) {
+        for (i = 0; i < students.length; i++) {
+          students[i].first = str_array[1];
+          students[i].last = str_array[2];
+          students[i].id = str_array[0];
+          students[i].sbuID = str_array[0];
+          students[i].email = str_array[3];
+          students[i].dept = str_array[4];
+          students[i].track = str_array[5];
+          students[i].entrySemester = str_array[6];
+          students[i].entryYear = str_array[7];
+          students[i].reqVersionSemester = str_array[8];
+          students[i].reqVersionYear = str_array[9];
+          students[i].gradSemester = str_array[10];
+          students[i].gradYear = str_array[11];
         }
+      } else {
+        var st: Student = {first : str_array[1], last : str_array[2], id : str_array[0], sbuID: str_array[0], email : str_array[3], dept : str_array[4], track : str_array[5], entrySemester : str_array[6], entryYear : str_array[7], reqVersionSemester : str_array[8], reqVersionYear : str_array[9], gradSemester : str_array[10], gradYear : str_array[11], comments : []};
+        this.afs.firestore.collection('Students').doc(st.id).set(st);
       }
     }
   }
