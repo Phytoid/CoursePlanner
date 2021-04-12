@@ -3,7 +3,7 @@ import { Semester } from "./semester.enum";
 
 export interface Plan {
     coursesSatisfaction: Map<Courses, Boolean>
-    coursesGrages: Map<Courses, String>
+    coursesGrades: Map<Courses, String>
     complete: Boolean
-    vlaid: Boolean
+    valid: Boolean
 }
