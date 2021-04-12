@@ -1,3 +1,5 @@
+import { Plan } from './plan';
+
 export interface Student{
     id?:string;
     sbuID?:string;
@@ -21,5 +23,6 @@ export interface Student{
     project?:string;
     comments?:string[];
     validCoursePlan?:boolean;
+    plan?: Plan
   }
   
