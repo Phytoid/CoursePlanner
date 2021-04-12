@@ -104,16 +104,20 @@
             </div>
             <div>
                 <label for="comment">Comments:</label>
-                <div *ngIf="whosLoggedIn != 'Student'; else elseBlock" >
+                <mat-card *ngFor="let comment of s.comments" (dblclick)="deleteComment(event)">
+                    {{comment}} 
+                    <br>
+                </mat-card>
+                <!-- <div *ngIf="whosLoggedIn != 'Student'; else elseBlock" >
                     <mat-card *ngFor="let comment of s.comments" (dblclick)="deleteComment(event)">{{comment}} <br>
                         <!-- <button id="deleteBtn" (click)="deleteComment(event)">Delete</button> -->
-                    </mat-card>
+                    <!-- </mat-card>
                 </div>
                 <ng-template #elseBlock>
                         <mat-card *ngFor="let comment of s.comments">{{comment}} <br>
                             <!-- <button id="deleteBtn" (click)="deleteComment(event)">Delete</button> -->
-                        </mat-card>
-                </ng-template>
+                        <!-- </mat-card>
+                </ng-template> -->
                 
             </div>
             <br>
@@ -129,8 +133,15 @@
             </div>
             
         </form>
+        <!-- <br>
         <br>
-        <br>
-        <button class="btn btn-primary" [routerLink]="['/search']" routerLinkActive="router-link-active" >Back</button>
+        <ng-container *ngIf="whosLoggedIn != 'Student'; then ifBlock; else elseBlock"></ng-container>
+        <ng-template #ifBlock>
+            <button class="btn btn-primary" [routerLink]="['/search']" routerLinkActive="router-link-active" >Back</button>
+        </ng-template>
+        <ng-template #elseBlock>
+            <button class="btn btn-primary" [routerLink]="['/student']" routerLinkActive="router-link-active" >Back</button>     
+        </ng-template> -->
     </div>
+    
 </div>

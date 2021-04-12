@@ -35,6 +35,7 @@ export class ViewStudentComponent implements OnInit {
 
   ngOnInit(): void {
     this.whosLoggedIn = localStorage.getItem('userType')
+
     console.log(this.whosLoggedIn);
     this.router.routerState.root.queryParams.subscribe(params => {
       this.sbuID = params['sbuID'];
@@ -45,6 +46,7 @@ export class ViewStudentComponent implements OnInit {
       this.s = val;
       this.model = {year: parseInt(this.s.gradYear), day: 1, month: 1};
       this.comments = this.s.comments;
+      console.log(this.comments);
     });
 
     // this.studentObs.subscribe(val => {
@@ -52,12 +54,13 @@ export class ViewStudentComponent implements OnInit {
     //   console.log(val);
     //   console.log(this.s);
     // });
-    
-    
     this.dept=localStorage.getItem('gpdType');
     this.getTrack();
   }
+  ngAfterInit(): void{
+    location.reload();
 
+  }
   editStudent(event) {
     if(confirm("Are you sure you want to edit this information?")){
       this.s = {
