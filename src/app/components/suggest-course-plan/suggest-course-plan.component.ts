@@ -11,7 +11,6 @@ export class SuggestCoursePlanComponent implements OnInit {
   prefWeight: number = 0;
   courseAdd: string[] = ['add', "weight"];
   courseAvoid: string[] = ['avoid'];
-  //dataSource = this.courseAdd;
   @ViewChild(MatSort) sort: MatSort;
   constructor() { }
   coursesToAddList=[
@@ -29,7 +28,8 @@ export class SuggestCoursePlanComponent implements OnInit {
   }
   addItemPref(): void {
     this.prefWeight++;
-    this.coursesToAddList.push();
+    this.coursesToAddList.push({courseName:"CSE 110", "prefWeight": this.prefWeight});
+    console.log(this.coursesToAddList);
   }
   addItemAvoid(): void{
     this.coursesToAvoidList.push();

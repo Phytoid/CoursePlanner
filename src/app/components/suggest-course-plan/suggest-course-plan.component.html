@@ -25,7 +25,7 @@
             </mat-form-field>
         </div>
         <div>
-            <button class="btn" id="addToList">Add Course to List</button>
+            <button mat-button (click)=addItemPref() class="btn" id="addToList">Add Course to List</button>
         </div>
     </span>
     <span class="dropdowns"> 
@@ -93,7 +93,7 @@
 </div>
 <div>
     <span>
-        <table mat-table #table matSort class="mat-elevation-z8" [dataSource]="coursesToAddList" matSortDirection="asc"> 
+        <table mat-table #table matSort class="mat-elevation-z8" [dataSource]="coursesToAddList" matSortDirection="asc" style="width:50%"> 
             <ng-container matColumnDef="add">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Courses To Add</th>
                 <td mat-cell *matCellDef="let coursesToAddList">{{coursesToAddList.courseName}}</td>
@@ -105,7 +105,7 @@
             <tr mat-header-row *matHeaderRowDef="courseAdd"></tr>
             <tr mat-row *matRowDef="let row; columns: courseAdd;"></tr>
         </table>
-        <table mat-table #table matSort class="mat-elevation-z8" [dataSource]="coursesToAvoidList" matSortDirection="asc"> 
+        <table mat-table #table matSort class="mat-elevation-z8" [dataSource]="coursesToAvoidList" matSortDirection="asc" style="width:50%"> 
             <ng-container matColumnDef="avoid">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Courses To Avoid</th>
                 <td mat-cell *matCellDef="let coursesToAvoidList">{{coursesToAvoidList.courseName}}</td>
@@ -115,3 +115,4 @@
         </table>
     </span>
 </div>
+<button class="btn" id="suggest-courses-btn">Suggest Courses</button>
