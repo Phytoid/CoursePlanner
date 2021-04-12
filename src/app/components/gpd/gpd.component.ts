@@ -200,8 +200,8 @@ export class GpdComponent implements OnInit {
       var updateGrade = {}
       
 
-      this.afs.collection('Students').doc(studentID).collection('coursePlan').doc('coursePlan').update({
-        [semester_and_year + '.' + course] : `${grade}`
+      this.afs.collection('Students').doc(studentID).update({
+        ['coursePlan' + '.' + semester_and_year + '.' + course] : `${grade}`
       }).then(() => {
 
       }).catch((error) => {
