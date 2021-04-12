@@ -154,9 +154,11 @@ export class GpdComponent implements OnInit {
           students[i].reqVersionYear = str_array[9];
           students[i].gradSemester = str_array[10];
           students[i].gradYear = str_array[11];
+          students[i].advisor = "";
+          students[i].comments = [];
         }
       } else {
-        var st: Student = {first : str_array[1], last : str_array[2], id : str_array[0], sbuID: str_array[0], email : str_array[3], dept : str_array[4], track : str_array[5], entrySemester : str_array[6], entryYear : str_array[7], reqVersionSemester : str_array[8], reqVersionYear : str_array[9], gradSemester : str_array[10], gradYear : str_array[11], comments : []};
+        var st: Student = {first : str_array[1], last : str_array[2], id : str_array[0], sbuID: str_array[0], email : str_array[3], dept : str_array[4], track : str_array[5], entrySemester : str_array[6], entryYear : str_array[7], reqVersionSemester : str_array[8], reqVersionYear : str_array[9], gradSemester : str_array[10], gradYear : str_array[11], advisor : "", comments : []};
         this.afs.firestore.collection('Students').doc(st.id).set(st);
       }
     }
