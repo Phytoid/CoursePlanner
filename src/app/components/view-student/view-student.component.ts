@@ -1,3 +1,4 @@
+import { BrowserModule } from '@angular/platform-browser';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -130,37 +131,5 @@ export class ViewStudentComponent implements OnInit {
       this.tracks = ["Advanced Proj.", "Special Proj.", "Thesis"]
     }
   }
-
-  // studentConverter = {
-  //   toFirestore: function(student){
-  //     return {
-  //       first: student.first,
-  //       last: student.last,
-  //       sbuID: student.sbuID,
-  //       dept: student.dept,
-  //       track:student.track,
-  //       satisfied:student.satisfied,
-  //       pending:student.pending,
-  //       unsatisfied:student.unsatisfied,
-  //       gradSemester:student.gradSemester,
-  //       gradYear:student.gradYear,
-  //       semesters:student.semesters,
-  //       graduated:student.graduated,
-  //       email:student.email,
-  //       entrySemester:student.entrySemester,
-  //       entryYear:student.entryYear,
-  //       reqVersionSemester:student.reqVersionSemester,
-  //       reqVersionYear:student.reqVersionYear,
-  //       advisor:student.advisor,
-  //       project:student.project,
-  //       comments:student.comments,
-  //       validCoursePlan:student.validCoursePlan,
-  //     };
-  //   },
-  //   fromFirestore: function(snapshot, options){
-  //     const data = snapshot.data(options);
-  //     return new Student(data.)
-  //   }
-  // }
 
 }
