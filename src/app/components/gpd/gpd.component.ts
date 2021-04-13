@@ -89,7 +89,35 @@ export class GpdComponent implements OnInit {
     
     // Parse Course Plan Information
     for (var i = 0; i < text2.length; i++) {
-      
+      if (text2[i] == student_data_header) {
+        continue;
+      } else if (text2[i] == "") {
+        continue;
+      } else {
+        var str_array = text1[i].split(",")
+        if (str_array.length != 7) {
+          alert("WARNING:\nA line of your student data file has an insufficient number of fields. Please verify your files and try again.")
+          return
+        } else {
+          let studentID = str_array[0];
+          let department = str_array[1];
+          let courseID = str_array[2];
+          let section = str_array[3];
+          let semester = str_array[4];
+          let year = str_array[5];
+          let grade = str_array[6];
+          let semester_and_year = semester+year;
+          let course = department + courseID;
+
+          this.afs.collection('Students').doc(studentID).update({
+            ['coursePlan' + '.' + semester_and_year + '.' + course] : `${grade}`
+          }).then(() => {
+
+          }).catch((error) => {
+            console.log("Student ID: " + studentID + " does not exist.");
+          });
+        }
+      }
     }
 
     // Parse Student Information
@@ -190,15 +218,10 @@ export class GpdComponent implements OnInit {
       let semester = line[4];
       let year = line[5];
       let grade = line[6];
-      console.log(line);
-
-    
       let semester_and_year = semester+year;
       let course = department + courseID;
-      console.log(semester_and_year);
-
-      var updateGrade = {}
       
+      var updateGrade = {}
 
       this.afs.collection('Students').doc(studentID).update({
         ['coursePlan' + '.' + semester_and_year + '.' + course] : `${grade}`
@@ -207,14 +230,13 @@ export class GpdComponent implements OnInit {
       }).catch((error) => {
         console.log("Student ID: " + studentID + " does not exist.");
       });
-      
     }
-
   }
 
   async uploadDegreeReqs(event) {
 
   }
+
   async uploadCourse(event) {
     console.log("upload Courses!\n");
     let fileList: FileList = event.target.files;
