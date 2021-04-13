@@ -118,7 +118,7 @@ export class ViewStudentComponent implements OnInit {
   getTrack(){
     document.getElementById("track").style.display = "inline" 
     if(this.dept == "BMI"){
-      this.tracks = ["Imaging, Thesis", "Imaging, Proj.", "Clinical, Thesis", "Clinical, Proj.", "Translational, Thesis", "Translational, Proj."];
+      this.tracks = ["Imaging, Thesis", "Imaging, Project", "Clinical, Thesis", "Clinical, Project", "Translational, Thesis", "Translational, Project"];
     }
     else if(this.dept == "AMS"){
       this.tracks = ["CAM", "CB", "OR", "STAT", "QF"];
@@ -127,7 +127,7 @@ export class ViewStudentComponent implements OnInit {
       this.tracks = ["Non-Thesis", "Thesis"]
     }
     else{
-      this.tracks = ["Advanced Proj.", "Special Proj.", "Thesis"]
+      this.tracks = ["Advanced Project", "Special Project", "Thesis"]
     }
   }
 
