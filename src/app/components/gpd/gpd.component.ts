@@ -234,7 +234,7 @@ export class GpdComponent implements OnInit {
   }
 
   async uploadDegreeReqs(event) {
-
+  
   }
 
   async uploadCourse(event) {
@@ -250,9 +250,8 @@ export class GpdComponent implements OnInit {
         continue;
       } else {
         var str_array = text[i].split(",")
+        var id = str_array[0] + str_array[1]
         console.log(str_array);
-        var id = str_array[0] + str_array[1];
-        id = id.replace(/\s+/g, '');
         var courseID = str_array[1];
         var section = str_array[2];
         var semester = str_array[3];
@@ -263,6 +262,8 @@ export class GpdComponent implements OnInit {
         var times = time_array[1].split("-");
         var startTime = times[0];
         var endTime = times[1];
+        var id = id + section + semester + year;
+        id = id.replace(/\s+/g, '');
         console.log(id);
         this.afs.collection("Courses").doc(id).set({
         courseID: courseID,

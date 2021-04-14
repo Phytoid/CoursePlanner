@@ -32,6 +32,9 @@ export class StudentComponent implements OnInit {
     });
   }
 
+  ngAfterInit(): void{
+    location.reload();
+  }
 
   logout() {
     this.authService.logout()
