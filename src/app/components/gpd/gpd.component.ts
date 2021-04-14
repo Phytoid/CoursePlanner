@@ -156,6 +156,65 @@ export class GpdComponent implements OnInit {
           }
         }
       }
+      
+      // Edit Track
+      var track = str_array[5].toLowerCase();
+      if (str_array[4].toLocaleLowerCase() === 'ams') {
+        if (track === "qf" || track === "quantitative finance") {
+          track = "QF";
+        } else if (track === "stat" || track === "statistics") {
+          track = "STAT";
+        } else if (track === "cam" || track === "computational applied mathematics") {
+          track = "CAM";
+        } else if (track === "cb" || track === "computational biology") {
+          track = "CB";
+        } else if (track === "or" || track === "operations research") {
+          track = "OR";
+        } else {
+          alert("WARNING:\nCheck that AMS student ID " + str_array[0].toString() + " has a valid track.");
+          return;
+        }
+      } else if (str_array[4].toLocaleLowerCase() === 'bmi') {
+        if (track.includes("clinical") && track.includes("thesis")) {
+          track = "Clinical, Thesis";
+        } else if (track.includes("clinical") && track.includes("project")) {
+          track = "Clinical, Project";
+        } else if (track.includes("translational") && track.includes("thesis")) {
+          track = "Translational, Thesis";
+        } else if (track.includes("translational") && track.includes("project")) {
+          track = "Translational, Project"
+        } else if (track.includes("imaging") && track.includes("thesis")) {
+          track = "Imaging, Thesis";
+        } else if (track.includes("imaging") && track.includes("project")) {
+          track = "Imaging, Project";
+        } else {
+          alert("WARNING:\nCheck that BMI student ID " + str_array[0].toString() + " has a valid track.");
+          return;
+        }
+      } else if (str_array[4].toLocaleLowerCase() === 'cse') {
+        if (track === "advanced project") {
+          track = "Advanced Project";
+        } else if (track === "special project") {
+          track = "Special Project";
+        } else if (track === "thesis") {
+          track = "Thesis";
+        } else {
+          alert("WARNING:\nCheck that CSE student ID " + str_array[0].toString() + " has a valid track.");
+          return;
+        }
+      } else if (str_array[4].toLocaleLowerCase() === 'ece') {
+        if (track === "thesis") {
+          track = "Thesis";
+        } else if (track === "nonthesis" || track === "non-thesis") {
+          track = "Non-Thesis";
+        } else {
+          alert("WARNING:\nCheck that ECE student ID " + str_array[0].toString() + " has a valid track.");
+          return;
+        }
+      } else {
+        alert("WARNING:\nCheck that student ID " + str_array[0].toString() + " belongs to your department.");
+        return;
+      }
       var students = [];
       this.studentService.getStudents().subscribe(student => {
         student.forEach(element => {

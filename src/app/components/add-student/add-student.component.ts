@@ -75,7 +75,7 @@ export class AddStudentComponent implements OnInit {
     document.getElementById("track").style.display = "inline" 
     var dept = event.srcElement.value;
     if(dept == "BMI"){
-      this.tracks = ["Imaging, Thesis", "Imaging, Proj.", "Clinical, Thesis", "Clinical, Proj.", "Translational, Thesis", "Translational, Proj."];
+      this.tracks = ["Imaging, Thesis", "Imaging, Project", "Clinical, Thesis", "Clinical, Project", "Translational, Thesis", "Translational, Project"];
     }
     else if(dept == "AMS"){
       this.tracks = ["CAM", "CB", "OR", "STAT", "QF"];
@@ -84,7 +84,7 @@ export class AddStudentComponent implements OnInit {
       this.tracks = ["Non-Thesis", "Thesis"]
     }
     else{
-      this.tracks = ["Advanced Proj.", "Special Proj.", "Thesis"]
+      this.tracks = ["Advanced Project", "Special Project", "Thesis"]
     }
   }
 
