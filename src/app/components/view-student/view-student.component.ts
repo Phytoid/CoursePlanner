@@ -36,18 +36,13 @@ export class ViewStudentComponent implements OnInit {
 
   ngOnInit(): void {
     this.whosLoggedIn = localStorage.getItem('userType')
-
-    console.log(this.whosLoggedIn);
     this.router.routerState.root.queryParams.subscribe(params => {
       this.sbuID = params['sbuID'];
     })
-    console.log(this.sbuID);
     this.afs.collection('Students').doc(this.sbuID).valueChanges().subscribe(val => {
-      console.log(val);
       this.s = val;
       this.model = {year: parseInt(this.s.gradYear), day: 1, month: 1};
       this.comments = this.s.comments;
-      console.log(this.comments);
       this.dept = this.s.dept
     });
 
