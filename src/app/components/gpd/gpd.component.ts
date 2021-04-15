@@ -290,17 +290,27 @@ export class GpdComponent implements OnInit {
         let semesterAndYear = semester + year;
         let course = department + courseID;
         let courseIdentifier = course + "_" + section;
-        this.afs.collection('Students').doc(studentID).update({
-          ['coursePlan' + '.' + semesterAndYear + '.' + courseIdentifier] : `${grade.toLocaleUpperCase()}`
-        }).then(() => {
-    
-        }).catch((error) => {
-          console.log("Student ID: " + studentID + " does not exist.");
+        var student: Student;
+        this.afs.collection('Students').doc(studentID).valueChanges().subscribe(val => {
+          student= val;
+          console.log(student.dept)
+          console.log(this.gpd)
+          if (student.dept == this.gpd) {
+            this.afs.collection('Students').doc(studentID).update({
+              ['coursePlan' + '.' + semesterAndYear + '.' + courseIdentifier] : `${grade.toLocaleUpperCase()}`
+            }).then(() => {
+
+            }).catch((error) => {
+              console.log("Student ID: " + studentID + " does not exist.");
+            });
+          } else {
+            warningsStringArray.push("Check that student ID " + strArray[0].toString() + " belongs to your department. This student is ignored.");
+          }
         });
         coursePlanDict.push(dictionary_identifier);
       }
     }
-
+    
     if (warningsStringArray.length == 0) {
       alert("Student information and course plan grades have been updated successfully.");
     } else {
@@ -401,19 +411,25 @@ export class GpdComponent implements OnInit {
         let semesterAndYear = semester + year;
         let course = department + courseID;
         let courseIdentifier = course + "_" + section;
-        this.afs.collection('Students').doc(studentID).update({
-          ['coursePlan' + '.' + semesterAndYear + '.' + courseIdentifier] : `${grade.toLocaleUpperCase()}`
-        }).then(() => {
-    
-        }).catch((error) => {
-          console.log("Student ID: " + studentID + " does not exist.");
+        var student: Student;
+        this.afs.collection('Students').doc(studentID).valueChanges().subscribe(val => {
+          student = val;
+          if (student.dept == this.gpd) {
+            this.afs.collection('Students').doc(studentID).update({
+              ['coursePlan' + '.' + semesterAndYear + '.' + courseIdentifier] : `${grade.toLocaleUpperCase()}`
+            }).then(() => {
+
+            }).catch((error) => {
+              console.log("Student ID: " + studentID + " does not exist.");
+            });
+          } else {
+            warningsStringArray.push("Check that student ID " + strArray[0].toString() + " belongs to your department. This student is ignored.");
+          }
         });
-        coursePlanDict.push(dictionary_identifier);
       }
     }
-
     if (warningsStringArray.length == 0) {
-      alert("Student information and course plan grades have been updated successfully.");
+      alert("Student grades have been updated successfully.");
     } else {
       var warning_string = "";
       for (i = 0; i < warningsStringArray.length; i++) {
