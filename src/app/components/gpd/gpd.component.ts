@@ -289,7 +289,7 @@ export class GpdComponent implements OnInit {
         let grade = strArray[6].trim();
         let semesterAndYear = semester + year;
         let course = department + courseID;
-        let courseIdentifier = course + "." + section;
+        let courseIdentifier = course + "_" + section;
         this.afs.collection('Students').doc(studentID).update({
           ['coursePlan' + '.' + semesterAndYear + '.' + courseIdentifier] : `${grade.toLocaleUpperCase()}`
         }).then(() => {
@@ -400,7 +400,7 @@ export class GpdComponent implements OnInit {
         let grade = strArray[6].trim();
         let semesterAndYear = semester + year;
         let course = department + courseID;
-        let courseIdentifier = course + "." + section;
+        let courseIdentifier = course + "_" + section;
         var student: Student;
         this.afs.collection('Students').doc(studentID).valueChanges().subscribe(val => {
         student= val;
@@ -414,10 +414,10 @@ export class GpdComponent implements OnInit {
           }).catch((error) => {
             console.log("Student ID: " + studentID + " does not exist.");
           });
-          }
-          else{
-            console.log("Not correct GPD")
-          }
+        }
+        else{
+          console.log("Not correct GPD")
+        }
         });
       
         coursePlanDict.push(dictionary_identifier);
