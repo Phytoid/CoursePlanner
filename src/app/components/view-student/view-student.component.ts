@@ -56,9 +56,9 @@ export class ViewStudentComponent implements OnInit {
     //   console.log(val);
     //   console.log(this.s);
     // });
-    // if(this.whosLoggedIn == 'GPD'){
-    //   this.dept=localStorage.getItem('gpdType');
-    // }
+    if(this.whosLoggedIn == 'GPD'){
+      this.dept=localStorage.getItem('gpdType');
+    }
     this.getTrack();
   }
   ngAfterInit(): void{
