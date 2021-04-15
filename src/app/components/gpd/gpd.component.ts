@@ -487,6 +487,7 @@ export class GpdComponent implements OnInit {
         });
       }
     }
+    alert("Courses have been successfully uploaded.");
   }
 
   onDelete(){
