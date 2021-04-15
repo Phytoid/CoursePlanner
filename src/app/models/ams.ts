@@ -10,5 +10,5 @@ export interface AMS extends DegreeReqs {
     meetsTimeFrameReq?:Boolean; // True when student's graduation semester + year - student's entry semester + year >= 3.
     meetsRecommendationReq?:Boolean; // Did the student receive a recommendation for graduation from the faculty of the graduate program?
     gpa?:Number; // Did the student achieve a B (3.0) or higher for all courses taken?
-    course_grades?:Number; // Did the student achieve a B (3.0) or higher in at least 18 credits?
+    courseGrades?:Number; // Did the student achieve a B (3.0) or higher in at least 18 credits?
 }
