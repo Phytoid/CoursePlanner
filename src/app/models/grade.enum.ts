@@ -13,6 +13,8 @@ export enum Grade {
     i = "I",
     w = "W",
     q = "Q",
+    s = "S",
+    u = "U",
     na = "NA",
     empty = ""
 }
