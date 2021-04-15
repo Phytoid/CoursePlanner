@@ -281,13 +281,23 @@ export class GpdComponent implements OnInit {
       let course = department + courseID;
       
       var updateGrade = {}
-
-      this.afs.collection('Students').doc(studentID).update({
-        ['coursePlan' + '.' + semester_and_year + '.' + course] : `${grade}`
-      }).then(() => {
-
-      }).catch((error) => {
-        console.log("Student ID: " + studentID + " does not exist.");
+      var student: Student;
+      this.afs.collection('Students').doc(studentID).valueChanges().subscribe(val => {
+        student= val;
+        console.log(student.dept)
+        console.log(this.gpd)
+        if(student.dept == this.gpd){
+          this.afs.collection('Students').doc(studentID).update({
+            ['coursePlan' + '.' + semester_and_year + '.' + course] : `${grade}`
+          }).then(() => {
+            console.log("Added student " + studentID)
+          }).catch((error) => {
+            console.log("Student ID: " + studentID + " does not exist.");
+          });
+        }
+        else{
+          console.log("Not correct GPD")
+        }
       });
     }
   }
