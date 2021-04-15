@@ -44,7 +44,8 @@
             </div>
             <div class="form-group" id="track" name="trackForm" style="display:none;">
                 <label for="track">Track</label>
-                <select id="track" type="text" class="form-control" value="{{s.track}}">
+                <select id="track" type="text" class="form-control">
+                    <option disabled selected>{{s.track}}</option>
                     <option *ngFor="let track of tracks">
                         {{track}}
                     </option>

@@ -48,6 +48,7 @@ export class ViewStudentComponent implements OnInit {
       this.model = {year: parseInt(this.s.gradYear), day: 1, month: 1};
       this.comments = this.s.comments;
       console.log(this.comments);
+      this.dept = this.s.dept
     });
 
     // this.studentObs.subscribe(val => {
@@ -55,7 +56,9 @@ export class ViewStudentComponent implements OnInit {
     //   console.log(val);
     //   console.log(this.s);
     // });
-    this.dept=localStorage.getItem('gpdType');
+    // if(this.whosLoggedIn == 'GPD'){
+    //   this.dept=localStorage.getItem('gpdType');
+    // }
     this.getTrack();
   }
   ngAfterInit(): void{
