@@ -37,14 +37,10 @@ export class ViewStudentComponent implements OnInit {
   ngOnInit(): void {
     // this.admin = require("firebase-admin");
     this.whosLoggedIn = localStorage.getItem('userType')
-
-    console.log(this.whosLoggedIn);
     this.router.routerState.root.queryParams.subscribe(params => {
       this.sbuID = params['sbuID'];
     })
-    console.log(this.sbuID);
     this.afs.collection('Students').doc(this.sbuID).valueChanges().subscribe(val => {
-      console.log(val);
       this.s = val;
       this.model = {year: parseInt(this.s.gradYear), day: 1, month: 1};
       this.comments = this.s.comments;
@@ -58,7 +54,7 @@ export class ViewStudentComponent implements OnInit {
       this.dept=localStorage.getItem('gpdType');
       this.getTrack();
     }
-    
+
   }
   ngAfterInit(): void{
     location.reload();

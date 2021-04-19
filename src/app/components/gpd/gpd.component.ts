@@ -442,8 +442,11 @@ export class GpdComponent implements OnInit {
   async uploadCourse(event) {
     let fileList: FileList = event.target.files;
     let courseDataHeader = "department,course_num,section,semester,year,timeslot";
-    let text =  (await fileList.item(0).text()).split(/\r?\n/);
-    console.log(text);
+    let text = (await fileList.item(0).text()).split(/\r?\n/);
+    if (text[0] != courseDataHeader) {
+      alert("Course offerings file does not match proper format.");
+      return;
+    } 
     for(var i = 0; i < text.length; i++){
       if (text[i] == courseDataHeader) {
         continue;
@@ -483,6 +486,7 @@ export class GpdComponent implements OnInit {
         });
       }
     }
+    alert("Course offerings have been succesfully updated.");
   }
 
   onDelete(){
