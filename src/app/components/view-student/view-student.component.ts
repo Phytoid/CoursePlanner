@@ -27,7 +27,7 @@ export class ViewStudentComponent implements OnInit {
   studentObs: Observable<Student>;
   comments: string[] = [];
   whosLoggedIn: string;
-
+  admin;
   constructor(private authService: AuthService, public router: Router, public afs: AngularFirestore) {
     if (!this.authService.isLoggedIn) {
       this.router.navigate(['login'])
@@ -35,6 +35,7 @@ export class ViewStudentComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    // this.admin = require("firebase-admin");
     this.whosLoggedIn = localStorage.getItem('userType')
 
     console.log(this.whosLoggedIn);
@@ -48,22 +49,19 @@ export class ViewStudentComponent implements OnInit {
       this.model = {year: parseInt(this.s.gradYear), day: 1, month: 1};
       this.comments = this.s.comments;
       console.log(this.comments);
+      console.log(this.s.dept)
       this.dept = this.s.dept
+      this.getTrack();
     });
 
-    // this.studentObs.subscribe(val => {
-    //   this.s = val;
-    //   console.log(val);
-    //   console.log(this.s);
-    // });
     if(this.whosLoggedIn == 'GPD'){
       this.dept=localStorage.getItem('gpdType');
+      this.getTrack();
     }
-    this.getTrack();
+    
   }
   ngAfterInit(): void{
     location.reload();
-
   }
   editStudent(event) {
     if(confirm("Are you sure you want to edit this information?")){
