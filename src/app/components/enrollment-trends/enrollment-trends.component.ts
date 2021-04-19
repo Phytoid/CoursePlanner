@@ -18,4 +18,17 @@ export class EnrollmentTrendsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+  addCourse(event) {
+    console.log("add course!\n");
+    let department = ((<HTMLInputElement>document.getElementById("mat-input-0")).value);
+    let course = ((<HTMLInputElement>document.getElementById("mat-input-1")).value);
+
+    let semester_start = ((<HTMLInputElement>document.getElementById("mat-input-2")).value);
+    let semester_end = ((<HTMLInputElement>document.getElementById("mat-input-3")).value);
+
+    let year_start = ((<HTMLInputElement>document.getElementById("mat-input-4")).value);
+    let year_end = ((<HTMLInputElement>document.getElementById("mat-input-5")).value);
+  }
+
 }
