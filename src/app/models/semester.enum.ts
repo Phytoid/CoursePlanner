@@ -1,7 +1,8 @@
 export enum Semester {
-    fall = "fall",
-    spring = "spring",
-    summer1 = "summer1",
-    summer2 = "summer2",
-    winter = "winter"
+    fall = "Fall",
+    spring = "Spring",
+    summer1 = "Summer1",
+    summer2 = "Summer2",
+    winter = "Winter",
+    fallAndSpring = "Fall/Spring"
 }

@@ -1,3 +1,6 @@
+import { CourseService } from './../../services/course.service';
+import { Semester } from './../../models/semester.enum';
+import { Courses } from './../../models/courses';
 import { Plan } from './../../models/plan';
 import { StudentService } from './../../services/student.service';
 import { Observable } from 'rxjs';
@@ -18,14 +21,13 @@ import { map } from 'rxjs/operators';
 export class GpdComponent implements OnInit {
   s: Student[];
   gpd: String;
-  constructor(private authService: AuthService, public router: Router, public studentService: StudentService, public afs: AngularFirestore) {
+  constructor(private authService: AuthService, public router: Router, public studentService: StudentService, public afs: AngularFirestore, public courseService: CourseService) {
     if (!this.authService.isLoggedIn || localStorage.getItem('userType') != 'GPD') {
       this.router.navigate(['login'])
     }
   }
 
   ngOnInit(): void {
-    
     this.gpd = 'ESE';
     if(localStorage.getItem('gpdType') == 'AMS'){
       this.gpd = 'AMS';
@@ -47,6 +49,124 @@ export class GpdComponent implements OnInit {
     });
   }
 
+  async scrapeCourseInfo(event){
+    let fileList: FileList = event.target.files;
+    if(fileList.length != 1) {
+      alert("Importing student data requires one file");
+      return;
+    }
+    let text2 = (await fileList.item(0).text()).replace(/^Stony.*$/gm, '')
+    text2 = text2.replace(/^GRADUATE.*$/gm, '');
+    text2 = text2.replace(/^Offered.*$/gm, '');
+    text2 = text2.replace(/\r?\n\s/g, '');
+    text2 = text2.replace(/\s\s/g, ' ');
+    text2 = text2.replace(/^([A-Z][A-Z][A-Z]\r?\n)/g, '');
+    // text2 = text2.replace(/)
+    // text2 = text2.replace(/^(?![A-Z][A-Z][A-Z]).+(\r?\n)?/gm, '');
+    let text1 = text2.split(/\r?\n/);
+    let course:Courses;
+    let courseID = null;
+    let major = "";
+    let courseName = "";
+    let description = "";
+    let prereq = "";
+    let semesters = "";
+    let credits = "";
+    const regex = /^([A-Z][A-Z][A-Z])/;
+    const prereqRegex = /^Prerequisite/;
+    const fallRegex = /^Fall/;
+    const springRegex = /^Spring/;
+    const creditRegix = /^[0-9]/;
+    let arr = []
+    for(const line of text1){
+      if(regex.test(line)){
+        if(courseID != null && (major == "AMS" || major == "CSE" || major == "BMI" || major == "ESE")){
+          course = {courseID: courseID, courseName: courseName, description: description};
+          course.courseID = courseID;
+          course.courseName = courseName;
+          course.description = description;
+          course.course = major + courseID;
+          console.log(major + course.courseID);
+          console.log(semesters)
+          console.log(prereq)
+          console.log(credits)
+          console.log(course.description);
+          if(credits == ""){
+            course.credits = 3;
+          }
+          else{
+            var c = parseInt(credits)
+            if(c != NaN){
+              course.credits = c
+            }
+            else{
+              course.credits = 3;
+            }
+          }
+          if(semesters.includes("Fall") && semesters.includes("Spring")){
+            course.semester = Semester.fallAndSpring;
+          }
+          else if(semesters.includes("Fall")){
+            course.semester = Semester.fall;
+          }
+          else{
+            course.semester = Semester.spring;
+          }
+          course.graduatePreq = prereq;
+          // this.courseService.getCourses().subscribe(s => {
+          //   var arr: any = []
+          //   s.forEach(element => {
+          //     if(element.course == course.course){
+                
+          //     }  
+          //   });
+          //   this.s = arr;
+          // });
+          this.afs.firestore.collection('CourseInfo').doc(major+courseID).set(course);
+          if(major + courseID == "ESE800"){
+            break;
+          }
+        }
+        // Get new course
+        let vals = line.split(/:/);
+        arr = vals[0].split(/\s/)
+        major = arr[0]
+        courseID = arr[1]
+        courseName = vals[1];
+        description = ""
+        prereq = ""
+        credits = ""
+        arr = []
+        semesters = ""
+        
+      }
+      else{
+        if(prereqRegex.test(line)){
+          arr = line.split(/:/);
+          prereq = arr[1];
+          // prereq.replace(/\r?\n/, '')
+        }
+        else if(fallRegex.test(line) || springRegex.test(line)){
+          arr = line.split(/,/)
+          semesters = arr[0]
+          arr = arr[1].split(/\s/)
+          credits = arr[0]
+        }
+        else if(creditRegix.test(line)){
+          arr = line.split(/,/)
+          arr = arr[0].split(/\s/)
+          credits = arr[0]
+        }
+        description += line + " "
+      }
+      // Parse for credits, preqreqs
+      // else{
+      //   if(){
+
+      //   }
+      // }
+    }
+  }
   async uploadStudentData(event) {
     var warningsStringArray = [];
     let fileList: FileList = event.target.files;
@@ -212,6 +332,8 @@ export class GpdComponent implements OnInit {
         value = value + 1;
       }
       var st: Student = {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 0, unsatisfied : 0, pending : 0, graduated : false, validCoursePlan : true, semesters : value};
+      
+
       this.afs.firestore.collection('Students').doc(st.id).set(st);
       studentIDs.push(strArray[0]);
     }
@@ -455,6 +577,7 @@ export class GpdComponent implements OnInit {
       } else {
         var strArray = text[i].split(",")
         var id = strArray[0] + strArray[1]
+        var course = id;
         console.log(strArray);
         var courseID = strArray[1];
         var section = strArray[2];
@@ -470,6 +593,7 @@ export class GpdComponent implements OnInit {
         id = id.replace(/\s+/g, '');
         console.log(id);
         this.afs.collection("Courses").doc(id).set({
+        course: course,
         courseID: courseID,
         section: section,
         semester: semester,

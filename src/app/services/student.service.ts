@@ -20,14 +20,6 @@ export class StudentService {
         return data;
       })
     }))
-    //this.studentsCollection = this.afs.collection('Students');
-    // this.students = this.afs.collection('Students').snapshotChanges().map(changes => {
-    //   return changes.map(a => {
-    //     const data = a.payload.doc.data() as Student;
-    //     data.id = a.payload.doc.id;
-    //     return data;
-    //   })
-    // });
   }
 
   getStudents(){
