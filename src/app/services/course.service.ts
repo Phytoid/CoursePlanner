@@ -12,7 +12,7 @@ export class CourseService {
   courses: Observable<Courses[]>;
 
   constructor(public afs: AngularFirestore) { 
-    this.courses = this.afs.collection('Courses').snapshotChanges().pipe(map(changes => {
+    this.courses = this.afs.collection('CourseInfo').snapshotChanges().pipe(map(changes => {
       return changes.map(a => {
         const data = a.payload.doc.data() as Courses;
         data.course = a.payload.doc.id;

@@ -33,6 +33,9 @@ import { SuggestCoursePlanComponent } from './components/suggest-course-plan/sug
 
 import { ViewStudentComponent } from './components/view-student/view-student.component';
 import { MatCardModule } from '@angular/material/card';
+import { CourseDialogComponent } from './components/course-dialog/course-dialog.component';
+import { NgxPaginationModule} from 'ngx-pagination'
+
 import { CommonModule } from '@angular/common';
 import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
@@ -53,6 +56,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     DegreeReqsComponent,
     SuggestCoursePlanComponent,
     ViewStudentComponent,
+    CourseDialogComponent,
   ],
   imports: [
     MatCardModule,
@@ -75,9 +79,11 @@ PlotlyModule.plotlyjs = PlotlyJS;
     AngularFirestoreModule,
     AngularFireAuthModule,
     NgbModule,
+    NgxPaginationModule,
     CommonModule,
     PlotlyModule
   ],
+  entryComponents:[CourseDialogComponent],
   providers: [StudentService],
   bootstrap: [AppComponent]
 })

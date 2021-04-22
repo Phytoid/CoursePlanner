@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>{{data.course}}</h1>
+<h2>{{data.name}}</h2>
+<h3>Credits: {{data.credits}}</h3>
+<h3>Prerequisites: {{data.prereqs}}</h3>
+<div mat-dialog-content>
+  <p>{{data.description}}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+</div>

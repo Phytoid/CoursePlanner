@@ -2,22 +2,22 @@
     Course Information
     
     <button routerLink="/" routerLinkActive="active" class="btn" id="logout-btn">Logout</button>
-    <button routerLink="/gpd" class="btn" id="home-btn">Home</button>
+    <button class="btn" id="home-btn" routerLink="../gpd">Home</button>
 </div>
 
 <div>
     <form class="form-inline waves-light" mdbWavesEffect>
         <div class="md-form mt-0">
-          <input class="searchBar" type="text" placeholder="Search">
-          <mat-form-field appearance="fill">
-            <select matNativeControl>
-                <option label="Select Department"></option>
-                <option value="CSE">CSE</option>
-                <option value="AMS" >AMS</option>
-                <option value="BMI">BMI</option>
-                <option value="ESE">ESE</option>
+          <input class="searchBar" type="text" placeholder="Search" (keyup)="applyFilter($event.target.value)">
+          <!-- <mat-form-field appearance="fill">
+            <select matNativeControl required>
+                <option value="department" disabled selected>Department</option>
+                <option value="cse">CSE</option>
+                <option value="ams" >AMS</option>
+                <option value="bio">BIO</option>
+                <option value="ese">ESE</option>
             </select>
-          </mat-form-field>
+          </mat-form-field> -->
         </div>
     </form>
 </div>
@@ -32,11 +32,16 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let course in Courses">
-                <th>{{department.name}}</th>
-                <th>{{course.course_identifier}}</th>
-                <th>{{course.course_name}}</th>
+            <tr *ngFor="let course of c | paginate: {id: 'listing_pagination', itemsPerPage: 25, currentPage: page, totalItems: totalRecords }" mat-raised-button (click)="openDialog(course)">
+                <td>{{course}}</td>
+                <!-- <td>{{course.department}}</td>
+                <td>{{course.courseID}}</td>
+                <td>{{course.courseName}}</td> -->
             </tr>
         </tbody>
+        <div>
+            <pagination-controls id="listing_pagination" maxSize="8" directionLinks="true" (pageChange)="page = $event"></pagination-controls>
+        </div>
     </table>
 </div>
+

@@ -56,11 +56,20 @@ export class GpdComponent implements OnInit {
       return;
     }
     let text2 = (await fileList.item(0).text()).replace(/^Stony.*$/gm, '')
+    let index = text2.indexOf('\n');
+    let firstLine = text2.substring(0,index).replace(/\t/g, ' ');;
+    let arrFirstLine = firstLine.split(' ');
+    let currentSemester = arrFirstLine[arrFirstLine.length - 2];
+    let currentYear = arrFirstLine[arrFirstLine.length - 1];
+    console.log(currentSemester);
+    console.log(currentYear);
     text2 = text2.replace(/^GRADUATE.*$/gm, '');
     text2 = text2.replace(/^Offered.*$/gm, '');
     text2 = text2.replace(/\r?\n\s/g, '');
     text2 = text2.replace(/\s\s/g, ' ');
     text2 = text2.replace(/^([A-Z][A-Z][A-Z]\r?\n)/g, '');
+    text2 = text2.replace(/^([A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]\s)/gm, '')
+    text2 = text2.replace(/^Prerequisite /gm, 'Prerequisite:')
     // text2 = text2.replace(/)
     // text2 = text2.replace(/^(?![A-Z][A-Z][A-Z]).+(\r?\n)?/gm, '');
     let text1 = text2.split(/\r?\n/);
@@ -72,7 +81,7 @@ export class GpdComponent implements OnInit {
     let prereq = "";
     let semesters = "";
     let credits = "";
-    const regex = /^([A-Z][A-Z][A-Z])/;
+    const regex = /^([A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]:)/;
     const prereqRegex = /^Prerequisite/;
     const fallRegex = /^Fall/;
     const springRegex = /^Spring/;
@@ -80,17 +89,15 @@ export class GpdComponent implements OnInit {
     let arr = []
     for(const line of text1){
       if(regex.test(line)){
-        if(courseID != null && (major == "AMS" || major == "CSE" || major == "BMI" || major == "ESE")){
+        if(courseID != null){
+          
           course = {courseID: courseID, courseName: courseName, description: description};
           course.courseID = courseID;
-          course.courseName = courseName;
+          course.courseName = courseName.trim();
+          course.courseName = course.courseName.replace(/undefinded/, '')
           course.description = description;
           course.course = major + courseID;
-          console.log(major + course.courseID);
-          console.log(semesters)
-          console.log(prereq)
-          console.log(credits)
-          console.log(course.description);
+          course.department = major;
           if(credits == ""){
             course.credits = 3;
           }
@@ -112,7 +119,7 @@ export class GpdComponent implements OnInit {
           else{
             course.semester = Semester.spring;
           }
-          course.graduatePreq = prereq;
+          course.graduatePreq = prereq.trim();
           // this.courseService.getCourses().subscribe(s => {
           //   var arr: any = []
           //   s.forEach(element => {
@@ -122,10 +129,18 @@ export class GpdComponent implements OnInit {
           //   });
           //   this.s = arr;
           // });
-          this.afs.firestore.collection('CourseInfo').doc(major+courseID).set(course);
-          if(major + courseID == "ESE800"){
-            break;
-          }
+          let name = major+courseID+currentSemester+currentYear
+          this.afs.firestore.collection('CourseInfo').doc(name).set(course).then(() => {
+            console.log("Added " + course + " to database");
+          }).catch((error) => {
+            console.log("Problem adding " + course + " to database");
+          });
+          
+          // if(major + courseID == "ESE800"){
+            
+          //   alert("Added all courses to database");
+          //   break;
+          // }
         }
         // Get new course
         let vals = line.split(/:/);
@@ -133,12 +148,16 @@ export class GpdComponent implements OnInit {
         major = arr[0]
         courseID = arr[1]
         courseName = vals[1];
+        if(vals.length > 1){
+          courseName += vals[2]
+        }
+        console.log(courseName);
         description = ""
         prereq = ""
         credits = ""
         arr = []
         semesters = ""
-        
+     
       }
       else{
         if(prereqRegex.test(line)){
@@ -148,9 +167,16 @@ export class GpdComponent implements OnInit {
         }
         else if(fallRegex.test(line) || springRegex.test(line)){
           arr = line.split(/,/)
-          semesters = arr[0]
-          arr = arr[1].split(/\s/)
-          credits = arr[0]
+          if(fallRegex.test(line) && springRegex.test(line)){
+            semesters = "Fall/Spring"
+          }
+          else{
+            semesters = arr[0]
+          }
+          if(arr.length > 1){
+            arr = arr[1].split(/\s/)
+            credits = arr[0]
+          }
         }
         else if(creditRegix.test(line)){
           arr = line.split(/,/)
@@ -159,13 +185,9 @@ export class GpdComponent implements OnInit {
         }
         description += line + " "
       }
-      // Parse for credits, preqreqs
-      // else{
-      //   if(){
-
-      //   }
-      // }
     }
+    alert("Added all courses to database");
+    // location.reload();
   }
   async uploadStudentData(event) {
     var warningsStringArray = [];
