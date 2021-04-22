@@ -36,7 +36,12 @@ import { MatCardModule } from '@angular/material/card';
 import { CourseDialogComponent } from './components/course-dialog/course-dialog.component';
 import { NgxPaginationModule} from 'ngx-pagination'
 
+import { CommonModule } from '@angular/common';
+import { PlotlyModule } from 'angular-plotly.js';
+import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 
+
+PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
   declarations: [
@@ -75,6 +80,8 @@ import { NgxPaginationModule} from 'ngx-pagination'
     AngularFireAuthModule,
     NgbModule,
     NgxPaginationModule,
+    CommonModule,
+    PlotlyModule
   ],
   entryComponents:[CourseDialogComponent],
   providers: [StudentService],

@@ -67,7 +67,12 @@
 #checkBox{
     margin-left: 20px;
 }
-
+#filter{
+    border: 1px solid black;
+    margin-left: 5px;
+    align-items: center;
+    width: 75px;  
+}
 table{
     border: 1px solid black;
     width: 100%;
