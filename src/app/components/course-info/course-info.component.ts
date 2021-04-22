@@ -21,9 +21,10 @@ export interface DialogData {
   styleUrls: ['./course-info.component.css']
 })
 export class CourseInfoComponent implements OnInit {
-  courses: Courses[]
-  coursesCopy: Courses[]
-  c:String[]
+  courses: Courses[];
+  coursesCopy: Courses[];
+  c:String[];
+  tempCopy:String[];
   totalRecords: Number;
   page: Number=1;
   constructor(private authService: AuthService, public router: Router, public courseService: CourseService, public dialog: MatDialog) {
@@ -46,6 +47,7 @@ export class CourseInfoComponent implements OnInit {
     this.coursesCopy = arr;
     this.totalRecords = 12;
     this.c = ["a","b","c","d","e","f","g","h","i","j","k","l"];
+    this.tempCopy = this.c;
     // this.c = arr
   }
   ngAfterInit(): void{
@@ -60,6 +62,25 @@ export class CourseInfoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+
+  applyFilter(substring: string) {
+    if (substring !== "") {
+      substring = substring.trim().toLowerCase();
+      let temp: any = [];
+      this.courses.forEach(element => {
+        if(element.course.includes(substring) || element.description.includes(substring) || element.department.includes(substring)){
+          temp.push(element);
+        }
+        // if(element.includes(substring)){
+        //   temp.push(element);
+        // }
+      });
+      this.courses=temp;
+    }
+    else{
+      this.courses = this.coursesCopy;
+    }
   }
 
 }

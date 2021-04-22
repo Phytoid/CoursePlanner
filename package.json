@@ -24,9 +24,11 @@
     "@angular/platform-browser-dynamic": "~11.2.4",
     "@angular/router": "~11.2.4",
     "@ng-bootstrap/ng-bootstrap": "^9.1.0",
+    "angular-plotly.js": "^3.1.0",
     "bootstrap": "^4.6.0",
     "firebase": "^8.3.1",
     "ngx-pagination": "^5.0.0",
+    "plotly.js": "^1.58.4",
     "rxjs": "^6.6.6",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"

@@ -8,8 +8,8 @@
 <div>
     <form class="form-inline waves-light" mdbWavesEffect>
         <div class="md-form mt-0">
-          <input class="searchBar" type="text" placeholder="Search">
-          <mat-form-field appearance="fill">
+          <input class="searchBar" type="text" placeholder="Search" (keyup)="applyFilter($event.target.value)">
+          <!-- <mat-form-field appearance="fill">
             <select matNativeControl required>
                 <option value="department" disabled selected>Department</option>
                 <option value="cse">CSE</option>
@@ -17,7 +17,7 @@
                 <option value="bio">BIO</option>
                 <option value="ese">ESE</option>
             </select>
-          </mat-form-field>
+          </mat-form-field> -->
         </div>
     </form>
 </div>
