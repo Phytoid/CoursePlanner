@@ -2,6 +2,7 @@ import { Semester } from "./semester.enum";
 
 export interface Courses {
     course?: String,
+    department?:String,
     courseID?:String;
     courseName?:String;
     professor?:String;

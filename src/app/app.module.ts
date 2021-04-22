@@ -33,6 +33,9 @@ import { SuggestCoursePlanComponent } from './components/suggest-course-plan/sug
 
 import { ViewStudentComponent } from './components/view-student/view-student.component';
 import { MatCardModule } from '@angular/material/card';
+import { CourseDialogComponent } from './components/course-dialog/course-dialog.component';
+import { NgxPaginationModule} from 'ngx-pagination'
+
 
 
 @NgModule({
@@ -48,6 +51,7 @@ import { MatCardModule } from '@angular/material/card';
     DegreeReqsComponent,
     SuggestCoursePlanComponent,
     ViewStudentComponent,
+    CourseDialogComponent,
   ],
   imports: [
     MatCardModule,
@@ -70,7 +74,9 @@ import { MatCardModule } from '@angular/material/card';
     AngularFirestoreModule,
     AngularFireAuthModule,
     NgbModule,
+    NgxPaginationModule,
   ],
+  entryComponents:[CourseDialogComponent],
   providers: [StudentService],
   bootstrap: [AppComponent]
 })
