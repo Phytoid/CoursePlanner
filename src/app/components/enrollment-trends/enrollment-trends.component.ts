@@ -15,9 +15,13 @@ import { StudentService } from 'src/app/services/student.service';
 
 export class EnrollmentTrendsComponent implements OnInit {
   display: boolean = false;
+
+  courses_to_display = [];
+  
+
   arr: any = [];
   public graph = { data: [
-      { x: ["CSE 101", "AMS 102"], y: [2, 6, 3], type: 'scatter', mode: 'lines+points', marker: {color: 'red'} }
+      { x: [], y: [2, 6, 3], type: 'scatter', mode: 'lines+points', marker: {color: 'red'} }
     ],
     layout: {width: 320, height: 240, title: 'Course Enrollment Trends'}
   };
@@ -63,7 +67,15 @@ export class EnrollmentTrendsComponent implements OnInit {
    // console.log(semester_start + " " + year_start);
    // console.log(semester_end + " " + year_end);
 
+   this.courses_to_display.push(course);
+
    var amount_of_class = 0;
+
+   this.graph =  { data: [
+        { x: this.courses_to_display, y: [2, 6, 3], type: 'scatter', mode: 'lines+points', marker: {color: 'red'} }
+      ],
+      layout: {width: 320, height: 240, title: 'Course Enrollment Trends'}
+     };
     
     this.arr.forEach(student => {
       let plan = student.coursePlan;

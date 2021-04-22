@@ -33,7 +33,12 @@ import { SuggestCoursePlanComponent } from './components/suggest-course-plan/sug
 
 import { ViewStudentComponent } from './components/view-student/view-student.component';
 import { MatCardModule } from '@angular/material/card';
+import { CommonModule } from '@angular/common';
+import { PlotlyModule } from 'angular-plotly.js';
+import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 
+
+PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
   declarations: [
@@ -70,6 +75,8 @@ import { MatCardModule } from '@angular/material/card';
     AngularFirestoreModule,
     AngularFireAuthModule,
     NgbModule,
+    CommonModule,
+    PlotlyModule
   ],
   providers: [StudentService],
   bootstrap: [AppComponent]
