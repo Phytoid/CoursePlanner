@@ -96,3 +96,8 @@
     </table>
 </div>
 <button id="viewChart-btn">View Chart</button>
+<div *ngIf="display">
+  <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
+</div>
+
+
