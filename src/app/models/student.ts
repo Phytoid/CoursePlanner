@@ -23,6 +23,7 @@ export interface Student{
     project?:string;
     comments?:string[];
     validCoursePlan?:boolean;
-    plan?: Plan
+    plan?:Plan;
+    password?:string;
   }
   
