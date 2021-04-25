@@ -16,6 +16,8 @@ import { Student } from 'src/app/models/student';
 import { Grade } from "src/app/models/grade.enum";
 import { map } from 'rxjs/operators';
 
+import bcrypt from 'bcryptjs';
+
 @Component({
   selector: 'app-gpd',
   templateUrl: './gpd.component.html',
@@ -193,6 +195,7 @@ export class GpdComponent implements OnInit {
     alert("Added all courses to database");
     // location.reload();
   }
+
   async uploadStudentData(event) {
     var warningsStringArray = [];
     let fileList: FileList = event.target.files;
@@ -357,11 +360,12 @@ export class GpdComponent implements OnInit {
       if (strArray[6].toLocaleLowerCase() === "spring") {
         value = value + 1;
       }
+      var pass: "";
       var st: Student = {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 0, unsatisfied : 0, pending : 0, graduated : false, validCoursePlan : true, semesters : value};
-      
-
-      this.afs.firestore.collection('Students').doc(st.id).set(st);
-      studentIDs.push(strArray[0]);
+      this.hashPassword(strArray[12]).then((hash) => {
+        st.password = hash.toString()
+        this.afs.firestore.collection('Students').doc(st.id).set(st)
+        studentIDs.push(strArray[0])});
     }
 
     // Parse Course Plan Information
@@ -581,6 +585,19 @@ export class GpdComponent implements OnInit {
       }
       alert("Valid student information and course plan grades have been updated successfully. The following warning(s) were found:\n\n" + warning_string);
     }
+  }
+
+  async hashPassword (password) {
+    const hash = await new Promise((resolve, reject) => {
+      bcrypt.hash(password, 10, function(err, hash) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(hash)
+        }
+      });
+    })
+    return hash;
   }
 
   async uploadDegreeReqs(event) {

@@ -60,7 +60,7 @@ export class AuthService {
       }
       this.router.navigate(['gpd']);
     } else {
-      localStorage.setItem('userType', 'Student')
+      localStorage.setItem('userType', 'Student');
       this.router.navigate(['student']);
     }
   }
