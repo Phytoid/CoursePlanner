@@ -40,14 +40,14 @@ export class CourseInfoComponent implements OnInit {
       s.forEach(element => {
           arr.push(element);
       });
-      this.totalRecords = arr.length;
-      
+      this.totalRecords = arr.length;    
     });
     this.courses = arr;
     this.coursesCopy = arr;
-    this.totalRecords = 12;
-    this.c = ["a","b","c","d","e","f","g","h","i","j","k","l"];
-    this.tempCopy = this.c;
+    console.log(this.courses)
+    // this.totalRecords = 12;
+    // this.c = ["a","b","c","d","e","f","g","h","i","j","k","l"];
+    // this.tempCopy = this.c;
     // this.c = arr
   }
   ngAfterInit(): void{

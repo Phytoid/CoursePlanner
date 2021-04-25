@@ -32,11 +32,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let course of c | paginate: {id: 'listing_pagination', itemsPerPage: 25, currentPage: page, totalItems: totalRecords }" mat-raised-button (click)="openDialog(course)">
-                <td>{{course}}</td>
-                <!-- <td>{{course.department}}</td>
+            <tr *ngFor="let course of courses | paginate: {id: 'listing_pagination', itemsPerPage: 25, currentPage: page, totalItems: totalRecords }" mat-raised-button (click)="openDialog(course)">
+                <!-- <td>{{course}}</td> -->
+                <td>{{course.department}}</td>
                 <td>{{course.courseID}}</td>
-                <td>{{course.courseName}}</td> -->
+                <td>{{course.courseName}}</td>
             </tr>
         </tbody>
         <div>

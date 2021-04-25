@@ -1,3 +1,7 @@
+import { ECE } from './../../models/ece';
+import { CSE } from './../../models/cse';
+import { BMI } from './../../models/bmi';
+import { AMS } from './../../models/ams';
 import { CourseService } from './../../services/course.service';
 import { Semester } from './../../models/semester.enum';
 import { Courses } from './../../models/courses';
@@ -61,8 +65,7 @@ export class GpdComponent implements OnInit {
     let arrFirstLine = firstLine.split(' ');
     let currentSemester = arrFirstLine[arrFirstLine.length - 2];
     let currentYear = arrFirstLine[arrFirstLine.length - 1];
-    console.log(currentSemester);
-    console.log(currentYear);
+
     text2 = text2.replace(/^GRADUATE.*$/gm, '');
     text2 = text2.replace(/^Offered.*$/gm, '');
     text2 = text2.replace(/\r?\n\s/g, '');
@@ -130,6 +133,7 @@ export class GpdComponent implements OnInit {
           //   this.s = arr;
           // });
           let name = major+courseID+currentSemester+currentYear
+          console.log(name);
           this.afs.firestore.collection('CourseInfo').doc(name).set(course).then(() => {
             console.log("Added " + course + " to database");
           }).catch((error) => {
@@ -580,7 +584,25 @@ export class GpdComponent implements OnInit {
   }
 
   async uploadDegreeReqs(event) {
-  
+    let fileList: FileList = event.target.files;
+    if(fileList.length != 1) {
+      alert("Importing student data requires one file");
+      return;
+    }
+    let text = (await fileList.item(0).text());
+    var myObj = JSON.parse(text);
+    if(myObj.department === "AMS"){
+      var amsDegree: AMS;
+    }
+    else if(myObj.department === "BMI"){
+      var bmiDegree: BMI;
+    }
+    else if(myObj.department === "CSE"){
+      var cseDegree: CSE;
+    }
+    else{
+      var eceDegree: ECE
+    }
   }
 
   async uploadCourse(event) {
