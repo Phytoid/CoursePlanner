@@ -18,10 +18,13 @@
             </mat-form-field>
         </div>
         <div>
-            <mat-label id="label">Choose Course</mat-label>
             <mat-form-field style="width:75%" id="filter">
-                <select matNativeControl>
-                </select>
+            <mat-label id="label">Choose Course</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let course of c" [value]="course">
+                    {{course}}
+                </mat-option>
+            </mat-select>
             </mat-form-field>
         </div>
         <div>
@@ -44,8 +47,11 @@
         <div>
             <mat-label id="label">Choose Course</mat-label>
             <mat-form-field style="width:75%" id="filter">
-                <select matNativeControl>
-                </select>
+            <mat-select>
+                <mat-option *ngFor="let course of c" [value]="course">
+                    {{course}}
+                  </mat-option>
+            </mat-select>
             </mat-form-field>
         </div>
         <div>

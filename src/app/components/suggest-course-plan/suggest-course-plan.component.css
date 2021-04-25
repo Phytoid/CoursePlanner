@@ -6,6 +6,17 @@
     background: #eee;
     text-align: center;
 }
+#suggest-courses-btn{
+    background-color: goldenrod;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    color: white;
+    margin: 0 auto;
+    margin-top: 2px;
+    transition: 0.25s;
+    width: 100px;
+}
 
 #back-btn{
     background-color: rgb(255, 36, 36);
@@ -56,7 +67,7 @@ label{
 span.dropdowns{
     display: inline-block;
     width: 20%;
-    height: 200px;
+    height: 250px;
     padding: 5px;
     margin: 25px;
     border: 1px solid black;
