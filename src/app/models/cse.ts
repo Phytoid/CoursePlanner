@@ -22,9 +22,10 @@ export interface CSE extends DegreeReqs{
     requiredCoursesS: String[] // Required courses for special track
     notAllowedCoursesS: String[] // Courses not allowed for special track
     minBasicProjectS: Number; // Min number of basic project classes needed for special track
+    basicProjectCourses: String[]; // basic project courses
     minCreditEverythingS: Number; // Min number of classes needed from the everything course list for special track
     everythingCoursesS: String[]; // All courses special project can take for credit
-    nowAllowedCoursesS: String[]; // Courses not allowed for special track
+
     maxSpecialCoursesS: String[]; // Special courses that special track can take for credit
     maxSpecialCreditsS: Number; // Max number of special credits special track student can take and count towards degree
     requiredCoursesT: String[]; // Required courses for thesis

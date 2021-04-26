@@ -609,16 +609,133 @@ export class GpdComponent implements OnInit {
     let text = (await fileList.item(0).text());
     var myObj = JSON.parse(text);
     if(myObj.department === "AMS"){
-      var amsDegree: AMS;
+      var amsDegree: AMS = {
+      department : myObj.department,
+      versionSemester: myObj.versionSemester,
+      versionYear : myObj.versionYear,
+      track : myObj.track,
+      timeLimit : myObj.timeLimit,
+      requiredCoursesCAM : myObj.requiredCoursesCAM,
+      requiredCoursesCB : myObj.requiredCoursesCB,
+      numElectiveCoursesCB : myObj.numElectiveCoursesCB,
+      requiredCoursesCOR : myObj.requiredCoursesCOR,
+      statisticCoursesCOR : myObj.statisticCoursesCOR,
+      numStatisticCoursesCOR : myObj.numStatisticCoursesCOR,
+      electiveCoursesCOR : myObj.electiveCoursesCOR,
+      electiveCoursesSubsCOR : myObj.electiveCoursesSubsCOR,
+      numElectiveCoursesSubStatsCOR : myObj.numElectiveCoursesSubStatsCOR,
+      numElectiveCoursesSubFinance : myObj.numElectiveCoursesSubFinance,
+      requiredCoursesSTAT : myObj.requiredCoursesSTAT,
+      numElectiveCoursesSTAT : myObj.numElectiveCoursesSTAT,
+      requiredCoursesQF : myObj.requiredCoursesQF,
+      numElectiveCoursesQF : myObj.numElectiveCoursesQF,
+      credits : myObj.credits,
+      gpa : myObj.gpa,
+      courseGrades : myObj.courseGrades,
+      finalRec : myObj.finalRec}
+      this.afs.collection("Degrees").doc("AMS"+amsDegree.versionSemester+amsDegree.versionYear).set(amsDegree).then(()=>{
+        console.log("AMS Degree Updated")
+      })
     }
     else if(myObj.department === "BMI"){
-      var bmiDegree: BMI;
+      var bmiDegree: BMI = {
+      department : myObj.department,
+      versionSemester : myObj.versionSemester,
+      versionYear : myObj.versionYear,
+      track : myObj.track,
+      requiredCourses : myObj.requiredCourses,
+      numElectiveCredits : myObj.numElectiveCredits,
+      numCreditsNotFromNonElectives : myObj.numCreditsNotFromNonElectives,
+      nonElectives : myObj.nonElectives,
+      requiredCoursesII : myObj.requiredCoursesII,
+      electivesII : myObj.electivesII,
+      requriedCoursesCI : myObj.requiredCoursesCI,
+      electivesCI : myObj.electivesCI,
+      requiredCoursesTBI : myObj.requiredCoursesTBI,
+      electiveCoursesTBI : myObj.electiveCoursesTBI,
+      requiredCourseProject : myObj.requiredCourseProject,
+      requiredCourseThesis : myObj.requiredCourseThesis,
+      maxBMI596CreditsProject : myObj.maxBMI596CreditsProject,
+      maxBMI599CreditsThesis : myObj.maxBMI599CreditsThesis,
+      maxBMI596CreditsThesis : myObj.maxBMI596CreditsThesis,
+      maxBMI598CreditsProject : myObj.maxBMI598CreditsProject,
+      maxTransferCredits : myObj.maxTransferCredits,
+      maxTransferFromOther : myObj.maxTransferFromOther,
+      timeLimit : myObj.timeLimit,
+      creditMinimumPerSemester : myObj.creditMinimumPerSemester,
+      BMI592AllSemesters : myObj.BMI592AllSemesters,
+      registration : myObj.registration,
+      gpa : myObj.gpa }
+      this.afs.collection("Degrees").doc("BMI"+bmiDegree.versionSemester+bmiDegree.versionYear).set(bmiDegree).then(()=>{
+        console.log("BMI Degree Updated")
+      })
     }
     else if(myObj.department === "CSE"){
-      var cseDegree: CSE;
+      var cseDegree: CSE = {
+      department : myObj.department,
+      versionSemester : myObj.versionSemester,
+      versionYear : myObj.versionYear,
+      track : myObj.track,
+      minCredits : myObj.minCredits,
+      maxCreditsCSE587 : myObj.maxCreditsCSE587,
+      oneGraduateClass : myObj.oneGraduateClass,
+      gpa : myObj.gpa,
+      minCreditEverythingS: myObj.minCreditEverythingS,
+      requiredCoursesA : myObj.requiredCoursesA,
+      requiredCoursesS : myObj.requiredCoursesS,
+      notAllowedCoursesA : myObj.notAllowedCoursesA,
+      notAllowedCoursesS : myObj.notAllowedCoursesS,
+      minBasicProjectS : myObj.minBasicProjectS,
+      basicProjectCourses : myObj.basicProjectCourses,
+      everythingCoursesS : myObj.everythingCoursesS,
+      maxSpecialCoursesS : myObj.maxSpecialCoursesS,
+      maxSpecialCreditsS : myObj.maxSpecialCreditsS,
+      requiredCoursesT : myObj.requiredCoursesT,
+      maxCreditsCSE599 : myObj.maxCreditsCSE599,
+      thesis : myObj.thesis }
+      this.afs.collection("Degrees").doc("CSE"+cseDegree.versionSemester+cseDegree.versionYear).set(cseDegree).then(()=>{
+        console.log("CSE Degree Updated")
+      })
     }
     else{
-      var eceDegree: ECE
+      var eceDegree: ECE = {
+      department : myObj.department,
+      versionSemester : myObj.versionSemester,
+      versionYear : myObj.versionYear,
+      track : myObj.track,
+      hardwareCourses : myObj.hardwareCourses,
+      networkingCourses : myObj.networkingCourses,
+      cadCourses : myObj.cadCourses,
+      theoryCourses : myObj.theoryCourses,
+      subAreas1 : myObj.subAreas1,
+      subAreas2 : myObj.subAreas2,
+      requiredCoursesNT : myObj.requiredCoursesNT,
+      nonRegularCourses : myObj.nonRegularCourses,
+      numCreditsSubAreas1NT : myObj.numCreditsSubAreas1NT,
+      numCreditsSubAreas2NT : myObj.numCreditsSubAreas2NT,
+      maxCreditsESE697NT : myObj.maxCreditsESE697NT,
+      maxCreditsESE698NT : myObj.maxCreditsESE698NT,
+      numRegularCoursesNT :myObj.numRegularCoursesNT,
+      maxComboCreditsNT : myObj.maxComboCreditsNT,
+      minCreditsESE697NT : myObj.minCreditsESE697NT,
+      maxTransferCredits : myObj.maxTransferCredits,
+      timeLimit : myObj.timeLimit,
+      creditMinimumNT : myObj.creditMinimumNT,
+      gpaNT : myObj.gpaNT,
+      creditMinimumT : myObj.creditMinimumT,
+      gpaT : myObj.gpaT,
+      minCreditsESE697T : myObj.minCreditsESE697T,
+      maxComboCreditsT : myObj.maxComboCreditsT,
+      maxCreditsESE697T : myObj.maxCreditsESE697T,
+      maxCreditsESE698T : myObj.maxCreditsESE698T,
+      numCreditsSubAreas1T : myObj.numCreditsSubAreas1T,
+      numCreditsSubAreas2T : myObj.numCreditsSubAreas2T,
+      minCreditsESE599T : myObj.minCreditsESE599T,
+      numRegularCoursesT : myObj.numRegularCoursesT,
+      completeThesis : myObj.completeThesis }
+      this.afs.collection("Degrees").doc("ESE"+eceDegree.versionSemester+eceDegree.versionYear).set(eceDegree).then(()=>{
+        console.log("ECE Degree Updated")
+      })
     }
   }
 

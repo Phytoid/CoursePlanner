@@ -45,7 +45,7 @@ export interface ECE extends DegreeReqs{
     numRegularCoursesT: Number; // Number of refular courses needed for Thesis
     maxComboCreditsT: Number; // Max credits from a combo of classes ese697 - ese699
     minCreditsESE697T: Number; // min credits needed from ESE697
-    
+    minCreditsESE599T: Number; // min credits needed from ESE599
     creditMinimumT: Number; // Min credits needed for thesis to graduate
     gpaT: Number; // Min gpa needed by thesis to graduate
     completeThesis: boolean; // If thesis student needs a thesis to graduate
