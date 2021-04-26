@@ -20,7 +20,7 @@
         <div>
             <mat-form-field style="width:75%" id="filter">
             <mat-label id="label">Choose Course</mat-label>
-            <mat-select>
+            <mat-select (selectionChange)="addItemPref($event)">
                 <mat-option *ngFor="let course of c" [value]="course">
                     {{course}}
                 </mat-option>
@@ -28,7 +28,7 @@
             </mat-form-field>
         </div>
         <div>
-            <button mat-button (click)=addItemPref() class="btn" id="addToList">Add Course to List</button>
+            
         </div>
     </span>
     <span class="dropdowns"> 
@@ -45,17 +45,16 @@
             </mat-form-field>
         </div>
         <div>
-            <mat-label id="label">Choose Course</mat-label>
             <mat-form-field style="width:75%" id="filter">
-            <mat-select>
-                <mat-option *ngFor="let course of c" [value]="course">
-                    {{course}}
-                  </mat-option>
-            </mat-select>
-            </mat-form-field>
+                <mat-label id="label">Choose Course</mat-label>
+                <mat-select (selectionChange)="addItemAvoid($event)">
+                    <mat-option *ngFor="let course of c" [value]="course">
+                        {{course}}
+                    </mat-option>
+                </mat-select>
+                </mat-form-field>
         </div>
         <div>
-            <button class="btn" id="addToAvoidList">Add Course to Avoid List</button>
         </div>
     </span>
     <span class="dropdowns"> 

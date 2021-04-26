@@ -42,13 +42,17 @@ export class SuggestCoursePlanComponent implements OnInit {
   ngAfterInit(): void{
     location.reload();
   }
-  addItemPref(): void {
+  addItemPref(event): void {
+    var course = event.value;
+    console.log(course);
     this.prefWeight++;
-    this.coursesToAddList = this.coursesToAddList.concat({courseName:"CSE 110", "prefWeight": this.prefWeight});
-    console.log(this.coursesToAddList);
+    this.coursesToAddList = this.coursesToAddList.concat({courseName: course, "prefWeight": this.prefWeight});
+    
   }
-  addItemAvoid(): void{
-    this.coursesToAvoidList = this.coursesToAvoidList.concat();
+  addItemAvoid(event): void{
+    var course = event.value;
+    console.log(course);
+    this.coursesToAvoidList = this.coursesToAvoidList.concat({courseName: course});
     console.log(this.coursesToAvoidList);
   }
 }
