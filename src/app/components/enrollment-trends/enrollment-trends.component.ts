@@ -112,24 +112,11 @@ export class EnrollmentTrendsComponent implements OnInit {
       x: this.semesters_to_display,
       y: course_enrollment,
       type: 'scatter',
-      mode:'lines',
+      mode:'lines+markers',
       name: course,
-      marker: {color: 'red'},
+      marker: {color: 'black'},
       hoverinfo:'x+y+name',
     };
-
-
-
-    //this.graph =  { data: [
-    //      { x: this.semesters_to_display, y: course_enrollment, type: 'scatter', mode: 'lines+points', marker: {color: 'red'} }
-    //    ],
-    //    layout: {width: 640, height: 480, title: 'Course Enrollment Trends'}
-    //};
-
-   
-
-    
-    
 
     console.log(course_enrollment);
     
@@ -141,7 +128,6 @@ export class EnrollmentTrendsComponent implements OnInit {
         var i = 0;
         for(var sem in plan) { // go through each semester in course plan
          
-          
           let split = sem.toString().toLowerCase().split(/(\d+)/)
           let season = split[0];
           let year = parseInt(split[1]);
@@ -190,8 +176,20 @@ export class EnrollmentTrendsComponent implements OnInit {
   }
   
   viewChart(event) {
-    console.log("add course!\n");
+    if(this.display == true) {
+      return;
+    }
+    if(this.graph.data.length == 0) {
+      alert("You have not selected any courses to view!");
+      return;
+    }
+    console.log("View Chart");
     this.display = true;
+  }
+
+  resetChart(event) {
+    console.log("Reset Chart");
+    this.graph.data = [];
   }
 
 }

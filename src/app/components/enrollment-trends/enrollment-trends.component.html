@@ -96,6 +96,7 @@
     </table>
 </div>
 <button id="viewChart-btn" (click)="viewChart($event)">View Chart</button>
+<button id="viewChart-btn" (click)="resetChart($event)">Reset Chart</button>
 <div *ngIf="display">
   <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
 </div>
