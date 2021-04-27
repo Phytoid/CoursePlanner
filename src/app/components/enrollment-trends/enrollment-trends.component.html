@@ -80,21 +80,7 @@
         </form>
     </div>
 </div>
-<button id="addCourse-btn" (click)="addCourse($event)">Add Course to Table</button>
-<div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Department</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let student in students">
-                <th>{{department.name}}</th>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<button id="viewChart-btn" (click)="addCourse($event)">Add Course</button>
 <button id="viewChart-btn" (click)="viewChart($event)">View Chart</button>
 <button id="viewChart-btn" (click)="resetChart($event)">Reset Chart</button>
 <div *ngIf="display">

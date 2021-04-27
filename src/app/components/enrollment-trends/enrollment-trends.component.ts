@@ -66,6 +66,14 @@ export class EnrollmentTrendsComponent implements OnInit {
     let year_start = parseInt(((<HTMLInputElement>document.getElementById("mat-input-4")).value));
     let year_end = parseInt(((<HTMLInputElement>document.getElementById("mat-input-5")).value));
 
+    if(year_end < year_start) {
+      alert("Ending Year must be after Starting Year.");
+    }
+
+    if(year_start == year_end && semester_start == "fall" && semester_end == "spring") {
+      alert("Spring Semester comes before Fall Semester.");
+    }
+
     // Get semesters to display
 
     
