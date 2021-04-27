@@ -6,28 +6,12 @@
 </div>
 <div id="select-wrapper">
     <div class="same-line"> Select Course
+
         <form class="form-inline waves-light" mdbWavesEffect>
             <div>
-              <mat-form-field appearance="fill">
-                <label>Department</label>
-                <select matNativeControl required>
-                  <option value="cse">CSE</option>
-                  <option value="ams" >AMS</option>
-                  <option value="bio">BIO</option>
-                </select>
-              </mat-form-field>
-            </div>
-        </form>
-        <form class="form-inline waves-light" mdbWavesEffect>
-            <div>
-              <mat-form-field appearance="fill">
-                <label>Course</label>
-                <select matNativeControl required>
-                  <option value="cse 101">CSE 101</option>
-                  <option value="ams 110" >AMS 110</option>
-                  <option value="bio 101">BIO 101</option>
-                </select>
-              </mat-form-field>
+              <label>Course</label>
+              <input id="course" type="text" class="form-control" required />
+             
             </div>
         </form>
     </div>
@@ -61,8 +45,7 @@
               <mat-form-field appearance="fill">
                 <label>Year Start</label>
                 <select matNativeControl required>
-                  <option value="2020">2020</option>
-                  <option value="2021" >2021</option>
+                  <option *ngFor="let year of years">{{year}}</option>
                 </select>
               </mat-form-field>
             </div>
@@ -72,8 +55,7 @@
               <mat-form-field appearance="fill">
                 <label>Year End</label>
                 <select matNativeControl required>
-                    <option value="2020">2020</option>
-                    <option value="2021" >2021</option>
+                  <option *ngFor="let year of years">{{year}}</option>
                 </select>
               </mat-form-field>
             </div>
@@ -81,10 +63,9 @@
     </div>
 </div>
 <button id="viewChart-btn" (click)="addCourse($event)">Add Course</button>
-<button id="viewChart-btn" (click)="viewChart($event)">View Chart</button>
 <button id="viewChart-btn" (click)="resetChart($event)">Reset Chart</button>
-<div *ngIf="display">
-  <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
-</div>
+
+<plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
+
 
 
