@@ -6,7 +6,7 @@
 <div id="drop-container">
     <span class="dropdowns"> 
         Add Preferred Courses
-        <div>
+        <!-- <div>
             <mat-label id="label">Choose Department</mat-label>
             <mat-form-field style="width:75%" id="filter">
                 <select matNativeControl>
@@ -16,13 +16,13 @@
                     <option value="AMS">AMS</option>
                 </select>
             </mat-form-field>
-        </div>
+        </div> -->
         <div>
             <mat-form-field style="width:75%" id="filter">
             <mat-label id="label">Choose Course</mat-label>
             <mat-select (selectionChange)="addItemPref($event)">
-                <mat-option *ngFor="let course of c" [value]="course">
-                    {{course}}
+                <mat-option *ngFor="let course of courses" [value]="course.course">
+                    {{course.course}}
                 </mat-option>
             </mat-select>
             </mat-form-field>
@@ -33,7 +33,7 @@
     </span>
     <span class="dropdowns"> 
         Add Courses to Avoid
-        <div>
+        <!-- <div>
             <mat-label id="label">Choose Department</mat-label>
             <mat-form-field style="width:75%" id="filter">
                 <select matNativeControl>
@@ -43,13 +43,13 @@
                     <option value="AMS">AMS</option>
                 </select>
             </mat-form-field>
-        </div>
+        </div> -->
         <div>
             <mat-form-field style="width:75%" id="filter">
                 <mat-label id="label">Choose Course</mat-label>
                 <mat-select (selectionChange)="addItemAvoid($event)">
-                    <mat-option *ngFor="let course of c" [value]="course">
-                        {{course}}
+                    <mat-option *ngFor="let course of courses" [value]="course.course">
+                        {{course.course}}
                     </mat-option>
                 </mat-select>
                 </mat-form-field>

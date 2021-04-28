@@ -13,31 +13,23 @@ export class SuggestCoursePlanComponent implements OnInit {
   prefWeight: number = 0;
   courseAdd: string[] = ['add', "weight"];
   courseAvoid: string[] = ['avoid'];
-  c: string[] = ["a","b","c","d","e","f","g","h","i","j","k","l"];
+  // c: string[] = ["a","b","c","d","e","f","g","h","i","j","k","l"];
   @ViewChild(MatSort) sort: MatSort;
   courses: Courses[];
   coursesCopy: Courses[];
   constructor(public courseServices:CourseService) { 
   }
-  coursesToAddList=[
-    {
-      "courseName": "CSE 101", "prefWeight": this.prefWeight
-    }
-  ]
-  coursesToAvoidList=[
-    {
-      "courseName": "CSE 101"
-    }
-  ]
+  coursesToAddList=[]
+  coursesToAvoidList=[]
   ngOnInit(): void {
-    // let arr = [];
-    // this.courseServices.getCourses().subscribe(s => {
-    //   s.forEach(element => {
-    //       arr.push(element);
-    //   });
-    // });
-    // this.courses = arr;
-    // this.coursesCopy = arr;
+    let arr = [];
+    this.courseServices.getCourses().subscribe(s => {
+      s.forEach(element => {
+          arr.push(element);
+      });
+    });
+    this.courses = arr;
+    this.coursesCopy = arr;
   }
   ngAfterInit(): void{
     location.reload();

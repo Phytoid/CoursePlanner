@@ -1,0 +1,23 @@
+#back-btn{
+    background-color: rgb(255, 36, 36);
+    border: none;
+    border-radius: 21px;
+    cursor: pointer;
+    color: white;
+    height: 42.3px;
+    margin: 0 auto;
+    margin-top: 2px;
+    transition: 0.25s;
+    width: 10%;
+    position: absolute;
+    top: 0px;
+    right: 20px;    
+}
+.header{
+    font-size: 30px;
+    color: #000;
+    line-height: 150px;
+    padding-top: 6px;
+    background: #eee;
+    text-align: center;
+}
