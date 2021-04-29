@@ -25,5 +25,7 @@ export interface Student{
     validCoursePlan?:boolean;
     plan?:Plan;
     password?:string;
+    // gpa: number;
+    // credits: number;
   }
   

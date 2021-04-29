@@ -9,24 +9,25 @@
 <body>
     <div class="center">
         <div id="card-content">           
-            <input (change)="uploadStudentData($event)" id="upload-student-data" type="file" multiple hidden/> 
-            <label for="upload-student-data" id="submit-btn">Import Student Data</label>
+            <input #student (change)="uploadStudentData($event)" id="upload-student-data" type="file" multiple hidden/> 
+            <label (click)="alertForUploadStudent(student)" id="submit-btn">Import Student Data</label>
         </div>
         <div id="card-content">
-            <input (change)="uploadGrade($event)" id="upload-grades" type="file" hidden/> 
-            <label for="upload-grades" id="submit-btn">Import Grades</label>
+            <input #grade (change)="uploadGrade($event)" id="upload-grades" type="file" hidden/> 
+            <label (click)="alertForUploadGrade(grade)" id="submit-btn">Import Grades</label>
         </div>
         <div id="card-content">
-            <input (change)="scrapeCourseInfo($event)" id="scrapeCourseInfo" type="file" hidden/> 
-            <label for="scrapeCourseInfo" id="submit-btn">Scrape Course Information</label>
+            <input #fileInput (change)="scrapeCourseInfo($event)" id="scrapeCourseInfo" type="file" hidden/> 
+            <label (click)="openDialog(fileInput)" id="submit-btn">Scrape Course Information</label>
+        </div>
+         
+        <div id="card-content">
+            <input #degrees (change)="uploadDegreeReqs($event)" id="upload-degree-reqs" type="file" hidden/> 
+            <label (click)="alertForUploadDegrees(degrees)" id="submit-btn">Import Degree Requirements</label>
         </div>
         <div id="card-content">
-            <input (change)="uploadDegreeReqs($event)" id="upload-degree-reqs" type="file" hidden/> 
-            <label for="upload-degree-reqs" id="submit-btn">Import Degree Requirements</label>
-        </div>
-        <div id="card-content">
-            <input (change)="uploadCourse($event)" id="upload-course" type="file" hidden/> 
-            <label for="upload-course" id="submit-btn">Import Courses Offerings</label>
+            <input #courses (change)="uploadCourse($event)" id="upload-course" type="file" hidden/> 
+            <label (click)="alertForUploadCourses(courses)" id="submit-btn">Import Courses Offerings</label>
         </div>
     </div> 
     <div class="center">

@@ -27,6 +27,7 @@ export class CourseInfoComponent implements OnInit {
   tempCopy:String[];
   totalRecords: Number;
   page: Number=1;
+  whosLoggedIn: String;
   constructor(private authService: AuthService, public router: Router, public courseService: CourseService, public dialog: MatDialog) {
     if (!this.authService.isLoggedIn) {
       this.router.navigate(['login'])
@@ -34,6 +35,7 @@ export class CourseInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.whosLoggedIn = localStorage.getItem('userType')
     var arr: any = []
     var a: any = [];
     this.courseService.getCourses().subscribe(s => {

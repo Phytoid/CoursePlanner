@@ -1,3 +1,4 @@
+import { StudentRequirementsService } from './../../services/student-requirements.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -31,7 +32,7 @@ export class AddStudentComponent implements OnInit {
   date: { year: number};
   @ViewChild('dp') dp: NgbDatepicker;
 
-  constructor(private authService: AuthService, public router: Router, public afs: AngularFirestore) {
+  constructor(private authService: AuthService, public router: Router, public afs: AngularFirestore, public sr: StudentRequirementsService) {
     if (!this.authService.isLoggedIn || localStorage.getItem('userType') != 'GPD') {
       this.router.navigate(['login'])
     }
@@ -68,6 +69,11 @@ export class AddStudentComponent implements OnInit {
     this.s.comments.push(event.srcElement[22].value);
 
     this.afs.firestore.collection('Students').doc(this.s.id).set(this.s);
+    var docRef = this.afs.collection("Degrees").doc(this.s.dept + this.s.reqVersionSemester+ this.s.reqVersionYear);
+    docRef.valueChanges().subscribe(val => {
+      this.sr.setStudentRequirements(this.s, val);
+    });
+    
     this.router.navigate(['search']);
   }
 

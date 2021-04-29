@@ -1,3 +1,7 @@
+import { ECE } from './../../models/ece';
+import { CSE } from './../../models/cse';
+import { BMI } from './../../models/bmi';
+import { AMS } from './../../models/ams';
 import { BrowserModule } from '@angular/platform-browser';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -27,7 +31,12 @@ export class ViewStudentComponent implements OnInit {
   studentObs: Observable<Student>;
   comments: string[] = [];
   whosLoggedIn: string;
-  admin;
+  track:string;
+  ams:AMS;
+  bmi:BMI;
+  cse:CSE;
+  ese:ECE;
+  requiredCourses: String[];
   constructor(private authService: AuthService, public router: Router, public afs: AngularFirestore) {
     if (!this.authService.isLoggedIn) {
       this.router.navigate(['login'])
@@ -47,6 +56,106 @@ export class ViewStudentComponent implements OnInit {
       console.log(this.comments);
       console.log(this.s.dept)
       this.dept = this.s.dept
+      this.track = this.s.track;
+      var docRef; 
+      if(this.dept == 'AMS'){
+        docRef = this.afs.collection("Degrees").doc("AMS"+this.s.reqVersionSemester+this.s.reqVersionYear);
+        docRef.valueChanges().subscribe(val => {
+          this.ams = val
+    
+          if(this.s.track == 'CB'){
+            this.requiredCourses = this.ams.requiredCoursesCB;
+          }
+          else if(this.s.track == 'OR'){
+            this.requiredCourses = this.ams.requiredCoursesOR;
+          }
+          else if(this.s.track == 'CAM'){
+            this.requiredCourses = this.ams.requiredCoursesCAM;
+          }
+          else if(this.s.track == 'STAT'){
+            this.requiredCourses = this.ams.requiredCoursesSTAT;
+          }
+          else{
+            this.requiredCourses = this.ams.requiredCoursesQF;
+          }
+          console.log(this.requiredCourses)
+        })
+      }
+      else if(this.dept == 'BMI'){
+        docRef = this.afs.collection("Degrees").doc("BMI"+this.s.reqVersionSemester+this.s.reqVersionYear);
+        docRef.valueChanges().subscribe(val => {
+          this.bmi = val
+          
+          this.tracks = ["Imaging, Thesis", "Imaging, Project", "Clinical, Thesis", "Clinical, Project", "Translational, Thesis", "Translational, Project"];
+          var arr1 = this.bmi.requiredCourses.concat(this.bmi.requiredCourseThesis);
+          var arr2 = this.bmi.requiredCourses.concat(this.bmi.requiredCourseProject);
+          if(this.s.track == 'Imaging, Thesis'){
+            this.requiredCourses = arr1.concat(this.bmi.electivesII)
+          }
+          else if(this.s.track == 'Translational, Thesis'){
+            this.requiredCourses = arr1.concat(this.bmi.electiveCoursesTBI)
+          }
+          else if(this.s.track == 'Clinical, Thesis'){
+            this.requiredCourses = arr1.concat(this.bmi.electivesCI)
+          }
+          else if(this.s.track == 'Clinical, Project'){
+            this.requiredCourses = arr2.concat(this.bmi.electivesCI)
+          }
+          else if(this.s.track == 'Imaging, Project'){
+            this.requiredCourses = arr2.concat(this.bmi.electivesII)
+          }
+          else if(this.s.track == 'Translational, Project'){
+            this.requiredCourses = arr2.concat(this.bmi.electiveCoursesTBI)
+          }
+          console.log(this.requiredCourses)
+        })
+      }
+      else if(this.dept == 'CSE'){
+        docRef = this.afs.collection("Degrees").doc("CSE"+this.s.reqVersionSemester+this.s.reqVersionYear);
+        docRef.valueChanges().subscribe(val => {
+          this.ams = val
+   
+          if(this.s.track == 'CB'){
+            this.requiredCourses = this.ams.requiredCoursesCB;
+          }
+          else if(this.s.track == 'OR'){
+            this.requiredCourses = this.ams.requiredCoursesOR;
+          }
+          else if(this.s.track == 'CAM'){
+            this.requiredCourses = this.ams.requiredCoursesCAM;
+          }
+          else if(this.s.track == 'STAT'){
+            this.requiredCourses = this.ams.requiredCoursesSTAT;
+          }
+          else{
+            this.requiredCourses = this.ams.requiredCoursesQF;
+          }
+          console.log(this.requiredCourses)
+        })
+      }
+      else{
+        docRef = this.afs.collection("Degrees").doc("ESE"+this.s.reqVersionSemester+this.s.reqVersionYear);
+        docRef.valueChanges().subscribe(val => {
+          this.ams = val
+     
+          if(this.s.track == 'CB'){
+            this.requiredCourses = this.ams.requiredCoursesCB;
+          }
+          else if(this.s.track == 'OR'){
+            this.requiredCourses = this.ams.requiredCoursesOR;
+          }
+          else if(this.s.track == 'CAM'){
+            this.requiredCourses = this.ams.requiredCoursesCAM;
+          }
+          else if(this.s.track == 'STAT'){
+            this.requiredCourses = this.ams.requiredCoursesSTAT;
+          }
+          else{
+            this.requiredCourses = this.ams.requiredCoursesQF;
+          }
+          console.log(this.requiredCourses)
+        })
+      }
       this.getTrack();
     });
 

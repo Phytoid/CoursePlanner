@@ -1,3 +1,4 @@
+import { SemesterDialogComponent } from './../semester-dialog/semester-dialog.component';
 import { ECE } from './../../models/ece';
 import { CSE } from './../../models/cse';
 import { BMI } from './../../models/bmi';
@@ -17,6 +18,15 @@ import { Grade } from "src/app/models/grade.enum";
 import { map } from 'rxjs/operators';
 
 import bcrypt from 'bcryptjs';
+import { MatDialog } from '@angular/material/dialog';
+import { StudentRequirementsService } from 'src/app/services/student-requirements.service';
+
+
+export interface SemesterDialogData {
+  semester: string;
+  year: Number;
+  departments: string;
+}
 
 @Component({
   selector: 'app-gpd',
@@ -27,7 +37,11 @@ import bcrypt from 'bcryptjs';
 export class GpdComponent implements OnInit {
   s: Student[];
   gpd: String;
-  constructor(private authService: AuthService, public router: Router, public studentService: StudentService, public afs: AngularFirestore, public courseService: CourseService) {
+  semester: String;
+  year: Number;
+  departments: String[];
+
+  constructor(private authService: AuthService, public router: Router, public studentService: StudentService, public afs: AngularFirestore, public courseService: CourseService, public dialog: MatDialog, public sr: StudentRequirementsService) {
     if (!this.authService.isLoggedIn || localStorage.getItem('userType') != 'GPD') {
       this.router.navigate(['login'])
     }
@@ -55,29 +69,72 @@ export class GpdComponent implements OnInit {
     });
   }
 
+  // Functions called prior to importing a specific file and alerts user of the file format
+  alertForUploadStudent(event){
+    alert("Uploading student data requires two CSV files.");
+    event.click()
+  }
+  alertForUploadGrade(event){
+    alert("File must be a CSV file.");
+    event.click()
+  }
+  alertForUploadCourses(event){
+    alert("File must be a CSV file.");
+    event.click()
+  }
+  alertForUploadDegrees(event){
+    alert("File must be a JSON file.");
+    event.click()
+  }
+
+
+  openDialog(event): void {
+    const dialogRef = this.dialog.open(SemesterDialogComponent, {
+      width: '250px',
+      data: {semester: this.semester, year: this.year}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.semester = result.semester;
+      this.year = result.year;
+      var string = result.departments;
+      this.departments = string.split(/\s/);
+      console.log(this.departments);
+      alert("Convert PDF file of course descriptions to docx file. Then convert docx file to a text file.")
+      event.click();
+    });
+  }
+  
   async scrapeCourseInfo(event){
+    // Gets file from user
     let fileList: FileList = event.target.files;
+
+    // User does not upload file, return
     if(fileList.length != 1) {
-      alert("Importing student data requires one file");
+      alert("Scraping course info requires one text file.");
       return;
     }
-    let text2 = (await fileList.item(0).text()).replace(/^Stony.*$/gm, '')
-    let index = text2.indexOf('\n');
-    let firstLine = text2.substring(0,index).replace(/\t/g, ' ');;
-    let arrFirstLine = firstLine.split(' ');
-    let currentSemester = arrFirstLine[arrFirstLine.length - 2];
-    let currentYear = arrFirstLine[arrFirstLine.length - 1];
 
+    //Removes all lines that start with "Stony" from text file 
+    let text2 = (await fileList.item(0).text()).replace(/^Stony.*$/gm, '')
+    //Removes all lines that start with "GRADUATE" from text file 
     text2 = text2.replace(/^GRADUATE.*$/gm, '');
+    //Removes all lines that start with "Offered" from text file 
     text2 = text2.replace(/^Offered.*$/gm, '');
-    text2 = text2.replace(/\r?\n\s/g, '');
-    text2 = text2.replace(/\s\s/g, ' ');
+    // Removes all lines that start with 3 letters followed by new line
     text2 = text2.replace(/^([A-Z][A-Z][A-Z]\r?\n)/g, '');
+    // Replaces all lines with only course number
     text2 = text2.replace(/^([A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]\s)/gm, '')
+    //Removes new line characters followed by a space from text file 
+    text2 = text2.replace(/\r?\n\s/g, '');
+    //Removes all double spaces
+    text2 = text2.replace(/\s\s/g, ' ');
+    // Standardized lines that start with Prerequisite
     text2 = text2.replace(/^Prerequisite /gm, 'Prerequisite:')
-    // text2 = text2.replace(/)
-    // text2 = text2.replace(/^(?![A-Z][A-Z][A-Z]).+(\r?\n)?/gm, '');
+    // Split text by new line character into string array
     let text1 = text2.split(/\r?\n/);
+
+    // Declared variables to be used when parsing text
     let course:Courses;
     let courseID = null;
     let major = "";
@@ -86,23 +143,38 @@ export class GpdComponent implements OnInit {
     let prereq = "";
     let semesters = "";
     let credits = "";
-    const regex = /^([A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]:)/;
+
+    // Regex pattern to check for a start of a new course's information
+    const courseRegex = /^([A-Z][A-Z][A-Z]\s[0-9][0-9][0-9]:)/;
+    // Regex pattern to check for a course's prqrequiste
     const prereqRegex = /^Prerequisite/;
+    // Regex patterns to check for semester of course
     const fallRegex = /^Fall/;
     const springRegex = /^Spring/;
+    // regex pattern to get number of credits a course provides
     const creditRegix = /^[0-9]/;
     let arr = []
+
+    // Iterate through all lines of text file and add course to database
     for(const line of text1){
-      if(regex.test(line)){
-        if(courseID != null){
+
+      // Checks for start of new course information
+      if(courseRegex.test(line)){
+
+        // Adds current course to database
+        if(courseID != null && this.departments.includes(major)){
           
           course = {courseID: courseID, courseName: courseName, description: description};
+
+          // Sets a courses value with values from the text
           course.courseID = courseID;
           course.courseName = courseName.trim();
-          course.courseName = course.courseName.replace(/undefinded/, '')
+          course.courseName = course.courseName.replace(/undefined/, '')
           course.description = description;
           course.course = major + courseID;
           course.department = major;
+          course.year = this.year;
+          // sets credits to 3 if no credit amount was specified
           if(credits == ""){
             course.credits = 3;
           }
@@ -115,6 +187,7 @@ export class GpdComponent implements OnInit {
               course.credits = 3;
             }
           }
+          // Sets a course's semester information to either fall, spring or both
           if(semesters.includes("Fall") && semesters.includes("Spring")){
             course.semester = Semester.fallAndSpring;
           }
@@ -124,31 +197,20 @@ export class GpdComponent implements OnInit {
           else{
             course.semester = Semester.spring;
           }
+
+          // Store course's prereqs
           course.graduatePreq = prereq.trim();
-          // this.courseService.getCourses().subscribe(s => {
-          //   var arr: any = []
-          //   s.forEach(element => {
-          //     if(element.course == course.course){
-                
-          //     }  
-          //   });
-          //   this.s = arr;
-          // });
-          let name = major+courseID+currentSemester+currentYear
-          console.log(name);
+          let name = major + courseID + this.semester + this.year;
+
+          // Add course to database
           this.afs.firestore.collection('CourseInfo').doc(name).set(course).then(() => {
             console.log("Added " + course + " to database");
           }).catch((error) => {
             console.log("Problem adding " + course + " to database");
           });
-          
-          // if(major + courseID == "ESE800"){
-            
-          //   alert("Added all courses to database");
-          //   break;
-          // }
         }
-        // Get new course
+
+        // Parses new course's information
         let vals = line.split(/:/);
         arr = vals[0].split(/\s/)
         major = arr[0]
@@ -157,7 +219,6 @@ export class GpdComponent implements OnInit {
         if(vals.length > 1){
           courseName += vals[2]
         }
-        console.log(courseName);
         description = ""
         prereq = ""
         credits = ""
@@ -165,12 +226,16 @@ export class GpdComponent implements OnInit {
         semesters = ""
      
       }
+
+      // Description, prereqs, and credit info for a course is parsed 
       else{
+        // Parse for preqs
         if(prereqRegex.test(line)){
           arr = line.split(/:/);
           prereq = arr[1];
-          // prereq.replace(/\r?\n/, '')
         }
+
+        // Parse for semester
         else if(fallRegex.test(line) || springRegex.test(line)){
           arr = line.split(/,/)
           if(fallRegex.test(line) && springRegex.test(line)){
@@ -184,19 +249,21 @@ export class GpdComponent implements OnInit {
             credits = arr[0]
           }
         }
+        // Parse for credits
         else if(creditRegix.test(line)){
           arr = line.split(/,/)
           arr = arr[0].split(/\s/)
           credits = arr[0]
         }
+        // Add to course's description
         description += line + " "
       }
     }
-    alert("Added all courses to database");
-    // location.reload();
+    // alert("Added all courses to database");
   }
 
   async uploadStudentData(event) {
+    
     var warningsStringArray = [];
     let fileList: FileList = event.target.files;
     if(fileList.length != 2) {
@@ -361,11 +428,17 @@ export class GpdComponent implements OnInit {
         value = value + 1;
       }
       var pass: "";
+      var docRef = this.afs.collection("Degrees").doc(strArray[4] + strArray[8] + strArray[9]);
       var st: Student = {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 0, unsatisfied : 0, pending : 0, graduated : false, validCoursePlan : true, semesters : value};
       this.hashPassword(strArray[12]).then((hash) => {
         st.password = hash.toString()
         this.afs.firestore.collection('Students').doc(st.id).set(st)
         studentIDs.push(strArray[0])});
+        
+        docRef.valueChanges().subscribe(val => {
+          this.sr.setStudentRequirements(st, val);
+        });
+        
     }
 
     // Parse Course Plan Information
@@ -606,8 +679,11 @@ export class GpdComponent implements OnInit {
       alert("Importing student data requires one file");
       return;
     }
+    // Gets text from file
     let text = (await fileList.item(0).text());
+    // Converts to JSON formatting
     var myObj = JSON.parse(text);
+    // Check if degree requirement for AMS
     if(myObj.department === "AMS"){
       var amsDegree: AMS = {
       department : myObj.department,
@@ -618,12 +694,12 @@ export class GpdComponent implements OnInit {
       requiredCoursesCAM : myObj.requiredCoursesCAM,
       requiredCoursesCB : myObj.requiredCoursesCB,
       numElectiveCoursesCB : myObj.numElectiveCoursesCB,
-      requiredCoursesCOR : myObj.requiredCoursesCOR,
-      statisticCoursesCOR : myObj.statisticCoursesCOR,
-      numStatisticCoursesCOR : myObj.numStatisticCoursesCOR,
-      electiveCoursesCOR : myObj.electiveCoursesCOR,
-      electiveCoursesSubsCOR : myObj.electiveCoursesSubsCOR,
-      numElectiveCoursesSubStatsCOR : myObj.numElectiveCoursesSubStatsCOR,
+      requiredCoursesOR : myObj.requiredCoursesOR,
+      statisticCoursesOR : myObj.statisticCoursesOR,
+      numStatisticCoursesOR : myObj.numStatisticCoursesOR,
+      electiveCoursesOR : myObj.electiveCoursesOR,
+      electiveCoursesSubsOR : myObj.electiveCoursesSubsOR,
+      numElectiveCoursesSubStatsOR : myObj.numElectiveCoursesSubStatsOR,
       numElectiveCoursesSubFinance : myObj.numElectiveCoursesSubFinance,
       requiredCoursesSTAT : myObj.requiredCoursesSTAT,
       numElectiveCoursesSTAT : myObj.numElectiveCoursesSTAT,
@@ -637,6 +713,8 @@ export class GpdComponent implements OnInit {
         console.log("AMS Degree Updated")
       })
     }
+
+    // Check if degree requirement for BMI
     else if(myObj.department === "BMI"){
       var bmiDegree: BMI = {
       department : myObj.department,
@@ -670,6 +748,7 @@ export class GpdComponent implements OnInit {
         console.log("BMI Degree Updated")
       })
     }
+    // Check if degree requirement for CSE
     else if(myObj.department === "CSE"){
       var cseDegree: CSE = {
       department : myObj.department,
@@ -697,6 +776,7 @@ export class GpdComponent implements OnInit {
         console.log("CSE Degree Updated")
       })
     }
+    // Check if degree requirement for ESE
     else{
       var eceDegree: ECE = {
       department : myObj.department,

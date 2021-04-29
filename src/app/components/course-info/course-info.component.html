@@ -2,7 +2,12 @@
     Course Information
     
     <button routerLink="/" routerLinkActive="active" class="btn" id="logout-btn">Logout</button>
-    <button class="btn" id="home-btn" routerLink="../gpd">Home</button>
+    <div *ngIf="whosLoggedIn != 'Student'; else elseBlock">
+        <button class="btn" id="home-btn" routerLink="../gpd">Home</button>
+    </div>
+    <ng-template #elseBlock>
+        <button class="btn" id="home-btn" routerLink="../student">Home</button>
+    </ng-template>
 </div>
 
 <div>

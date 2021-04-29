@@ -17,21 +17,22 @@ export interface AMS extends DegreeReqs {
     versionYear?: Number; // version year
     requiredCoursesCAM?: String[]; // required courses for Computational Applied Mathematics
     requiredCoursesCB?: String[]; // required courses for Computational Biology
-    numElectiveCoursesCB?:3, // Number electives needed for CB track
-    requiredCoursesCOR?: String[]; // required models Operations Research
-    statisticCoursesCOR?:String[]; // statistic courses used for Operations Research
-    numStatisticCoursesCOR?: Number; // Num stat courses needed for OR
-    electiveCoursesCOR?: String[]; // Elective courses for OR track
-    electiveCoursesSubsCOR?: String[]; // Electives that can be substitued for electives OR
-    numElectiveCoursesSubStatsCOR?: Number; // Num elective courses needed
-    numElectiveCoursesSubFinance?: Number; // NUm of sub elective courses that can count
+    numElectiveCoursesCB?:Number; // Number electives needed for CB track
+    requiredCoursesOR?: String[]; // required courses Operations Research
+    statisticCoursesOR?:String[]; // statistic courses used for Operations Research
+    numStatisticCoursesOR?: Number; // Num stat courses needed for OR
+    electiveCoursesOR?: String[]; // Elective courses for OR track
+    electiveCoursesSubsOR?: String[]; // Electives that can be substitued for electives OR
+    numElectiveCoursesSubStatsOR?: Number; // Num elective courses needed
+    numElectiveCoursesSubFinance?: Number; // Num of sub elective courses that can count
     requiredCoursesSTAT?: String[]; // Requried courses for STAT track
     numElectiveCoursesSTAT?: Number; // Num electives needed for STAT track
     requiredCoursesQF?: String[]; // Req courses for Quant Finance track
     numElectiveCoursesQF?: Number; // Num electives needed
     credits?: Number; // Credits needed to graduate
     gpa?: Number; // Cum GPA needed to graduate
-    courseGrades?: Number; // Num courses to get B or higher to graduate
+    courseGrades?: Number; // Num courses with B or higher to graduate
     finalRec?: boolean; // If final recomendation is needed to grad
     timeLimit?: Number; // Num years to finish program by
+    // CAM: Map<String, String[]>
 }

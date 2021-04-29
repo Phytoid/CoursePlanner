@@ -33,3 +33,4 @@ export interface CSE extends DegreeReqs{
     thesis: boolean; // If thesis student required a thesis to graduate
     gpa?:Number; // Does the student have a 3.0 GPA or better?
 }
+ 

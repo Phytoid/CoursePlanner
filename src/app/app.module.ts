@@ -39,6 +39,7 @@ import { NgxPaginationModule} from 'ngx-pagination'
 import { CommonModule } from '@angular/common';
 import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
+import { SemesterDialogComponent } from './components/semester-dialog/semester-dialog.component';
 
 
 PlotlyModule.plotlyjs = PlotlyJS;
@@ -57,6 +58,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     SuggestCoursePlanComponent,
     ViewStudentComponent,
     CourseDialogComponent,
+    SemesterDialogComponent,
   ],
   imports: [
     MatCardModule,

@@ -50,3 +50,4 @@ export interface ECE extends DegreeReqs{
     gpaT: Number; // Min gpa needed by thesis to graduate
     completeThesis: boolean; // If thesis student needs a thesis to graduate
 }
+ 

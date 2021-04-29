@@ -144,5 +144,47 @@
             <button class="btn btn-primary" [routerLink]="['/student']" routerLinkActive="router-link-active" >Back</button>     
         </div>
     </div>
+</div>
+
+<div *ngIf= "dept == 'AMS'">
+    <h3>Degree Requirements</h3>
+    <p>Credits needed to graduate: {{ams.credits}}</p>
+    <p>Final Recomendation</p>
+    <p>Minimum GPA: {{ams.gpa}}</p>
+    <p>Must graduate in {{ams.timeLimit}} years</p>
+    <div *ngIf="track=='CAM'">
+        <p>Required Courses: {{ams.requiredCoursesCAM}}</p>
+        
+    </div>
+    <div *ngIf="track== 'CB'">
+        <p>Required Courses: {{ams.requiredCoursesCB}}</p>
+        <p>Number of elective courses needed: {{ams.numElectiveCoursesCB}}</p>
+    </div>
+    <div *ngIf="track=='OR'">
+        <p>Required Courses: {{ams.requiredCoursesOR}}</p>
+        <p>Number of statistic courses needed: {{ams.numStatisticCoursesOR}}</p>
+    </div>
+    <div *ngIf="track=='STAT'">
+        <p>Required Courses: {{ams.requiredCoursesSTAT}}</p>
+        <p>Number of elective courses needed: {{ams.numElectiveCoursesSTAT}}</p>
+    </div>
+    <div *ngIf="track=='QF'">
+        <p>Required Courses: {{ams.requiredCoursesQF}}</p>
+        <p>Number of elective courses needed: {{ams.numElectiveCoursesQF}}</p>
+    </div>
+</div>
+<div *ngIf= "dept == 'BMI'">
+    <h3>Degree Requirements</h3>
+    <p>Credits needed to graduate: {{bmi.credits}}</p>
+    <p>Minimum GPA: {{bmi.gpa}}</p>
+    <p>Minimum Credits per semester: {{bmi.creditMinimumPerSemester}}</p>
+    <p>Must graduate in {{bmi.timeLimit}} years</p>
+    <p>Required Courses: {{requiredCourses}}</p>
+    <p *ngIf=""></p>
+</div>
+<div *ngIf= "dept == 'CSE'">
+    
+</div>
+<div *ngIf= "dept == 'ESE'">
     
 </div>
