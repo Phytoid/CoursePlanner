@@ -15,7 +15,7 @@ export class SuggestCoursePlanComponent implements OnInit {
   prefWeight: number = 0;
   courseAdd: string[] = ['add', "weight"];
   courseAvoid: string[] = ['avoid'];
-  c: string[] = ["a","b","c","d","e","f","g","h","i","j","k","l"];
+  // c: string[] = ["a","b","c","d","e","f","g","h","i","j","k","l"];
   @ViewChild(MatSort) sort: MatSort;
   courses: Courses[];
   coursesCopy: Courses[];
@@ -25,16 +25,8 @@ export class SuggestCoursePlanComponent implements OnInit {
 
   constructor(public courseServices:CourseService, public afs: AngularFirestore, public router: Router) { 
   }
-  coursesToAddList=[
-    {
-      "courseName": "CSE 101", "prefWeight": this.prefWeight
-    }
-  ]
-  coursesToAvoidList=[
-    {
-      "courseName": "CSE 101"
-    }
-  ]
+  coursesToAddList=[]
+  coursesToAvoidList=[]
   ngOnInit(): void {
     let arr = [];
     this.courseServices.getCourses().subscribe(s => {
@@ -48,13 +40,7 @@ export class SuggestCoursePlanComponent implements OnInit {
       this.sbuID = params['sbuID'];
     });
     this.afs.collection('Students').doc(this.sbuID).valueChanges().subscribe(val => {
-      this.s = val;
-      this.model = {year: parseInt(this.s.gradYear), day: 1, month: 1};
-      this.comments = this.s.comments;
-      console.log(this.comments);
-      console.log(this.s.dept)
-      this.dept = this.s.dept
-      this.getTrack();
+      
     });
   }
   ngAfterInit(): void{
