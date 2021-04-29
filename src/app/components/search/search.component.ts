@@ -13,16 +13,21 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements AfterViewInit {
-  filterDictionary = {nameFilter: "", graduationYear: "", graduationSemester: "", coursePlanCompleteness: "", coursePlanValidity: ""};
+  // Dictionary to be populated for filtering options.
+  filterDictionary = {nameFilter: "", graduationYear: "", graduationSemester: "",
+    coursePlanCompleteness: "", coursePlanValidity: ""};
+
+  // Column headers & order of search/browse table.
   searchColumns: string[] = ['sbuID', 'lastName', 'firstName', 'dept', 'track', 'coursePlan', 'satisfied', 'pending', 'unsatisfied', 'validCoursePlan', 'gradSemester', 'gradYear', 'semesters', 'graduated']
   dataSource: MatTableDataSource<any>
   @ViewChild(MatSort) sort: MatSort;
 
   model: NgbDateStruct;
   date: {year: number};
-  @ViewChild('dp') dp: NgbDatepicker;
+  @ViewChild('dp') dp: NgbDatepicker; // Custom date picker.
 
   constructor(private authService: AuthService, public studentService: StudentService, private calendar: NgbCalendar, public router: Router) { 
+    // No access if not logged in or not the GPD.
     if (!this.authService.isLoggedIn || localStorage.getItem('userType') != 'GPD') {
       this.router.navigate(['login'])
     }
@@ -64,6 +69,7 @@ export class SearchComponent implements AfterViewInit {
     });
   }
 
+  // Update filter dictionary for graduation semester.
   semSelect(semester: string){
     if (semester !== "All") {
       semester = semester.trim().toLowerCase();
@@ -74,6 +80,7 @@ export class SearchComponent implements AfterViewInit {
     this.finalFilter();
   }
 
+  // Update filter dictionary for course plan completeness.
   completenessSelect(comp: string){
     if (comp !== "All") {
       comp = comp.trim().toLowerCase();
@@ -84,13 +91,15 @@ export class SearchComponent implements AfterViewInit {
     this.finalFilter();
   }
 
+  // Update filter dictionary for year (date-picker value).
   changeDate(date: string) {
     date = date.trim().toLowerCase();
     this.filterDictionary.graduationYear = date;
     this.finalFilter();
   }
 
-  applyFilter(substring: string) {
+  // Update filter dictionary for name.
+  nameFilter(substring: string) {
     if (substring !== "") {
       substring = substring.trim().toLowerCase();
       this.filterDictionary.nameFilter = substring;
@@ -100,7 +109,8 @@ export class SearchComponent implements AfterViewInit {
     this.finalFilter();
   }
 
-  validitySelect(validity: string){
+  // Update filter dictionary for course plan validity.
+  validityFilter(validity: string){
     if (validity !== "All") {
       validity = validity.trim().toLowerCase();
       this.filterDictionary.coursePlanValidity = validity;
@@ -110,16 +120,15 @@ export class SearchComponent implements AfterViewInit {
     this.finalFilter();
   }
 
-  public getColor(val: boolean): string{
-    return val === true ? "green" : "darkred";
-  }
-
+  // Reset year filter back to all years.
   resetYearFilter() {
     this.filterDictionary.graduationYear = "";
     this.finalFilter();
   }
 
+  // Calculate filter predicate for each student.
   customFilterPredicate() {
+    console.log(this.filterDictionary)
     let nf = this.filterDictionary.nameFilter;
     let gs = this.filterDictionary.graduationSemester;
     let gy = this.filterDictionary.graduationYear;
@@ -168,6 +177,7 @@ export class SearchComponent implements AfterViewInit {
     return myFilterPredicate;
   }
   
+  // Calculate filter predicate and apply filter.
   finalFilter(){
     this.dataSource.filterPredicate = this.customFilterPredicate();
     this.dataSource.filter = JSON.stringify(this.filterDictionary); 
@@ -175,5 +185,10 @@ export class SearchComponent implements AfterViewInit {
 
   logout() {
     this.authService.logout()
+  }
+
+  // Get red/green color for true/false in table.
+  public getColor(val: boolean): string{
+    return val === true ? "green" : "darkred";
   }
 }

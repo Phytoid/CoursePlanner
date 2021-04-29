@@ -3,6 +3,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Courses } from 'src/app/models/courses';
 import { CourseService } from 'src/app/services/course.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-suggest-course-plan',
@@ -17,7 +19,11 @@ export class SuggestCoursePlanComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   courses: Courses[];
   coursesCopy: Courses[];
-  constructor(public courseServices:CourseService) { 
+  sbuID: string;
+  gradYear: string;
+  gradSemester: string;
+
+  constructor(public courseServices:CourseService, public afs: AngularFirestore, public router: Router) { 
   }
   coursesToAddList=[
     {
@@ -30,29 +36,82 @@ export class SuggestCoursePlanComponent implements OnInit {
     }
   ]
   ngOnInit(): void {
-    // let arr = [];
-    // this.courseServices.getCourses().subscribe(s => {
-    //   s.forEach(element => {
-    //       arr.push(element);
-    //   });
-    // });
-    // this.courses = arr;
-    // this.coursesCopy = arr;
+    let arr = [];
+    this.courseServices.getCourses().subscribe(s => {
+      s.forEach(element => {
+          arr.push(element);
+      });
+    });
+    this.courses = arr;
+    this.coursesCopy = arr;
+    this.router.routerState.root.queryParams.subscribe(params => {
+      this.sbuID = params['sbuID'];
+    });
+    this.afs.collection('Students').doc(this.sbuID).valueChanges().subscribe(val => {
+      this.s = val;
+      this.model = {year: parseInt(this.s.gradYear), day: 1, month: 1};
+      this.comments = this.s.comments;
+      console.log(this.comments);
+      console.log(this.s.dept)
+      this.dept = this.s.dept
+      this.getTrack();
+    });
   }
   ngAfterInit(): void{
+    this.afs.collection('Students').doc(localStorage.getItem('sbuID')).valueChanges().subscribe(val => {
+      console.log(val);
+    });
     location.reload();
   }
   addItemPref(event): void {
     var course = event.value;
-    console.log(course);
     this.prefWeight++;
     this.coursesToAddList = this.coursesToAddList.concat({courseName: course, "prefWeight": this.prefWeight});
     
   }
   addItemAvoid(event): void{
     var course = event.value;
-    console.log(course);
     this.coursesToAvoidList = this.coursesToAvoidList.concat({courseName: course});
     console.log(this.coursesToAvoidList);
+  }
+
+  suggestCoursePlan(): void {
+    //var required_courses = ;
+    //var preferred_courses = ;
+    //var avoid_courses = ;
+    //var electives_list = ;
+    //var semester_list = ;
+
+  }
+
+  suggestCoursePlanSmartMode(required_courses, preferred_courses, avoid_courses, electives_list, semester_list, day_start, day_end, max_n): void {
+    var cp_list = [];
+    var fail_counter = 0;
+
+  }
+
+  suggestCoursePlanDefaultMode(required_courses, preferred_courses, avoid_courses, electives_list, semester_list, day_start, day_end, max_n): void {
+    var cp_list = [];
+    var fail_counter = 0;
+    required_courses = required_courses.sort((a, b) => parseInt(a.substr(a.length - 3)) - parseInt(b.substr(b.length - 3)));
+    // TODO: MAKE SURE ALL COURSES WITH PREREQUISITES COME AFTER IT IN THE LIST
+    if (avoid_courses.some(item => required_courses.includes(item))) {
+      alert("A course required to graduate is in your list of courses to avoid. Please reconsider your parameters and try again.");
+    }
+    if (max_n.reduce(function(a, b){return a + b}, 0) > required_courses.length) {
+      var sem_array = semester_list[semester_list.length - 1].split(" ")
+      let sem = sem_array[0];
+      let year = sem_array[1];
+      if (sem.toLocaleLowerCase() === 'spring') {
+        semester_list.push("Fall ".concat(year));
+      } else {
+        let yearInt = parseInt(year);
+        semester_list.push("Spring ".concat((year + 1).toString()));
+      }
+    }
+    // for (i = 0; i < semester_list.length; i++) {
+      // TODO: SEE IF COURSE OFFERINGS ARE AVAILABLE FOR THAT SEMESTER
+      // if course offerings available {
+    
   }
 }
