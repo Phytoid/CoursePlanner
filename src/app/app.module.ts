@@ -40,6 +40,7 @@ import { CommonModule } from '@angular/common';
 import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { SemesterDialogComponent } from './components/semester-dialog/semester-dialog.component';
+import { ViewCoursePlanComponent } from './view-course-plan/view-course-plan.component';
 
 
 PlotlyModule.plotlyjs = PlotlyJS;
@@ -59,6 +60,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     ViewStudentComponent,
     CourseDialogComponent,
     SemesterDialogComponent,
+    ViewCoursePlanComponent,
   ],
   imports: [
     MatCardModule,

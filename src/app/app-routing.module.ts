@@ -10,6 +10,8 @@ import { CourseInfoComponent } from './components/course-info/course-info.compon
 import { EnrollmentTrendsComponent } from './components/enrollment-trends/enrollment-trends.component'
 import { DegreeReqsComponent } from './components/degree-reqs/degree-reqs.component'
 import { SuggestCoursePlanComponent } from './components/suggest-course-plan/suggest-course-plan.component';
+import { ViewCoursePlanComponent } from './view-course-plan/view-course-plan.component';
+
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -23,7 +25,7 @@ const routes: Routes = [
   { path: 'degreeReqs', component: DegreeReqsComponent},
   { path: 'suggestCoursePlan', component: SuggestCoursePlanComponent},
   { path: 'viewStudent', component: ViewStudentComponent},
-
+  { path: 'viewCoursePlan', component: ViewCoursePlanComponent}
 ];
 
 @NgModule({

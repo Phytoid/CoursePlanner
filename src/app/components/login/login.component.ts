@@ -43,11 +43,11 @@ export class LoginComponent implements OnInit {
       this.afs.collection("Students").get().toPromise().then((querySnapshot) => {
         querySnapshot.forEach((child) => {
           var data = child.data();
-          let email2 = data.email
-          let hash = data.password
-          let first = data.first
-          let last = data.last
-          let sbuID = data.sbuID
+          let email2 = data['email']
+          let hash = data['password']
+          let first = data['first']
+          let last = data['last']
+          let sbuID = data['sbuID']
           let router = this.router
           if(email === email2) {
             bcrypt.compare(password, hash, function(err, res) {

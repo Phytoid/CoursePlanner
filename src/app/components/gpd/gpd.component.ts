@@ -262,8 +262,9 @@ export class GpdComponent implements OnInit {
     // alert("Added all courses to database");
   }
 
-  async uploadStudentData(event) {
+  // async uploadStudentData(event) {
     
+  async uploadStudentData(event, callback) {
     var warningsStringArray = [];
     let fileList: FileList = event.target.files;
     if(fileList.length != 2) {
@@ -306,7 +307,6 @@ export class GpdComponent implements OnInit {
     }
 
     var notInTheGPDDepartment = [];
-    var coursePlanDict = [];
 
     var studentIDs = [];
     // Parse Student Information
@@ -440,101 +440,7 @@ export class GpdComponent implements OnInit {
         });
         
     }
-
-    // Parse Course Plan Information
-    for (var i = 0; i < text2.length; i++) {
-      if (text2[i] == courseDataHeader) {
-        continue;
-      } else if (text2[i] == "") {
-        continue;
-      } else {
-        var strArray = text2[i].split(",");
-        if (strArray.length != 7) {
-          warningsStringArray.push("A line of your student data file has an insufficient number of fields. Please verify your files and try again. This line will be ignored.")
-          continue;
-        }
-        for (var j = 0; j < 7; j++) {
-          strArray[j] = strArray[j].trim();
-        }
-        let dictionary_identifier = strArray[0].trim() + strArray[1].trim() + strArray[2].trim() + strArray[4].trim() + strArray[5].trim();
-        if (coursePlanDict.includes(dictionary_identifier) === true) {
-          alert("WARNING:\nA duplicate entry exists in the course plan file (same student, same course, and same semester). Please verify your file and try again. All duplicate lines after the first will be ignored.");
-          continue;
-        }
-        if (isNaN(Number(strArray[2])) == true) {
-          warningsStringArray.push("Course number must be a numerical value only. The line containing student ID " + strArray[0] + " and course " + strArray[1].toLocaleUpperCase() + " " + strArray[2] + " has been skipped.");
-          continue;
-        }
-        if (strArray[2].includes(".") == true) {
-          warningsStringArray.push("Course number must be an integer value only. The line containing student ID " + strArray[0] + " and course " + strArray[1].toLocaleUpperCase() + " " + strArray[2] + " has been skipped.");
-          continue;
-        }
-        if (parseInt(strArray[2]) < 0) {
-          warningsStringArray.push("Course number must be a positive value only. The line containing student ID " + strArray[0] + " and course " + strArray[1].toLocaleUpperCase() + " " + strArray[2] + " has been skipped.");
-          continue;
-        }
-        if (isNaN(Number(strArray[3])) == true) {
-          warningsStringArray.push("Course section must be a numerical value only. The line containing student ID " + strArray[0] + " and course " + strArray[1].toLocaleUpperCase() + " " + strArray[2] + " has been skipped.");
-          continue;
-        }
-        if (strArray[3].includes(".") == true) {
-          warningsStringArray.push("Course section must be an integer value only. The line containing student ID " + strArray[0] + " and course " + strArray[1].toLocaleUpperCase() + " " + strArray[2] + " has been skipped.");
-          continue;
-        }
-        if (parseInt(strArray[3]) < 0) {
-          warningsStringArray.push("Course section must be a positive value only. The line containing student ID " + strArray[0] + " and course " + strArray[1].toLocaleUpperCase() + " " + strArray[2] + " has been skipped.");
-          continue;
-        }
-        if (isNaN(Number(strArray[5])) == true) {
-          warningsStringArray.push("Year values must be a numerical value only. The line containing student ID " + strArray[0] + " and course " + strArray[1].toLocaleUpperCase() + " " + strArray[2] + " has been skipped.");
-          continue;
-        }
-        if (strArray[5].includes(".") == true) {
-          warningsStringArray.push("Year values must be an integer value only. The line containing student ID " + strArray[0] + " and course " + strArray[1].toLocaleUpperCase() + " " + strArray[2] + " has been skipped.");
-          continue;
-        }
-        if (parseInt(strArray[5]) < 0) {
-          warningsStringArray.push("Year values must be a positive value only. The line containing student ID " + strArray[0] + " and course " + strArray[1].toLocaleUpperCase() + " " + strArray[2] + " has been skipped.");
-          continue;
-        }
-        var grades: string[] = Object.values(Grade);
-        if (grades.includes(strArray[6].trim().toLocaleUpperCase()) == false) {
-          warningsStringArray.push("Grade is not correct. The line containing student ID " + strArray[0] + " and course " + strArray[1].toLocaleUpperCase() + " " + strArray[2] + " has been skipped.");
-          continue;
-        }
-        let studentID = strArray[0].trim();
-        let department = strArray[1].trim();
-        let courseID = strArray[2].trim();
-        let section = strArray[3].trim();
-        if (section == "") {
-          section = "??";
-        }
-        let semester = strArray[4].trim();
-        let year = strArray[5].trim();
-        let grade = strArray[6].trim();
-        let semesterAndYear = semester + year;
-        let course = department + courseID;
-        let courseIdentifier = course + "_" + section;
-        this.afs.collection('Students').doc(studentID).update({
-          ['coursePlan' + '.' + semesterAndYear + '.' + courseIdentifier] : `${grade.toLocaleUpperCase()}`
-        }).then(() => {
-    
-        }).catch((error) => {
-          console.log("Student ID: " + studentID + " does not exist.");
-        });
-        coursePlanDict.push(dictionary_identifier);
-      }
-    }
-
-    if (warningsStringArray.length == 0) {
-      alert("Student information and course plan grades have been updated successfully.");
-    } else {
-      var warning_string = "";
-      for (i = 0; i < warningsStringArray.length; i++) {
-        warning_string = warning_string + warningsStringArray[i] + "\n";
-      }
-      alert("Valid student information and course plan grades have been updated successfully. The following warning(s) were found:\n\n" + warning_string);
-    }
+    callback(text2, this.afs);
   }
 
   async uploadGrade(event) {
@@ -543,9 +449,13 @@ export class GpdComponent implements OnInit {
       alert("Importing student grades requires one file only.");
       return;
     }
-    let courseDataHeader = "sbu_id,department,course_num,section,semester,year,grade";
     var g = (await fileList.item(0).text()).split(/\r?\n/); // sbu_id,department,course_num,section,semester,year,grade1
-    
+    this.uploadCoursePlan(g, this.afs);
+  }
+
+  async uploadCoursePlan(g, afs) {
+    let courseDataHeader = "sbu_id,department,course_num,section,semester,year,grade";
+    var coursePlanDict = [];
     if (g[0] != courseDataHeader) {
       alert("Grades file does not match format.");
       return;
@@ -627,22 +537,20 @@ export class GpdComponent implements OnInit {
         let course = department + courseID;
         let courseIdentifier = course + "_" + section;
         var student: Student;
-        this.afs.collection('Students').doc(studentID).valueChanges().subscribe(val => {
-        student= val;
-        console.log(student.dept)
-        console.log(this.gpd)
-        if(student.dept == this.gpd){
-          this.afs.collection('Students').doc(studentID).update({
-            ['coursePlan' + '.' + semesterAndYear + '.' + courseIdentifier] : `${grade.toLocaleUpperCase()}`
-          }).then(() => {
+        afs.collection('Students').doc(studentID).valueChanges().subscribe(val => {
+          student = val;
+          console.log(student.dept)
+          if(student.dept == this.gpd){
+            this.afs.collection('Students').doc(studentID).update({
+              ['coursePlan' + '.' + semesterAndYear + '.' + courseIdentifier] : `${grade.toLocaleUpperCase()}`
+            }).then(() => {
       
-          }).catch((error) => {
-            console.log("Student ID: " + studentID + " does not exist.");
-          });
-        }
-        else{
+            }).catch((error) => {
+              console.log("Student ID: " + studentID + " does not exist.");
+            });
+          } else {
           console.log("Not correct GPD")
-        }
+          }
         });
       
         coursePlanDict.push(dictionary_identifier);
