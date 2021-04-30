@@ -13,7 +13,7 @@ export class CourseService {
   courses: Observable<Courses[]>;
   state: string = "hello";
   constructor(public afs: AngularFirestore) { 
-    this.courses = this.afs.collection('CourseInfo', ref => ref.where('state', '==',this.state)).snapshotChanges().pipe(map(changes => {
+    this.courses = this.afs.collection('CourseInfo').snapshotChanges().pipe(map(changes => {
       return changes.map(a => {
         const data = a.payload.doc.data() as Courses;
         data.course = a.payload.doc.id;
@@ -23,14 +23,14 @@ export class CourseService {
   }
 
   getCoursesForSemester(semester: string, year: string){
-    this.courses = this.afs.collection('CourseInfo', ref => ref.where('semester', '==',semester).where('year', '==', year)).snapshotChanges().pipe(map(changes => {
+    var c = this.afs.collection('CourseInfo', ref => ref.where('semester', '==',semester).where('year', '==', year)).snapshotChanges().pipe(map(changes => {
       return changes.map(a => {
         const data = a.payload.doc.data() as Courses;
         data.course = a.payload.doc.id;
         return data;
       })
     }))
-    return this.courses;
+    return c;
   }
 
   
