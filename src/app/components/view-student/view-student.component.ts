@@ -12,9 +12,13 @@ import { first, map } from 'rxjs/operators';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument  } from '@angular/fire/firestore';
 import { NgbDateStruct, NgbCalendar, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { StudentRequirementsService } from 'src/app/services/student-requirements.service';
 
 import { Student } from '../../models/student';
 import { Observable } from 'rxjs';
+
+import bcrypt from 'bcryptjs';
+
 @Component({
   selector: 'app-view-student',
   templateUrl: './view-student.component.html',
@@ -32,12 +36,13 @@ export class ViewStudentComponent implements OnInit {
   comments: string[] = [];
   whosLoggedIn: string;
   track:string;
+  password:string;
   ams:AMS;
   bmi:BMI;
   cse:CSE;
   ese:ECE;
   requiredCourses: String[];
-  constructor(private authService: AuthService, public router: Router, public afs: AngularFirestore) {
+  constructor(private authService: AuthService, public router: Router, public afs: AngularFirestore, public sr: StudentRequirementsService) {
     if (!this.authService.isLoggedIn) {
       this.router.navigate(['login'])
     }
@@ -57,6 +62,7 @@ export class ViewStudentComponent implements OnInit {
       console.log(this.s.dept)
       this.dept = this.s.dept
       this.track = this.s.track;
+      this.password = this.s.password;
       var docRef; 
       if(this.dept == 'AMS'){
         docRef = this.afs.collection("Degrees").doc("AMS"+this.s.reqVersionSemester+this.s.reqVersionYear);
@@ -170,34 +176,57 @@ export class ViewStudentComponent implements OnInit {
   }
   editStudent(event) {
     if(confirm("Are you sure you want to edit this information?")){
+      var docRef = this.afs.collection("Degrees").doc(event.srcElement[5].value.toLocaleUpperCase() + event.srcElement[12].value + event.srcElement[15].value);
+      var value = (2021 - parseInt(event.srcElement[10].value)) * 2;
+      if (event.srcElement[7].value.toLocaleLowerCase() === "spring") {
+        value = value + 1;
+      }
       this.s = {
         first: event.srcElement[0].value,
         last: event.srcElement[1].value,
         id: event.srcElement[2].value,
         sbuID: event.srcElement[2].value,
         email: event.srcElement[3].value,
-        dept: event.srcElement[4].value,
-        track: event.srcElement[5].value,
-        entrySemester: event.srcElement[6].value,
-        entryYear: event.srcElement[9].value,
-        reqVersionSemester: event.srcElement[11].value,
-        reqVersionYear: event.srcElement[14].value,
-        gradSemester: event.srcElement[16].value,
-        gradYear: event.srcElement[19].value,
-        advisor: event.srcElement[21].value,
+        password: this.password,
+        dept: event.srcElement[5].value,
+        track: event.srcElement[6].value,
+        entrySemester: event.srcElement[7].value,
+        entryYear: event.srcElement[10].value,
+        reqVersionSemester: event.srcElement[12].value,
+        reqVersionYear: event.srcElement[15].value,
+        gradSemester: event.srcElement[17].value,
+        gradYear: event.srcElement[20].value,
+        advisor: event.srcElement[22].value,
         satisfied: 0,
         pending: 0,
         unsatisfied: 0,
-        semesters: 0,
+        semesters: value,
         graduated: false,
         validCoursePlan: true,
       }
-      console.log(event.srcElement[22].value)
-      if(event.srcElement[22].value.trim().length > 0){
-        this.comments.push(event.srcElement[22].value);
+      if (event.srcElement[23].value.trim().length > 0) {
+        this.comments.push(event.srcElement[23].value);
       }
       this.s.comments = this.comments;
-      this.afs.firestore.collection('Students').doc(this.s.id).set(this.s);
+      const password = event.srcElement[4].value;
+      var moreThanStars = password.split("");
+      var moreThanStarsSet = new Set(moreThanStars);
+      console.log(moreThanStarsSet);
+      if (moreThanStarsSet.size === 1) {
+        this.afs.firestore.collection('Students').doc(this.s.id).set(this.s);
+        docRef.valueChanges().subscribe(val => {
+          this.sr.setStudentRequirements(this.s, val);
+        });
+      } else {
+        console.log(event.srcElement[4].value)
+        this.hashPassword(event.srcElement[4].value).then((hash) => {
+          this.s.password = hash.toString();
+          this.afs.firestore.collection('Students').doc(this.s.id).set(this.s);
+          docRef.valueChanges().subscribe(val => {
+            this.sr.setStudentRequirements(this.s, val);
+          });
+        });
+      }
       if(this.whosLoggedIn != "Student"){
         this.router.navigate(['search']);
       }
@@ -238,4 +267,16 @@ export class ViewStudentComponent implements OnInit {
     }
   }
 
+  async hashPassword (password) {
+    const hash = await new Promise((resolve, reject) => {
+      bcrypt.hash(password, 10, function(err, hash) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(hash)
+        }
+      });
+    })
+    return hash;
+  }
 }
