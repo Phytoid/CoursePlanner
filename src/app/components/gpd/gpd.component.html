@@ -9,8 +9,8 @@
 <body>
     <div class="center">
         <div id="card-content">           
-            <input #student (change)="uploadStudentData($event)" id="upload-student-data" type="file" multiple hidden/> 
-            <label (click)="alertForUploadStudent(student)" id="submit-btn">Import Student Data</label>
+            <!-- <input #student (change)="uploadStudentData($event, uploadCoursePlan)" id="upload-student-data" type="file" multiple hidden/> 
+            <label (click)="alertForUploadStudent(student)" id="submit-btn">Import Student Data</label> -->
             <input (change)="uploadStudentData($event, uploadCoursePlan)" id="upload-student-data" type="file" multiple hidden/> 
             <label for="upload-student-data" id="submit-btn">Import Student Data</label>
         </div>

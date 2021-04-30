@@ -28,7 +28,7 @@ export class StudentComponent implements OnInit {
     this.email = localStorage.getItem('email');
     this.afs.collection('Students').doc(localStorage.getItem('sbuID')).valueChanges().subscribe(val => {
       console.log(val);
-      this.student= val;
+      this.student = val;
     });
   }
 
