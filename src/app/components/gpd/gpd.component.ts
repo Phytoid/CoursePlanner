@@ -448,7 +448,7 @@ export class GpdComponent implements OnInit {
       
       var pass: "";
       var docRef = this.afs.collection("Degrees").doc(strArray[4] + strArray[8] + strArray[9]);
-      var st: Student = {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 0, unsatisfied : 0, pending : 0, graduated : false, validCoursePlan : true, semesters : value, gpa: 0, credits: 0, requiredCourses : "" };
+      var st: Student = {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 0, unsatisfied : 0, pending : 0, graduated : false, validCoursePlan : true, semesters : value, gpa: 0, credits: 0, requiredCourses : [] };
       console.log(st);
       this.hashPassword(strArray[12]).then((hash) => {
         st.password = hash.toString()
@@ -458,7 +458,7 @@ export class GpdComponent implements OnInit {
         docRef.valueChanges().subscribe(val => {
           this.sr.setStudentRequirements(st, val);
         });
-        callback(text2, this.afs, this.editGPA);
+        callback(text2, this.afs, this.editGPA, this.addToDatabase);
     }
     // callback(text2, this.afs);
   }
@@ -470,10 +470,10 @@ export class GpdComponent implements OnInit {
       return;
     }
     var g = (await fileList.item(0).text()).split(/\r?\n/); // sbu_id,department,course_num,section,semester,year,grade1
-    this.uploadCoursePlan(g, this.afs, this.editGPA);
+    this.uploadCoursePlan(g, this.afs, this.editGPA, this.addToDatabase);
   }
 
-  async uploadCoursePlan(g, afs, editGPA) {
+  async uploadCoursePlan(g, afs, editGPA, addToDatabase) {
     let courseDataHeader = "sbu_id,department,course_num,section,semester,year,grade";
     var coursePlanDict = [];
     if (g[0] != courseDataHeader) {
@@ -596,8 +596,8 @@ export class GpdComponent implements OnInit {
       }
       alert("Valid student information and course plan grades have been updated successfully. The following warning(s) were found:\n\n" + warning_string);
     }
-    console.log(studentArray)
-    editGPA(studentArray, afs);
+    
+    editGPA(studentArray, afs, addToDatabase);
   }
 
   async hashPassword (password) {
@@ -826,11 +826,21 @@ export class GpdComponent implements OnInit {
   }
 
 
-  async editGPA(map: Map<string, Map<string, string>>, afs){
+  async editGPA(map: Map<string, Map<string, string>>, afs, addToDatabase){
+    
     for(var studentID of map.keys()){
-      for(var course of map.get(studentID).keys()){
+    
+        for (var course of map.get(studentID).keys()){
+          console.log(course)
+          let gpa = await addToDatabase(course, studentID, afs, map);
+          console.log(gpa);
+        }
+    }
+    return;
+  }
+
+  addToDatabase(course, studentID, afs, map){
         var gr = map.get(studentID).get(course);
-        
         var grades = new Map([
           ["A", 4],
           ["A-", 3.7],
@@ -846,31 +856,42 @@ export class GpdComponent implements OnInit {
           ["F", 0],
         ]);
         var g = grades.get(gr);
-        console.log(g)
+        return new Promise(resolve => {
         afs.collection('Students').doc(studentID).ref.get().then((s) => {
-          var student: Student = s.data();
-          console.log(student);
-          afs.collection('CourseInfo').doc(course).valueChanges().subscribe(val => {
-            var c: Courses;
-            c = val;
-            var credits: number = c.credits.valueOf();
-            var currentGrade = student.credits * student.gpa;
-            currentGrade += (g * credits);
-            var currentCredits = credits + student.credits;
-            var gpa = (currentGrade / currentCredits).toPrecision(3);
-            console.log(currentCredits)
-            console.log(gpa)
-            
-            afs.collection("Students").doc(studentID).update({'gpa': parseFloat(gpa), 'credits': currentCredits}).then(()=>{
-              console.log("Student gpa Updated")
-              
-            })
-            // console.log(gpa);
-          });
+        var student: Student = s.data();
+
+        afs.collection('CourseInfo').doc(course).valueChanges().subscribe( val => {
+
+          // calculates GPA and credits
+          var c: Courses;
+          c = val;
+          var credits: number = c.credits.valueOf();
+          var currentGrade = student.credits * student.gpa;
+          currentGrade += (g * credits);
+          var currentCredits = credits + student.credits;
+          var gpa = (currentGrade / currentCredits).toPrecision(3);
+    
+          
+          // Removes course from course requirement if fullfills grade needed
+          course = course.substring(0, 6);
+          var requiredCourses = student.requiredCourses;
+          if(g >= 2.0){
+            var i;
+            for(i = 0; i < student.requiredCourses.length; i++){
+              if(student.requiredCourses[i].includes(course)){
+                break;
+              }
+            }
+            requiredCourses.splice(i, 1);
+          }
+         
+          afs.collection("Students").doc(studentID).update({'gpa': parseFloat(gpa), 'credits': currentCredits, 'requiredCourses' : requiredCourses}).then(()=>{
+            console.log("Student gpa Updated");  
+            resolve(gpa);
+          })
         });
-        return;
-      }
-    }
-  }
+      });
+    })}
+  
 }
 

@@ -1,3 +1,3 @@
 export interface StudentReq{
-    map: Map<String, Object>
+    map: Map<string, string>
 }
