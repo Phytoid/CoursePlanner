@@ -193,7 +193,7 @@ export class StudentRequirementsService {
       }
     }
     
-    student.requiredCourses = innerMap.get('requiredCourses');
+    student.requiredCourses = innerMap.get('requiredCourses').split(',');
     if(student.dept != 'ESE')
       this.afs.firestore.collection('Students').doc(student.id).set(student);
     else{

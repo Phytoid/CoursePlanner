@@ -26,7 +26,7 @@ export interface Student{
     plan?:Plan;
     password?:string;
     gpa?: number;
-    requiredCourses?: string;
+    requiredCourses?: string[];
     credits?: number;
   }
   
