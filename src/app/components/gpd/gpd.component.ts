@@ -26,6 +26,7 @@ export interface SemesterDialogData {
   semester: string;
   year: Number;
   departments: string;
+  
 }
 
 @Component({
@@ -40,6 +41,20 @@ export class GpdComponent implements OnInit {
   semester: String;
   year: Number;
   departments: String[];
+  map = new Map([
+    ["A", 4],
+    ["A-", 3.7],
+    ["B+", 3.3],
+    ["B", 3],
+    ["B-", 2.7],
+    ["C+", 2.3],
+    ["C", 2.0],
+    ["C-", 1.7],
+    ["D+", 1.3],
+    ["D", 1.0],
+    ["D-", 0.7],
+    ["F", 0],
+  ]);
 
   constructor(private authService: AuthService, public router: Router, public studentService: StudentService, public afs: AngularFirestore, public courseService: CourseService, public dialog: MatDialog, public sr: StudentRequirementsService) {
     if (!this.authService.isLoggedIn || localStorage.getItem('userType') != 'GPD') {
@@ -49,6 +64,7 @@ export class GpdComponent implements OnInit {
 
   ngOnInit(): void {
     this.gpd = 'ESE';
+
     if(localStorage.getItem('gpdType') == 'AMS'){
       this.gpd = 'AMS';
     }
@@ -344,7 +360,7 @@ export class GpdComponent implements OnInit {
           }
         }
       }
-
+      
       for (j = 0; j < 13; j++) {
         strArray[j] = strArray[j].trim();
       }
@@ -364,7 +380,7 @@ export class GpdComponent implements OnInit {
         continue;
       }
       strArray[4] = strArray[4].toLocaleUpperCase();
-
+      
       // Edit Track
       var track = strArray[5].toLocaleLowerCase();
       if (strArray[4].toLocaleLowerCase() === 'ams') {
@@ -400,6 +416,7 @@ export class GpdComponent implements OnInit {
           continue;
         }
       } else if (strArray[4].toLocaleLowerCase() === 'cse') {
+        
         if (track === "advanced project") {
           strArray[5] = "Advanced Project";
         } else if (track === "special project") {
@@ -423,13 +440,16 @@ export class GpdComponent implements OnInit {
         warningsStringArray.push("Check that student ID " + strArray[0].toString() + " belongs to your department. This student is ignored.");
         continue;
       }
+      
       var value = (2021 - parseInt(strArray[7])) * 2;
       if (strArray[6].toLocaleLowerCase() === "spring") {
         value = value + 1;
       }
+      
       var pass: "";
       var docRef = this.afs.collection("Degrees").doc(strArray[4] + strArray[8] + strArray[9]);
-      var st: Student = {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 0, unsatisfied : 0, pending : 0, graduated : false, validCoursePlan : true, semesters : value};
+      var st: Student = {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 0, unsatisfied : 0, pending : 0, graduated : false, validCoursePlan : true, semesters : value, gpa: 0, credits: 0, requiredCourses : "" };
+      console.log(st);
       this.hashPassword(strArray[12]).then((hash) => {
         st.password = hash.toString()
         this.afs.firestore.collection('Students').doc(st.id).set(st)
@@ -438,9 +458,9 @@ export class GpdComponent implements OnInit {
         docRef.valueChanges().subscribe(val => {
           this.sr.setStudentRequirements(st, val);
         });
-        
+        callback(text2, this.afs, this.editGPA);
     }
-    callback(text2, this.afs);
+    // callback(text2, this.afs);
   }
 
   async uploadGrade(event) {
@@ -450,10 +470,10 @@ export class GpdComponent implements OnInit {
       return;
     }
     var g = (await fileList.item(0).text()).split(/\r?\n/); // sbu_id,department,course_num,section,semester,year,grade1
-    this.uploadCoursePlan(g, this.afs);
+    this.uploadCoursePlan(g, this.afs, this.editGPA);
   }
 
-  async uploadCoursePlan(g, afs) {
+  async uploadCoursePlan(g, afs, editGPA) {
     let courseDataHeader = "sbu_id,department,course_num,section,semester,year,grade";
     var coursePlanDict = [];
     if (g[0] != courseDataHeader) {
@@ -462,7 +482,7 @@ export class GpdComponent implements OnInit {
     } 
     var coursePlanDict = [];
     var warningsStringArray = [];
-
+    var studentArray : Map<string, Map<string, string>> = new Map();
     for (var i = 0; i < g.length; i++) {
       if (g[i] == courseDataHeader) {
         continue;
@@ -537,11 +557,20 @@ export class GpdComponent implements OnInit {
         let course = department + courseID;
         let courseIdentifier = course + "_" + section;
         var student: Student;
-        afs.collection('Students').doc(studentID).valueChanges().subscribe(val => {
-          student = val;
-          console.log(student.dept)
-          if(student.dept == this.gpd){
-            this.afs.collection('Students').doc(studentID).update({
+        if(studentArray.get(studentID) !== undefined ){
+          studentArray.get(studentID).set(course+semesterAndYear, grade);
+        }
+        else{
+          var map: Map<string, string> = new Map();
+          studentArray.set(studentID, map);
+          studentArray.get(studentID).set(course+semesterAndYear, grade);
+        }
+        // this.editGPA(studentID, course, semesterAndYear, grade);
+        afs.collection('Students').doc(studentID).ref.get().then(val => {
+          student = val.data();
+
+          if(student.dept == localStorage.getItem('gpdType')){ 
+            afs.collection('Students').doc(studentID).update({
               ['coursePlan' + '.' + semesterAndYear + '.' + courseIdentifier] : `${grade.toLocaleUpperCase()}`
             }).then(() => {
       
@@ -556,16 +585,19 @@ export class GpdComponent implements OnInit {
         coursePlanDict.push(dictionary_identifier);
       }
     }
+    
 
     if (warningsStringArray.length == 0) {
       alert("Student information and course plan grades have been updated successfully.");
     } else {
       var warning_string = "";
-      for (i = 0; i < warningsStringArray.length; i++) {
+      for (var i = 0; i < warningsStringArray.length; i++) {
         warning_string = warning_string + warningsStringArray[i] + "\n";
       }
       alert("Valid student information and course plan grades have been updated successfully. The following warning(s) were found:\n\n" + warning_string);
     }
+    console.log(studentArray)
+    editGPA(studentArray, afs);
   }
 
   async hashPassword (password) {
@@ -791,6 +823,54 @@ export class GpdComponent implements OnInit {
 
   logout() {
     this.authService.logout()
+  }
+
+
+  async editGPA(map: Map<string, Map<string, string>>, afs){
+    for(var studentID of map.keys()){
+      for(var course of map.get(studentID).keys()){
+        var gr = map.get(studentID).get(course);
+        
+        var grades = new Map([
+          ["A", 4],
+          ["A-", 3.7],
+          ["B+", 3.3],
+          ["B", 3],
+          ["B-", 2.7],
+          ["C+", 2.3],
+          ["C", 2.0],
+          ["C-", 1.7],
+          ["D+", 1.3],
+          ["D", 1.0],
+          ["D-", 0.7],
+          ["F", 0],
+        ]);
+        var g = grades.get(gr);
+        console.log(g)
+        afs.collection('Students').doc(studentID).ref.get().then((s) => {
+          var student: Student = s.data();
+          console.log(student);
+          afs.collection('CourseInfo').doc(course).valueChanges().subscribe(val => {
+            var c: Courses;
+            c = val;
+            var credits: number = c.credits.valueOf();
+            var currentGrade = student.credits * student.gpa;
+            currentGrade += (g * credits);
+            var currentCredits = credits + student.credits;
+            var gpa = (currentGrade / currentCredits).toPrecision(3);
+            console.log(currentCredits)
+            console.log(gpa)
+            
+            afs.collection("Students").doc(studentID).update({'gpa': parseFloat(gpa), 'credits': currentCredits}).then(()=>{
+              console.log("Student gpa Updated")
+              
+            })
+            // console.log(gpa);
+          });
+        });
+        return;
+      }
+    }
   }
 }
 

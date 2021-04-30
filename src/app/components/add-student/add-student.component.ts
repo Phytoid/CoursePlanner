@@ -64,6 +64,9 @@ export class AddStudentComponent implements OnInit {
       semesters: 0,
       graduated: false,
       validCoursePlan: true,
+      gpa: 0,
+      credits: 0,
+      requiredCourses: ""
     }
     this.s.comments = [];
     this.s.comments.push(event.srcElement[22].value);

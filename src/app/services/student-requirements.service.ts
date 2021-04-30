@@ -22,7 +22,7 @@ export class StudentRequirementsService {
     var track = student.track;
 
     var docRef;
-    var innerMap: Map<String, Object> = new Map;
+    var innerMap: Map<string, string> = new Map;
     var degreeReq = degree;
 
     if(dept == "AMS"){
@@ -193,30 +193,41 @@ export class StudentRequirementsService {
       }
     }
     
-    var map = new Map;
-    map.set("studentReqs", innerMap)
-    this.afs.firestore.collection('StudentRequirements').doc(student.id).set({
-        degreeReq: null
-      }
-    ).then(() => {
-      console.log("Added to database");
-    }).catch((error) => {
-      console.log("Problem adding  to database");
-    });
-    for(var key of innerMap.keys()) {
-      var k: string = key.toString();
-      
-      console.log(k + " " + innerMap.get(k))
-      this.afs.firestore.collection('StudentRequirements').doc(student.id).update({
-        
-          ['degreeReq' + '.' + k] : innerMap.get(key) 
-        }
-      ).then(() => {
-        console.log("Added to database");
-      }).catch((error) => {
-        console.log("Problem adding  to database");
+    student.requiredCourses = innerMap.get('requiredCourses');
+    if(student.dept != 'ESE')
+      this.afs.firestore.collection('Students').doc(student.id).set(student);
+    else{
+      this.afs.firestore.collection('Students').doc(student.id).set({
+        hardwareCourses: innerMap['hardwareCourses'],
+        networkingCourses: innerMap['networkingCourses'],
+        cadCourses: innerMap['cadCourses'],
+        theoryCourses: innerMap['theoryCourses'],
       });
     }
+    // var map = new Map;
+    // map.set("studentReqs", innerMap)
+    // this.afs.firestore.collection('StudentRequirements').doc(student.id).set({
+    //     degreeReq: null
+    //   }
+    // ).then(() => {
+    //   console.log("Added to database");
+    // }).catch((error) => {
+    //   console.log("Problem adding  to database");
+    // });
+    // for(var key of innerMap.keys()) {
+    //   var k: string = key.toString();
+      
+    //   console.log(k + " " + innerMap.get(k))
+    //   this.afs.firestore.collection('StudentRequirements').doc(student.id).update({
+        
+    //       ['degreeReq' + '.' + k] : innerMap.get(key) 
+    //     }
+    //   ).then(() => {
+    //     console.log("Added to database");
+    //   }).catch((error) => {
+    //     console.log("Problem adding  to database");
+    //   });
+    // }
     // console.log(sr.map)
     // var sr: StudentReq = {map : innerMap};
     // this.afs.firestore.collection('StudentRequirements').doc(student.id).set({}).then(() => {
