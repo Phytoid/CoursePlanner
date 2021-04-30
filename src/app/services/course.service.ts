@@ -33,6 +33,17 @@ export class CourseService {
     return this.courses;
   }
 
+  getCourseByName(department: string, courseID: string){
+    this.courses = this.afs.collection('CourseInfo', ref => ref.where('department', '==', department).where('courseID', '==', courseID)).snapshotChanges().pipe(map(changes => {
+      return changes.map(a => {
+        const data = a.payload.doc.data() as Courses;
+        data.course = a.payload.doc.id;
+        return data;
+      })
+    }))
+    return this.courses;
+  }
+
   
   getCourses(){
     return this.courses;
