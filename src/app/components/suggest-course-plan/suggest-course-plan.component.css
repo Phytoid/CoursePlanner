@@ -15,7 +15,12 @@
     margin: 0 auto;
     margin-top: 2px;
     transition: 0.25s;
-    width: 100px;
+    width: 10%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:1%;
 }
 
 #back-btn{
@@ -56,8 +61,24 @@ label{
     float: left;
     padding: 20px;
 } 
+
 #gradSemester{
     float: left;
+}
+
+.mat-column-weight, .mat-column-actions {
+    justify-content:right !important;
+}
+
+.row {
+    display: flex;
+    justify-content: space-evenly;
+    margin-left:-5px;
+    margin-right:-5px;
+}
+
+.column {
+    padding: 5px;
 }
 
 ::ng-deep ngb-datepicker-navigation-select select:first-child {
@@ -87,8 +108,8 @@ span.dropdowns{
     background-color: beige;
 }
 
-#yearchooser{
-
+.semesterList {
+    width: 20% !important;
 }
 
 ::ng-deep .mat-form-field{
