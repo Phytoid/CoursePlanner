@@ -32,5 +32,9 @@ export interface CSE extends DegreeReqs{
     maxCreditsCSE599: Number; // Max credits from cse599 that will count
     thesis: boolean; // If thesis student required a thesis to graduate
     gpa?:Number; // Does the student have a 3.0 GPA or better?
-}
- 
+
+    theoryCourses: String[];
+    systemsCourses: String[];
+    iisCourses: String[];
+}   
+    
