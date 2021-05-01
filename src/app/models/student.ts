@@ -28,5 +28,39 @@ export interface Student{
     gpa?: number;
     requiredCourses?: string[];
     credits?: number;
+    hasThesis?: boolean;
+    meetsCreditMinimum?: boolean;
+    electiveCredits?: number;
+    isMeetTimeLimit?: boolean;
+    meetsElectiveCreditMinimum?: boolean;
+    meetsGPA?: boolean;
+
+
+    numAmsStatCourses?: number;
+    hasAmsORStatComplete?: boolean;
+    hasAmsFinalRec?: boolean;
+    
+    hasBMI592AllSemesters?: boolean;
+
+    numCseBasicCourses?:number;
+    hasCseBasicCourses?: boolean;
+    hasCseTheoryCourse?: boolean;
+    hasCseSystemsCourse?: boolean;
+    hasCseIISCourse?: boolean;
+
+    numEceHardwareCourse?: number;
+    numEceNetworkCourse?: number;
+    numEceCadCourse?: number;
+    numEceTheoryCourse?: number;
+    hasEceHardwareCourse?: boolean;
+    hasEceNetworkingCourse?: boolean;
+    hasEceCadCourse?: boolean;
+    hasEceTheoryCourse?: boolean;
+    numEse697Credits?:number;
+    numEse599Credits?:number;
+    hasEce697Credits?: boolean;
+    hasEce599Credits?: boolean;
+    numEceRegularCredits?: number;
+    hasEceRegularCredits?:boolean
   }
   

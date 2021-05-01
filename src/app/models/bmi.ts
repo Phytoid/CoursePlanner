@@ -23,7 +23,7 @@ export interface BMI extends DegreeReqs {
     versionSemester?: String;
     versionYear?: Number;
     requiredCourses?:String[]; // Did the students take all of the required courses for their track and degree?
-    numElectiveCredits?: Number; // Number of elective credits needed to graduate
+    credits?: Number; // Number of elective credits needed to graduate
     numCreditsNotFromNonElectives?: Number; // Number of elective credits that cannot be from nonElective courses from number of elective courses
     nonElectives?: String[]; // Non elective classes
     requiredCoursesII: String[]; // Classes needed for Imaging Info
