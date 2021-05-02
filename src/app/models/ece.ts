@@ -26,14 +26,15 @@ export interface ECE extends DegreeReqs{
     subAreas1: String[]; // Subarea 1 (hardware, networking, cad)
     subAreas2: String[]; // Subarea 2 (theory)
     requiredCoursesNT: String[]; // Required courses for Non-thesis
+    requiredCoursesT: String[]; // Required courses for thesis
     nonRegularCourses: String[]; //non reqular courses
     numCreditsSubAreas1NT: Number; // Number of credits fron subarea 1 needed by non-thesis
     numCreditsSubAreas2NT: Number; // Number of credits from subarea 2 needed by non-thesis
     maxCreditsESE698NT: Number; // Max credits of ese698 that will count to degree for non thesis
     maxCreditsESE697NT: Number; // Max credits of ese697 that will count to degree for non thesis
     numRegularCoursesNT: Number; // Number of refular courses needed for NT
-    maxComboCreditsNT: Number; // Max credits from a combo of classes ese697 - ese699
-    minCreditsESE697NT: Number; // min credits needed from ESE697
+    maxComboCreditsNT: Number; // Max credits from a combo of classes ese597 - ese599
+    minCreditsESE597NT: Number; // min credits needed from ESE597
     maxTransferCredits: Number; // Max transfer credits that will count to degree
     timeLimit: Number; // Years needed to graduate by
     creditMinimumNT: Number; // Min credits needed for non-thesis to graduate
@@ -43,8 +44,8 @@ export interface ECE extends DegreeReqs{
     maxCreditsESE698T: Number; // Max credits of ese698 that will count to degree for thesis
     maxCreditsESE697T: Number; // Max credits of ese697 that will count to degree for thesis
     numRegularCoursesT: Number; // Number of refular courses needed for Thesis
-    maxComboCreditsT: Number; // Max credits from a combo of classes ese697 - ese699
-    minCreditsESE697T: Number; // min credits needed from ESE697
+    maxComboCreditsT: Number; // Max credits from a combo of classes ese597 - ese599
+    minCreditsESE597T: Number; // min credits needed from ESE597
     minCreditsESE599T: Number; // min credits needed from ESE599
     creditMinimumT: Number; // Min credits needed for thesis to graduate
     gpaT: Number; // Min gpa needed by thesis to graduate

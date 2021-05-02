@@ -7,6 +7,7 @@ import { first } from 'rxjs/operators';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { NgbDateStruct, NgbCalendar, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import bcrypt from 'bcryptjs';
 
 import { Student } from '../../models/student';
 
@@ -43,40 +44,92 @@ export class AddStudentComponent implements OnInit {
   }
 
   addStudent(event) {
+    var value = (2021 - parseInt(event.srcElement[10].value)) * 2;
+    if (event.srcElement[7].value.toLocaleLowerCase() === "spring") {
+      value = value + 1;
+    }
     this.s = {
       first: event.srcElement[0].value,
       last: event.srcElement[1].value,
       id: event.srcElement[2].value,
       sbuID: event.srcElement[2].value,
       email: event.srcElement[3].value,
-      dept: event.srcElement[4].value,
-      track: event.srcElement[5].value,
-      entrySemester: event.srcElement[6].value,
-      entryYear: event.srcElement[9].value,
-      reqVersionSemester: event.srcElement[11].value,
-      reqVersionYear: event.srcElement[14].value,
-      gradSemester: event.srcElement[16].value,
-      gradYear: event.srcElement[19].value,
-      advisor: event.srcElement[21].value,
-      satisfied: 0,
+      dept: event.srcElement[5].value,
+      track: event.srcElement[6].value,
+      entrySemester: event.srcElement[7].value,
+      entryYear: event.srcElement[10].value,
+      reqVersionSemester: event.srcElement[12].value,
+      reqVersionYear: event.srcElement[15].value,
+      gradSemester: event.srcElement[17].value,
+      gradYear: event.srcElement[20].value,
+      advisor: event.srcElement[22].value,
+      satisfied: 1,
       pending: 0,
       unsatisfied: 0,
-      semesters: 0,
+      semesters: value,
       graduated: false,
-      validCoursePlan: true,
+      validCoursePlan: false,
       gpa: 0,
       credits: 0,
-      requiredCourses: []
+      requiredCourses: [],
+      hasThesis: false, meetsCreditMinimum: false, electiveCredits: 0, isMeetTimeLimit: false, meetsElectiveCreditMinimum: false, meetsGPA: false
     }
     this.s.comments = [];
     this.s.comments.push(event.srcElement[22].value);
+    if(this.s.dept == 'AMS'){
+      this.s.unsatisfied = 4;
+      this.s.electiveCredits = 0;
+      this.s.isMeetTimeLimit = false;
+      this.s.meetsElectiveCreditMinimum = false;
+      this.s.numAmsStatCourses = 0;
+      this.s.hasAmsFinalRec = false; 
+      this.s.hasAmsORStatComplete = false;
+    }
+    else if(this.s.dept == 'BMI'){
+      this.s.unsatisfied = 4;
+      this.s.hasBMI592AllSemesters = false;
+    }
+    else if(this.s.dept == 'CSE'){
+      this.s.unsatisfied = 6;
+      this.s.numCseBasicCourses = 0; 
+      this.s.hasCseBasicCourses = false; 
+      this.s.hasCseTheoryCourse = false; 
+      this.s.hasCseIISCourse = false;
+      this.s.hasCseSystemsCourse = false;
+      if(this.s.track == 'Special Project'){
+        this.s.unsatisfied += 1;
+      }
+    }
+    else{
+      this.s.unsatisfied = 8;
+      this.s.numEceCadCourse = 0; 
+      this.s.numEceHardwareCourse = 0; 
+      this.s.numEceTheoryCourse = 0; 
+      this.s.numEceNetworkCourse = 0; 
+      this.s.numEceRegularCredits = 0; 
+      this.s.numEse599Credits = 0; 
+      this.s.numEse597Credits = 0; 
+      this.s.hasEce599Credits = false; 
+      this.s.hasEce597Credits = false; 
+      this.s.hasEceCadCourse = false; 
+      this.s.hasEceHardwareCourse = false; 
+      this.s.hasEceNetworkingCourse = false; 
+      this.s.hasEceRegularCredits =false; 
+      this.s.hasEceTheoryCourse = false;
+    }
 
-    this.afs.firestore.collection('Students').doc(this.s.id).set(this.s);
-    var docRef = this.afs.collection("Degrees").doc(this.s.dept + this.s.reqVersionSemester+ this.s.reqVersionYear);
-    docRef.valueChanges().subscribe(val => {
-      this.sr.setStudentRequirements(this.s, val);
+    console.log(this.s.dept + this.s.reqVersionSemester + this.s.reqVersionYear)
+    var docRef = this.afs.collection("Degrees").doc(this.s.dept + this.s.reqVersionSemester + this.s.reqVersionYear);
+    this.hashPassword(event.srcElement[4].value).then((hash) => {
+      console.log(this.s);
+      this.s.password = hash.toString();
+      this.afs.firestore.collection('Students').doc(this.s.id).set(this.s);
+      docRef.valueChanges().subscribe(val => {
+        console.log(val);
+        this.sr.setStudentRequirements(this.s, val);
+      });
     });
-    
+
     this.router.navigate(['search']);
   }
 
@@ -97,4 +150,22 @@ export class AddStudentComponent implements OnInit {
     }
   }
 
+  async hashPassword (password) {
+    const hash = await new Promise((resolve, reject) => {
+      bcrypt.hash(password, 10, function(err, hash) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(hash)
+        }
+      });
+    })
+    return hash;
+  }
+
+  setThesis(){
+    this.s.hasThesis = !this.s.hasThesis;
+  }
+
 }
+

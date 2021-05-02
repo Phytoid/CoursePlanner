@@ -21,14 +21,14 @@
             <mat-form-field style="width:75%" id="filter">
             <mat-label id="label">Choose Course</mat-label>
             <mat-select (selectionChange)="addItemPref($event)">
-                <mat-option *ngFor="let course of courses" [value]="course.course">
-                    {{course.course}}
+                <mat-option *ngFor="let course of courseNames" [value]="course">
+                    {{course}}
                 </mat-option>
             </mat-select>
             </mat-form-field>
         </div>
         <div>
-            
+            <input type="checkbox" id="weightCheckbox" (click)="checkboxCheck()"> Weight Course Preferences?
         </div>
     </span>
     <span class="dropdowns"> 
@@ -48,8 +48,8 @@
             <mat-form-field style="width:75%" id="filter">
                 <mat-label id="label">Choose Course</mat-label>
                 <mat-select (selectionChange)="addItemAvoid($event)">
-                    <mat-option *ngFor="let course of courses" [value]="course.course">
-                        {{course.course}}
+                    <mat-option *ngFor="let course of courseNames" [value]="course">
+                        {{course}}
                     </mat-option>
                 </mat-select>
                 </mat-form-field>
@@ -121,22 +121,29 @@
     </span>
 </div>
 <div>
-    <span>
-        <table mat-table #table matSort class="mat-elevation-z8" [dataSource]="coursesToAddList" matSortDirection="asc" style="width:50%"> 
-            <ng-container matColumnDef="add">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Courses To Add</th>
-                <td mat-cell *matCellDef="let coursesToAddList">{{coursesToAddList.courseName}}</td>
+    <span class = "row">
+        <table mat-table #table matSort class="mat-elevation-z8 column" [dataSource]="coursesToAddList" matSortDirection="asc" style="width:45%"> 
+            <ng-container matColumnDef="courseName">
+                <th mat-header-cell *matHeaderCellDef>Courses To Add</th>
+                <td mat-cell *matCellDef="let coursesToAddList; let i = index">{{coursesToAddList.courseName}}</td>
             </ng-container>
-            <ng-container matColumnDef="weight">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Preference Weight</th>
-                <td mat-cell *matCellDef="let coursesToAddList">{{coursesToAddList.prefWeight}}</td>
+            <ng-container id="weightsID" matColumnDef="weight">
+                <th mat-header-cell *matHeaderCellDef>Preference Weight</th>
+                <td mat-cell *matCellDef="let coursesToAddList; let i = index">{{i + 1}}</td>
+            </ng-container>
+            <ng-container id="actionsID" matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row">
+                    <button style="width:20%" (click)="moveUp(row)" class="upButton" mat-button>↑</button>
+                    <button style="width:20%" (click)="moveDown(row)" class="downButton" mat-button>↓</button>
+                </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="courseAdd"></tr>
             <tr mat-row *matRowDef="let row; columns: courseAdd;"></tr>
         </table>
-        <table mat-table #table matSort class="mat-elevation-z8" [dataSource]="coursesToAvoidList" matSortDirection="asc" style="width:50%"> 
-            <ng-container matColumnDef="avoid">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Courses To Avoid</th>
+        <table mat-table #table matSort class="mat-elevation-z8 column" [dataSource]="coursesToAvoidList" matSortDirection="asc" style="width:45%"> 
+            <ng-container matColumnDef="courseName">
+                <th mat-header-cell *matHeaderCellDef>Courses To Avoid</th>
                 <td mat-cell *matCellDef="let coursesToAvoidList">{{coursesToAvoidList.courseName}}</td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="courseAvoid"></tr>

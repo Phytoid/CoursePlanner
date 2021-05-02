@@ -16,12 +16,14 @@ export interface AMS extends DegreeReqs {
     versionSemester?:String; // Version semester
     versionYear?: Number; // version year
     requiredCoursesCAM?: String[]; // required courses for Computational Applied Mathematics
+    numElectiveCoursesCAM?: Number; // Num electives needed for CAM track
     requiredCoursesCB?: String[]; // required courses for Computational Biology
     numElectiveCoursesCB?:Number; // Number electives needed for CB track
     requiredCoursesOR?: String[]; // required courses Operations Research
     statisticCoursesOR?:String[]; // statistic courses used for Operations Research
     numStatisticCoursesOR?: Number; // Num stat courses needed for OR
     electiveCoursesOR?: String[]; // Elective courses for OR track
+    numElectiveCoursesOR?: Number;
     electiveCoursesSubsOR?: String[]; // Electives that can be substitued for electives OR
     numElectiveCoursesSubStatsOR?: Number; // Num elective courses needed
     numElectiveCoursesSubFinance?: Number; // Num of sub elective courses that can count
