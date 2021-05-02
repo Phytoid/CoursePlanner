@@ -1,22 +1,30 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatTableModule } from '@angular/material/table';
 import { Courses } from 'src/app/models/courses';
 import { CourseService } from 'src/app/services/course.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { Student } from '../../models/student';
-import { MatTable } from '@angular/material/table';
+import { MatYearView } from '@angular/material/datepicker';
+import { Student } from 'src/app/models/student';
 
 @Component({
   selector: 'app-suggest-course-plan',
   templateUrl: './suggest-course-plan.component.html',
   styleUrls: ['./suggest-course-plan.component.css']
 })
+
 export class SuggestCoursePlanComponent implements OnInit {
-  courseAdd: string[] = ['courseName'];
-  courseAvoid: string[] = ['courseName'];
+  limitCourses=[];
+  prefWeight: number = 0;
+  //maxCourses: number = 0;
+  courseAdd: string[] = ['add', "weight"];
+  courseAvoid: string[] = ['avoid'];
+  timeStart=[]
+  timeEnd=[]
+  sem=[];
+  year=[];
   // c: string[] = ["a","b","c","d","e","f","g","h","i","j","k","l"];
   @ViewChild(MatTable) table: MatTable<any>;
   courses: Courses[];
@@ -147,6 +155,33 @@ export class SuggestCoursePlanComponent implements OnInit {
     this.table.renderRows()
   }
 
+  timeSlotStart(event): void{
+    var timeslot = event.target.value;
+    var arr=[];
+    arr = arr.concat(timeslot);
+    this.timeStart = arr;
+    console.log(this.timeStart);
+  }
+  timeSlotEnd(event): void{
+    var timeslot = event.target.value;
+    var arr=[];
+    arr = arr.concat(timeslot);
+    this.timeEnd = arr;
+    console.log(this.timeEnd);
+  }
+  coursesSemYear(event): void{
+    //event.target.value
+    var courses = event.target[0].value;
+    var x = event.target[1].value;
+    var y = event.target[2].value;
+    this.limitCourses.push(courses);
+    this.sem.push(x);
+    this.year.push(y);
+    //this.maxCourses = courses;
+    console.log(this.courses);
+    console.log(this.sem);
+    console.log(this.year);
+  }
   suggestCoursePlan(): void {
     //var required_courses = ;
     //var preferred_courses = ;
