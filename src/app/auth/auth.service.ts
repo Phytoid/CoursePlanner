@@ -56,7 +56,7 @@ export class AuthService {
         localStorage.setItem('gpdType', 'CSE');
       }
       else{
-        localStorage.setItem('gpdType', 'ESE');
+        localStorage.setItem('gpdType', 'ECE');
       }
       this.router.navigate(['gpd']);
     } else {

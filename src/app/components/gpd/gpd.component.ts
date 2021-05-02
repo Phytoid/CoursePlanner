@@ -63,7 +63,7 @@ export class GpdComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.gpd = 'ESE';
+    this.gpd = 'ECE';
 
     if(localStorage.getItem('gpdType') == 'AMS'){
       this.gpd = 'AMS';
@@ -296,6 +296,7 @@ export class GpdComponent implements OnInit {
     var course_data = 0;
     var student_data = 0;
 
+
     if(text1[0] == courseDataHeader) {
       course_data++;
     } else if(text1[0] == studentDataHeader) {
@@ -321,9 +322,9 @@ export class GpdComponent implements OnInit {
       text1 = text2;
       text2 = temp;
     }
+    
 
     var notInTheGPDDepartment = [];
-
     var studentIDs = [];
     // Parse Student Information
     for (var i = 0; i < text1.length; i++) {
@@ -360,7 +361,7 @@ export class GpdComponent implements OnInit {
           }
         }
       }
-      
+     
       for (j = 0; j < 13; j++) {
         strArray[j] = strArray[j].trim();
       }
@@ -436,6 +437,7 @@ export class GpdComponent implements OnInit {
           warningsStringArray.push("Check that ECE student ID " + strArray[0].toString() + " has a valid track. This student's information was not updated.");
           continue;
         }
+        console.log(strArray[5])
       } else {
         warningsStringArray.push("Check that student ID " + strArray[0].toString() + " belongs to your department. This student is ignored.");
         continue;
@@ -446,44 +448,50 @@ export class GpdComponent implements OnInit {
         value = value + 1;
       }
       
-      var pass: "";
-      var docRef = this.afs.collection("Degrees").doc(strArray[4] + strArray[8] + strArray[9]);
+      var val;
+      var docRef = this.afs.collection("Degrees").doc(strArray[4] + strArray[8] + strArray[9])
       var st: Student ;
       if(strArray[4] == 'AMS'){
-        st= {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 1, unsatisfied : 3, pending : 0, graduated : false, validCoursePlan : true, semesters : value, gpa: 0, credits: 0, requiredCourses : [], hasThesis: false,meetsGPA: false, meetsCreditMinimum: false, electiveCredits: 0, isMeetTimeLimit: false, meetsElectiveCreditMinimum: false,numAmsStatCourses: 0, hasAmsFinalRec: false, hasAmsORStatComplete: false};
+        st= {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 1, unsatisfied : 3, pending : 0, graduated : false, validCoursePlan : false, semesters : value, gpa: 0, credits: 0, requiredCourses : [], hasThesis: false,meetsGPA: false, meetsCreditMinimum: false, electiveCredits: 0, isMeetTimeLimit: false, meetsElectiveCreditMinimum: false,numAmsStatCourses: 0, hasAmsFinalRec: false, hasAmsORStatComplete: false};
       }
       else if(strArray[4] == 'BMI'){
-        st= {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 1, unsatisfied : 3, pending : 0, graduated : false, validCoursePlan : true, semesters : value, gpa: 0, credits: 0, requiredCourses : [], hasThesis: false, meetsGPA: false, meetsCreditMinimum: false, electiveCredits: 0, isMeetTimeLimit: false, meetsElectiveCreditMinimum: false, hasBMI592AllSemesters: false};
+        st= {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 1, unsatisfied : 3, pending : 0, graduated : false, validCoursePlan : false, semesters : value, gpa: 0, credits: 0, requiredCourses : [], hasThesis: false, meetsGPA: false, meetsCreditMinimum: false, electiveCredits: 0, isMeetTimeLimit: false, meetsElectiveCreditMinimum: false, hasBMI592AllSemesters: false};
       }
       else if(strArray[4] == 'CSE'){
-        st= {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 1, unsatisfied : 5, pending : 0, graduated : false, validCoursePlan : true, semesters : value, gpa: 0, credits: 0, requiredCourses : [], hasThesis: false, meetsCreditMinimum: false, electiveCredits: 0, isMeetTimeLimit: false, meetsGPA: false, meetsElectiveCreditMinimum: false, numCseBasicCourses: 0, hasCseBasicCourses: false, hasCseTheoryCourse: false, hasCseIISCourse: false, hasCseSystemsCourse: false };
+        st= {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 1, unsatisfied : 5, pending : 0, graduated : false, validCoursePlan : false, semesters : value, gpa: 0, credits: 0, requiredCourses : [], hasThesis: false, meetsCreditMinimum: false, electiveCredits: 0, isMeetTimeLimit: false, meetsGPA: false, meetsElectiveCreditMinimum: false, numCseBasicCourses: 0, hasCseBasicCourses: false, hasCseTheoryCourse: false, hasCseIISCourse: false, hasCseSystemsCourse: false };
+        if(st.track == 'Special Project'){
+          st.unsatisfied = 6;
+        }
       }
       else{
-        st= {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 1, unsatisfied : 7, pending : 0, graduated : false, validCoursePlan : true, semesters : value, gpa: 0, credits: 0, requiredCourses : [], hasThesis: false, meetsCreditMinimum: false, electiveCredits: 0, isMeetTimeLimit: false, meetsElectiveCreditMinimum: false, numEceCadCourse: 0, numEceHardwareCourse: 0, numEceTheoryCourse: 0, numEceNetworkCourse: 0, numEceRegularCredits: 0, numEse599Credits: 0, numEse697Credits: 0, hasEce599Credits: false, meetsGPA: false, hasEce697Credits: false, hasEceCadCourse: false, hasEceHardwareCourse: false, hasEceNetworkingCourse: false, hasEceRegularCredits:false, hasEceTheoryCourse: false};
+        
+        st= {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 1, unsatisfied : 7, pending : 0, graduated : false, validCoursePlan : false, semesters : value, gpa: 0, credits: 0, requiredCourses : [], hasThesis: false, meetsCreditMinimum: false, electiveCredits: 0, isMeetTimeLimit: false, meetsElectiveCreditMinimum: false, numEceCadCourse: 0, numEceHardwareCourse: 0, numEceTheoryCourse: 0, numEceNetworkCourse: 0, numEceRegularCredits: 0, numEse599Credits: 0, numEse597Credits: 0, hasEce599Credits: false, meetsGPA: false, hasEce597Credits: false, hasEceCadCourse: false, hasEceHardwareCourse: false, hasEceNetworkingCourse: false, hasEceRegularCredits:false, hasEceTheoryCourse: false};
       }
       
+      console.log(st)
+
+      var hash = await this.hashPassword(strArray[12])
+      st.password = hash.toString()
+
       
-      this.hashPassword(strArray[12]).then((hash) => {
-        st.password = hash.toString()
-        this.afs.firestore.collection('Students').doc(st.id).set(st).then(
-          
-        )
-        studentIDs.push(strArray[0])
-      }); 
-      docRef.valueChanges().subscribe(async val => {
-          await this.sr.setStudentRequirements(st, val);
-          callback(text2, this.afs, this.editGPA, this.addToDatabase, this.updateStudent);
-      });
+      this.afs.firestore.collection('Students').doc(st.id).set(st).then(()=>{
+        console.log("Student added")
+      })
+      studentIDs.push(strArray[0])
+      this.setStudent(st, docRef);
       
     }
+    callback(text2, this.afs, this.editGPA, this.addToDatabase, this.updateStudent);
     // callback(text2, this.afs);
   }
 
-  // async fun(docRef, sr, st, val){
-  //   return new Promise(resolve => {docRef.valueChanges().subscribe(val => {
-  //     this.sr.setStudentRequirements(st, val);
-  //  });
-  // }
+  setStudent(st, docRef){
+      docRef.valueChanges().subscribe(val => {
+        console.log(st);
+        this.sr.setStudentRequirements(st, val);
+      });
+
+  }
 
   async uploadGrade(event) {
     let fileList: FileList = event.target.files;
@@ -590,13 +598,13 @@ export class GpdComponent implements OnInit {
         // this.editGPA(studentID, course, semesterAndYear, grade);
         afs.collection('Students').doc(studentID).ref.get().then(val => {
           student = val.data();
-
+          console.log(student);
           if(student.dept == localStorage.getItem('gpdType')){ 
             afs.collection('Students').doc(studentID).update({
               ['coursePlan' + '.' + semesterAndYear + '.' + courseIdentifier] : `${grade.toLocaleUpperCase()}`
             }).then(() => {
-      
             }).catch((error) => {
+              console.log(error);
               console.log("Student ID: " + studentID + " does not exist.");
             });
           } else {
@@ -623,7 +631,7 @@ export class GpdComponent implements OnInit {
   }
 
   async hashPassword (password) {
-    const hash = await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       bcrypt.hash(password, 10, function(err, hash) {
         if (err) {
           reject(err)
@@ -632,7 +640,7 @@ export class GpdComponent implements OnInit {
         }
       });
     })
-    return hash;
+    
   }
 
   async uploadDegreeReqs(event) {
@@ -717,7 +725,7 @@ export class GpdComponent implements OnInit {
       versionSemester : myObj.versionSemester,
       versionYear : myObj.versionYear,
       track : myObj.track,
-      minCredits : myObj.minCredits,
+      credits : myObj.credits,
       maxCreditsCSE587 : myObj.maxCreditsCSE587,
       oneGraduateClass : myObj.oneGraduateClass,
       gpa : myObj.gpa,
@@ -729,14 +737,15 @@ export class GpdComponent implements OnInit {
       minBasicProjectS : myObj.minBasicProjectS,
       basicProjectCourses : myObj.basicProjectCourses,
       everythingCoursesS : myObj.everythingCoursesS,
-      maxSpecialCoursesS : myObj.maxSpecialCoursesS,
+      specialCoursesS : myObj.specialCoursesS,
       maxSpecialCreditsS : myObj.maxSpecialCreditsS,
       requiredCoursesT : myObj.requiredCoursesT,
       maxCreditsCSE599 : myObj.maxCreditsCSE599,
       thesis : myObj.thesis,
       theoryCourses: myObj.theoryCourses,
       systemsCourses: myObj.systemsCourses,
-      iisCourses: myObj.iisCourses }
+      iisCourses: myObj.iisCourses,
+      numBreadthCourses: myObj.numBreadthCourses }
       console.log(cseDegree.iisCourses);
       this.afs.collection("Degrees").doc("CSE"+cseDegree.versionSemester+cseDegree.versionYear).set(cseDegree).then(()=>{
         console.log("CSE Degree Updated")
@@ -763,14 +772,15 @@ export class GpdComponent implements OnInit {
       maxCreditsESE698NT : myObj.maxCreditsESE698NT,
       numRegularCoursesNT :myObj.numRegularCoursesNT,
       maxComboCreditsNT : myObj.maxComboCreditsNT,
-      minCreditsESE697NT : myObj.minCreditsESE697NT,
+      minCreditsESE597NT : myObj.minCreditsESE597NT,
       maxTransferCredits : myObj.maxTransferCredits,
       timeLimit : myObj.timeLimit,
       creditMinimumNT : myObj.creditMinimumNT,
       gpaNT : myObj.gpaNT,
       creditMinimumT : myObj.creditMinimumT,
       gpaT : myObj.gpaT,
-      minCreditsESE697T : myObj.minCreditsESE697T,
+      requiredCoursesT : myObj.requiredCoursesT,
+      minCreditsESE597T : myObj.minCreditsESE597T,
       maxComboCreditsT : myObj.maxComboCreditsT,
       maxCreditsESE697T : myObj.maxCreditsESE697T,
       maxCreditsESE698T : myObj.maxCreditsESE698T,
@@ -779,7 +789,7 @@ export class GpdComponent implements OnInit {
       minCreditsESE599T : myObj.minCreditsESE599T,
       numRegularCoursesT : myObj.numRegularCoursesT,
       completeThesis : myObj.completeThesis }
-      this.afs.collection("Degrees").doc("ESE"+eceDegree.versionSemester+eceDegree.versionYear).set(eceDegree).then(()=>{
+      this.afs.collection("Degrees").doc("ECE"+eceDegree.versionSemester+eceDegree.versionYear).set(eceDegree).then(()=>{
         console.log("ECE Degree Updated")
       })
     }
@@ -854,363 +864,286 @@ export class GpdComponent implements OnInit {
 
   async editGPA(map: Map<string, Map<string, string>>, afs, addToDatabase, updateStudent){
     for(var studentID of map.keys()){
+      console.log(studentID);
+      afs.collection('Students').doc(studentID).ref.get().then((s) => {
+        var student: Student = s.data();
+        console.log(student)
+      })
         for (var course of map.get(studentID).keys()){
           await addToDatabase(course, studentID, afs, map, updateStudent);
+          
         }
     }
     return;
   }
 
   addToDatabase(course, studentID, afs, map, updateStudent){
-      var gr = map.get(studentID).get(course);
-      var grades = new Map([
-        ["A", 4],
-        ["A-", 3.7],
-        ["B+", 3.3],
-        ["B", 3],
-        ["B-", 2.7],
-        ["C+", 2.3],
-        ["C", 2.0],
-        ["C-", 1.7],
-        ["D+", 1.3],
-        ["D", 1.0],
-        ["D-", 0.7],
-        ["F", 0],
-      ]);
-      var g = grades.get(gr);
-      return new Promise(resolve => {
-      afs.collection('Students').doc(studentID).ref.get().then((s) => {
-          var student: Student = s.data();
-          console.log(student);
-          afs.collection('CourseInfo').doc(course).valueChanges().subscribe( async val => {
+    var gr = map.get(studentID).get(course);
+    var grades = new Map([
+      ["A", 4],
+      ["A-", 3.7],
+      ["B+", 3.3],
+      ["B", 3],
+      ["B-", 2.7],
+      ["C+", 2.3],
+      ["C", 2.0],
+      ["C-", 1.7],
+      ["D+", 1.3],
+      ["D", 1.0],
+      ["D-", 0.7],
+      ["F", 0],
+    ]);
+    var g = grades.get(gr);
+    return new Promise(resolve => {
+    afs.collection('Students').doc(studentID).ref.get().then((s) => {
+        var student: Student = s.data();
+        console.log(s.data());
+        if(student.dept != localStorage.getItem('gpdType')){
+          resolve;
+        }
+        console.log(course)
+        afs.collection('CourseInfo').doc(course).valueChanges().subscribe( async val => {
+          // calculates GPA and credits
+          var c: Courses;
+          c = val;
+          var credits: number = c.credits.valueOf();
+          var currentGrade = student.credits * student.gpa;
+          currentGrade += (g * credits);
+          var currentCredits = credits + student.credits;
+          var gpa = (currentGrade / currentCredits).toPrecision(3);
 
-            // calculates GPA and credits
-            var c: Courses;
-            c = val;
-            var credits: number = c.credits.valueOf();
-            var currentGrade = student.credits * student.gpa;
-            currentGrade += (g * credits);
-            var currentCredits = credits + student.credits;
-            var gpa = (currentGrade / currentCredits).toPrecision(3);
+          
+          // Removes course from course requirement if fullfills grade needed
+          course = course.substring(0, 6);
+          
+          if(g >= 2.0){
+            s = await updateStudent(course, student, gpa, credits, afs)
+          }
+          else{
+            student.gpa = parseFloat(gpa);
+            student.credits = credits;
+            s = student;
+          }
+               
+     
+          afs.collection("Students").doc(studentID).update(s).then(()=>{
+            console.log("Student gpa Updated");  
+            resolve(gpa);
 
-            
-            // Removes course from course requirement if fullfills grade needed
-            course = course.substring(0, 6);
-            if(g >= 2.0){
-              s = await updateStudent(g, course, student, gpa, credits, afs)
-            }
-            else{
-              s.gpa = gpa;
-              s.credits = credits;
-            }
-            
-            
-            
-            afs.collection("Students").doc(studentID).set(s).then(()=>{
-              console.log("Student gpa Updated");  
-              resolve(gpa);
-            })
-          });
+          })
         });
+      });
     })
   }
 
-  async updateStudent(g, course, student, gpa, credits, afs){
+  async updateStudent(course, student, gpa, credits, afs){
     var satisfied = student.satisfied;
     var pending = student.pending;
     var unsatisfied = student.unsatisfied;
     var requiredCourses = student.requiredCourses;
     var changeGPA = false;
     return new Promise(resolve => {
-
-      if(g >= 2.0){
-        var i;
-        
-        // Removes course from course requirement if fullfills grade needed
-        var isElective = true;
-        
-        for(i = 0; i < student.requiredCourses.length; i++){
-          if(student.requiredCourses[i].includes(course)){
-            requiredCourses.splice(i, 1);
-            if(requiredCourses.length == 0){
-              satisfied += 1;
-              if(pending > 0){
-                pending -= 1;
+      var i;
+      
+      // Removes course from course requirement if fullfills grade needed
+      var isElective = true;
+      
+      for(i = 0; i < student.requiredCourses.length; i++){
+        if(student.requiredCourses[i].includes(course)){
+          requiredCourses.splice(i, 1);
+          if(requiredCourses.length == 0){
+            satisfied += 1;
+            if(pending > 0){
+              pending -= 1;
+            }
+            else{
+              unsatisfied -= 1;
+            }
+          }
+          isElective = false;
+          if(student.dept == 'BMI'){
+            student.electiveCredits += credits;
+          }
+          student.credits += credits;
+          console.log(student.credits);
+          student.satisfied = satisfied;
+          student.pending = pending;
+          student.unsatisfied = unsatisfied;
+          student.gpa = parseFloat(gpa);
+          resolve(student);
+        }
+      }
+      var ams: AMS;
+      var bmi: BMI;
+      var cse: CSE;
+      var ece: ECE;
+      
+      // Check if student satisfies credit min
+      if(isElective){
+        if(student.dept == 'AMS'){
+          afs.collection('Degrees').doc('AMS' + student.entrySemester + student.entryYear).valueChanges().subscribe(amsDoc => {
+            ams = amsDoc;
+            student.credits += credits;
+            if(student.track == 'CB'){
+              student.electiveCredits += credits;
+              
+              changeGPA = true
+              if(student.credits >= ams.credits && !student.meetsCreditMinimum){
+                satisfied += 1;
+                if(unsatisfied > 0){
+                  unsatisfied -= 1;
+                }
+                else{
+                  pending -= 1;
+                }
+                student.meetsCreditMinimum = true;
+              }
+              if(student.electiveCredits >= ams.numElectiveCoursesCB){
+                satisfied += 1;
+                if(unsatisfied > 0){
+                  unsatisfied -= 1;
+                }
+                else{
+                  pending -= 1;
+                }
+                student.meetsElectiveCreditMinimum = true;
               }
             }
-            isElective = false;
-            if(student.dept == 'BMI'){
-              student.electiveCredits += credits;
+
+            else if(student.track == 'OR'){
+              if(student.credits >= ams.credits && !student.meetsCreditMinimum){
+                satisfied += 1;
+                if(unsatisfied > 0){
+                  unsatisfied -= 1;
+                }
+                else{
+                  pending -= 1;
+                }
+                student.meetsCreditMinimum = true;
+              }
+              if(ams.statisticCoursesOR.includes(course)){
+                student.numAmsStatCourses += 1;
+                student.electiveCredits += credits;
+                changeGPA = true;
+                if(student.numAmsStatCourses >= ams.numStatisticCoursesOR && !student.hasAmsORStatComplete){
+                  satisfied += 1;
+                  if(unsatisfied > 0){
+                    unsatisfied -= 1;
+                  }
+                  else{
+                    pending -= 1;
+                  }
+                  student.hasAmsORStatComplete = true;
+                }
+              }
+              
+              else if(ams.electiveCoursesSubsOR.includes(course)){
+                student.electiveCredits += credits;
+                changeGPA = true;
+                if(student.electiveCredits >= ams.numElectiveCoursesOR){
+                  satisfied += 1;
+                  if(unsatisfied > 0){
+                    unsatisfied -= 1;
+                  }
+                  else{
+                    pending -= 1;
+                  }
+                  student.meetsElectiveCreditMinimum = true;
+                }
+              }
             }
-            student.credits += credits;
-            console.log(student.credits);
+
+            else if(student.track == 'CAM'){
+              changeGPA = true;
+              if(student.credits >= ams.credits && !student.meetsCreditMinimum){
+                satisfied += 1;
+                if(unsatisfied > 0){
+                  unsatisfied -= 1;
+                }
+                else{
+                  pending -= 1;
+                }
+                student.meetsCreditMinimum = true;
+              }
+              if(student.electiveCredits >= ams.numElectiveCoursesCAM && !student.meetsElectiveCreditMinimum){
+                satisfied += 1;
+                if(unsatisfied > 0){
+                  unsatisfied -= 1;
+                }
+                else{
+                  pending -= 1;
+                }
+                student.meetsElectiveCreditMinimum = true;
+              }
+            }
+            
+            else{
+              if(student.credits >= ams.credits){
+                satisfied += 1;
+                if(unsatisfied > 0){
+                  unsatisfied -= 1;
+                }
+                else{
+                  pending -= 1;
+                }
+                student.meetsCreditMinimum = true;
+              }
+              if(student.electiveCredits >= ams.numElectiveCoursesQF && !student.meetsElectiveCreditMinimum){
+                satisfied += 1;
+                if(unsatisfied > 0){
+                  unsatisfied -= 1;
+                }
+                else{
+                  pending -= 1;
+                }
+                student.meetsElectiveCreditMinimum = true;
+              }
+              changeGPA = true;
+            }
+
             student.satisfied = satisfied;
             student.pending = pending;
             student.unsatisfied = unsatisfied;
-            student.gpa = parseFloat(gpa);
-            resolve(student);
-          }
-        }
-        var ams: AMS;
-        var bmi: BMI;
-        var cse: CSE;
-        var ece: ECE;
-        
-        // Check if student satisfies credit min
-        if(isElective){
-          if(student.dept == 'AMS'){
-            afs.collection('Degrees').doc('AMS' + student.entrySemester + student.entryYear).valueChanges().subscribe(amsDoc => {
-              ams = amsDoc;
-              student.credits += credits;
-              if(student.track == 'CB'){
-                student.electiveCredits += credits;
-                
-                changeGPA = true
-                if(student.credits >= ams.credits && !student.meetsCreditMinimum){
-                  satisfied += 1;
-                  if(unsatisfied > 0){
-                    unsatisfied -= 1;
-                  }
-                  else{
-                    pending -= 1;
-                  }
-                  student.meetsCreditMinimum = true;
-                }
-                if(student.electiveCredits >= ams.numElectiveCoursesCB){
-                  satisfied += 1;
-                  if(unsatisfied > 0){
-                    unsatisfied -= 1;
-                  }
-                  else{
-                    pending -= 1;
-                  }
-                  student.meetsElectiveCreditMinimum = true;
-                }
+            if(changeGPA){
+              student.gpa = parseFloat(gpa);
+              if(student.gpa > ams.gpa){
+                student.meetsGPA = true;
               }
-
-              else if(student.track == 'OR'){
-                if(student.credits >= ams.credits && !student.meetsCreditMinimum){
-                  satisfied += 1;
-                  if(unsatisfied > 0){
-                    unsatisfied -= 1;
-                  }
-                  else{
-                    pending -= 1;
-                  }
-                  student.meetsCreditMinimum = true;
-                }
-                if(ams.statisticCoursesOR.includes(course)){
-                  student.numAmsStatCourses += 1;
-                  student.electiveCredits += credits;
-                  changeGPA = true;
-                  if(student.numAmsStatCourses >= ams.numStatisticCoursesOR && !student.hasAmsORStatComplete){
-                    satisfied += 1;
-                    if(unsatisfied > 0){
-                      unsatisfied -= 1;
-                    }
-                    else{
-                      pending -= 1;
-                    }
-                    student.hasAmsORStatComplete = true;
-                  }
-                }
-                
-                else if(ams.electiveCoursesSubsOR.includes(course)){
-                  student.electiveCredits += credits;
-                  changeGPA = true;
-                  if(student.electiveCredits >= ams.numElectiveCoursesOR){
-                    satisfied += 1;
-                    if(unsatisfied > 0){
-                      unsatisfied -= 1;
-                    }
-                    else{
-                      pending -= 1;
-                    }
-                    student.meetsElectiveCreditMinimum = true;
-                  }
-                }
-              }
-
-              else if(student.track == 'CAM'){
-                changeGPA = true;
-                if(student.credits >= ams.credits && !student.meetsCreditMinimum){
-                  satisfied += 1;
-                  if(unsatisfied > 0){
-                    unsatisfied -= 1;
-                  }
-                  else{
-                    pending -= 1;
-                  }
-                  student.meetsCreditMinimum = true;
-                }
-                if(student.electiveCredits >= ams.numElectiveCoursesCAM && !student.meetsElectiveCreditMinimum){
-                  satisfied += 1;
-                  if(unsatisfied > 0){
-                    unsatisfied -= 1;
-                  }
-                  else{
-                    pending -= 1;
-                  }
-                  student.meetsElectiveCreditMinimum = true;
-                }
-              }
-              
               else{
-                if(student.credits >= ams.credits){
-                  satisfied += 1;
-                  if(unsatisfied > 0){
-                    unsatisfied -= 1;
-                  }
-                  else{
-                    pending -= 1;
-                  }
-                  student.meetsCreditMinimum = true;
-                }
-                if(student.electiveCredits >= ams.numElectiveCoursesQF && !student.meetsElectiveCreditMinimum){
-                  satisfied += 1;
-                  if(unsatisfied > 0){
-                    unsatisfied -= 1;
-                  }
-                  else{
-                    pending -= 1;
-                  }
-                  student.meetsElectiveCreditMinimum = true;
-                }
-                changeGPA = true;
+                student.meetsGPA = true;
               }
-
-              student.satisfied = satisfied;
-              student.pending = pending;
-              student.unsatisfied = unsatisfied;
-              if(changeGPA){
-                student.gpa = parseFloat(gpa);
-              }
-              
-              resolve(student);
-            })
+            }
             
-          }
+            resolve(student);
+          })
+          
+        }
 
-          else if(student.dept == 'BMI'){
-            afs.collection('Degrees').doc('BMI' + student.entrySemester + student.entryYear).valueChanges().subscribe(bmiDoc => {
-              bmi = bmiDoc;
-              if(!bmi.nonElectives.includes(course)){
-                student.credits += credits;
-                changeGPA = true;
-                if(student.track == 'Imaging, Thesis' || student.track == "Imaging, Project"){
-                  if(bmi.electivesII.includes(course)){
-                    student.electiveCredits += credits;
-                  }
-                }
-                else if(student.track == 'Clinical, Thesis' || student.track == "Clinical, Project"){
-                  if(bmi.electivesCI.includes(course)){
-                    changeGPA = true;
-                    student.electiveCredits += credits;
-                  }
-                }
-                else{
-                  if(bmi.electivesCI.includes(course)){
-                    changeGPA = true;
-                    student.electiveCredits += credits;
-                  }
-                }
-                
-                if(student.credits >= bmi.credits){
-                  if(!student.meetsCreditMinimum){
-                    satisfied += 1;
-                    if(unsatisfied > 0){
-                      unsatisfied -= 1;
-                    }
-                    else{
-                      pending -= 1;
-                    }
-                  }
-                  student.meetsCreditMinimum = true;
-                }
-              }
-              student.satisfied = satisfied;
-              student.pending = pending;
-              student.unsatisfied = unsatisfied;
-              if(changeGPA){
-                student.gpa = parseFloat(gpa);
-              }
-            })
-          }
-
-          else if(student.dept == 'CSE'){
-            afs.collection('Degrees').doc('CSE' + student.reqVersionSemester + student.reqVersionYear).valueChanges().subscribe(cseDoc => {
-              cse = cseDoc;
-
-              if(cse.theoryCourses.includes(course) && !student.hasCseTheoryCourse){
-                changeGPA = true;
-                student.credits += credits;
-                student.hasCseTheoryCourse = true;
-                satisfied += 1;
-                if(unsatisfied > 0){
-                  unsatisfied -= 1;
-                }
-                else{
-                  pending -= 1;
-                }
-                
-              }
-              else if(cse.systemsCourses.includes(course) && !student.hasCseSystemsCourse){
-                changeGPA = true;
-                student.credits += credits;
-                student.hasCseSystemsCourse = true;
-                satisfied += 1;
-                if(unsatisfied > 0){
-                  unsatisfied -= 1;
-                }
-                else{
-                  pending -= 1;
-                }
-              }
-              else if(cse.iisCourses.includes(course) && !student.hasCseIISCourse){
-                student.hasCseIISCourse = true;
-                changeGPA = true;
-                student.credits += credits;
-                satisfied += 1;
-                if(unsatisfied > 0){
-                  unsatisfied -= 1;
-                }
-                else{
-                  pending -= 1;
-                }
-              }
-              if(student.track == 'Advanced Project'){
-                
-                if(!cse.notAllowedCoursesA.includes(course)){
-                  console.log("holy shit")
-                  changeGPA = true;
-                  
-                  student.credits += credits;
-                 
+        else if(student.dept == 'BMI'){
+          afs.collection('Degrees').doc('BMI' + student.entrySemester + student.entryYear).valueChanges().subscribe(bmiDoc => {
+            bmi = bmiDoc;
+            if(!bmi.nonElectives.includes(course)){
+              student.credits += credits;
+              changeGPA = true;
+              if(student.track == 'Imaging, Thesis' || student.track == "Imaging, Project"){
+                if(bmi.electivesII.includes(course)){
                   student.electiveCredits += credits;
-                ;
-                } 
+                }
               }
-              else if(student.track == 'Special Project'){
-                if(!cse.notAllowedCoursesS.includes(course)){
-                  if(cse.basicProjectCourses.includes(course)){
-                    student.numCseBasicCourses += 1
-                    if(student.numCseBasicCourses >= cse.minBasicProjectS && !student.hasCseBasicCourses){
-                      student.hasCseBasicCourses = true;
-                    }
-                  }
+              else if(student.track == 'Clinical, Thesis' || student.track == "Clinical, Project"){
+                if(bmi.electivesCI.includes(course)){
                   changeGPA = true;
-                  student.credits += credits;
                   student.electiveCredits += credits;
-                  
                 }
               }
               else{
-                changeGPA = true;
-                student.electiveCredits += credits;
-                student.electiveCredits += credits;
+                if(bmi.electivesCI.includes(course)){
+                  changeGPA = true;
+                  student.electiveCredits += credits;
+                }
               }
-
-              if(student.credits >= cse.minCredits){
+              
+              if(student.credits >= bmi.credits){
                 if(!student.meetsCreditMinimum){
                   satisfied += 1;
                   if(unsatisfied > 0){
@@ -1222,148 +1155,273 @@ export class GpdComponent implements OnInit {
                 }
                 student.meetsCreditMinimum = true;
               }
-              console.log(student.credits);
+            }
+            student.satisfied = satisfied;
+            student.pending = pending;
+            student.unsatisfied = unsatisfied;
+            if(changeGPA){
+              student.gpa = parseFloat(gpa);
+              if(student.gpa > bmi.gpa){
+                student.meetsGPA = true;
+              }
+              else{
+                student.meetsGPA = true;
+              }
+            }
+          })
+        }
+
+        else if(student.dept == 'CSE'){
+          afs.collection('Degrees').doc('CSE' + student.reqVersionSemester + student.reqVersionYear).valueChanges().subscribe(cseDoc => {
+            cse = cseDoc;
+
+            if(cse.theoryCourses.includes(course) && !student.hasCseTheoryCourse){
+              changeGPA = true;
+              student.credits += credits;
+              student.electiveCredits += credits;
+              student.hasCseTheoryCourse = true;
+              satisfied += 1;
+              if(unsatisfied > 0){
+                unsatisfied -= 1;
+              }
+              else{
+                pending -= 1;
+              }
+              
+            }
+            else if(cse.systemsCourses.includes(course) && !student.hasCseSystemsCourse){
+              changeGPA = true;
+              student.credits += credits;
+              student.electiveCredits += credits;
+              student.hasCseSystemsCourse = true;
+              satisfied += 1;
+              if(unsatisfied > 0){
+                unsatisfied -= 1;
+              }
+              else{
+                pending -= 1;
+              }
+            }
+            else if(cse.iisCourses.includes(course) && !student.hasCseIISCourse){
+              student.hasCseIISCourse = true;
+              changeGPA = true;
+              student.credits += credits;
+              student.electiveCredits += credits;
+              satisfied += 1;
+              if(unsatisfied > 0){
+                unsatisfied -= 1;
+              }
+              else{
+                pending -= 1;
+              }
+            }
+            else if(student.track == 'Advanced Project'){
+              
+              if(!cse.notAllowedCoursesA.includes(course)){
+                console.log("holy shit")
+                changeGPA = true;
+                
+                student.credits += credits;
+                
+                student.electiveCredits += credits;
+              
+              } 
+            }
+            else if(student.track == 'Special Project'){
+              if(!cse.notAllowedCoursesS.includes(course)){
+                if(cse.basicProjectCourses.includes(course)){
+                  student.numCseBasicCourses += 1
+                  console.log(student.numCseBasicCourses)
+                  if(student.numCseBasicCourses >= cse.minBasicProjectS && !student.hasCseBasicCourses){
+                    student.hasCseBasicCourses = true;
+                    satisfied += 1;
+                    if(unsatisfied > 0){
+                      unsatisfied -= 1;
+                    }
+                    else{
+                      pending -= 1;
+                    }
+                  }
+                }
+                changeGPA = true;
+                student.credits += credits;
+                student.electiveCredits += credits;
+                
+              }
+            }
+            else{
+              changeGPA = true;
+              student.electiveCredits += credits;
+              student.electiveCredits += credits;
+            }
+
+            if(student.credits >= cse.credits){
+              if(!student.meetsCreditMinimum){
+                satisfied += 1;
+                if(unsatisfied > 0){
+                  unsatisfied -= 1;
+                }
+                else{
+                  pending -= 1;
+                }
+              }
+              student.meetsCreditMinimum = true;
+            }
+            
+            student.satisfied = satisfied;
+            student.pending = pending;
+            student.unsatisfied = unsatisfied;
+            if(changeGPA){
+              student.gpa = parseFloat(gpa);
+              if(student.gpa > cse.gpa){
+                student.meetsGPA = true;
+              }
+              else{
+                student.meetsGPA = true;
+              }
+            }
+            resolve(student);
+          })
+        }
+        else{
+          student.electiveCredits += credits;
+          student.credits += credits;
+          changeGPA = true;
+          if(!student.meetsCreditMinimum){
+            afs.collection('Degrees').doc('ECE' + student.entrySemester + student.entryYear).valueChanges().subscribe(doc => {
+              ece = doc;
+              if(!student.hasEceHardwareCourse && ece.hardwareCourses.includes(course)){
+                student.numEceHardwareCourse += 1;
+                if(student.numEceHardwareCourse >= ece.numCreditsSubAreas1T){
+                  student.hasEceHardwareCourse = true;
+                }
+              }
+              else if(!student.hasEceNetworkingCourse && ece.networkingCourses.includes(course)){
+                student.numEceNetworkCourse += 1;
+                if(student.numEceNetworkCourse >= ece.numCreditsSubAreas1T){
+                  student.hasEceNetworkingCourse = true;
+                }
+              }
+              else if(!student.hasEceCadCourse && ece.cadCourses.includes(course)){
+                student.numEceCadCourse += 1;
+                if(student.numEceCadCourse >= ece.numCreditsSubAreas1T){
+                  student.hasEceCadCourse = true;
+                }
+              }
+              else if(!student.hasEceTheoryCourse && ece.theoryCourses.includes(course)){
+                student.numEceTheoryCourse += 1;
+                if(student.numEceTheoryCourse >= ece.numCreditsSubAreas2T){
+                  student.hasEceTheoryCourse = true;
+                }
+              }
+              if(student.track == "Non-Thesis"){
+                if(course == "ESE597"){
+                  student.numEse597Credits += 1;
+                }
+                else if(ece.nonRegularCourses.includes(course)){
+                  student.numEceRegularCredits += 1;
+                }
+                if(!student.hasEceRegularCredits && student.numEceRegularCredits >= ece.numRegularCoursesNT){
+                  student.hasEceRegularCredits = true;
+                  satisfied += 1;
+                  if(unsatisfied > 0){
+                    unsatisfied -= 1;
+                  }
+                  else{
+                    pending -= 1;
+                  }
+                }
+                if(!student.hasEce597Credits && student.numEse597Credits >= ece.minCreditsESE597NT){
+                  student.hasEce697Credits = true;
+                  satisfied += 1;
+                  if(unsatisfied > 0){
+                    unsatisfied -= 1;
+                  }
+                  else{
+                    pending -= 1;
+                  }
+                }
+                if(student.credits >= ece.creditMinimumNT){
+                
+                  satisfied += 1;
+                  if(unsatisfied > 0){
+                    unsatisfied -= 1;
+                  }
+                  else{
+                    pending -= 1;
+                  }
+                  
+                  student.meetsCreditMinimum = true;
+                }
+              }
+              else{
+                if(course == "ESE597"){
+                  student.numEse597Credits += 1;
+                }
+                else if(ece.nonRegularCourses.includes(course)){
+                  student.numEceRegularCredits += 1;
+                }
+                else if(course == "ESE599"){
+                  student.numEse599Credits += 1;
+                }
+                if(!student.hasEceRegularCredits && student.numEceRegularCredits >= ece.numRegularCoursesT){
+                  student.hasEceRegularCredits = true;
+                  satisfied += 1;
+                  if(unsatisfied > 0){
+                    unsatisfied -= 1;
+                  }
+                  else{
+                    pending -= 1;
+                  }
+                }
+                if(!student.hasEce597Credits && student.numEse597Credits >= ece.minCreditsESE597T){
+                  student.hasEce597Credits = true;
+                  satisfied += 1;
+                  if(unsatisfied > 0){
+                    unsatisfied -= 1;
+                  }
+                  else{
+                    pending -= 1;
+                  }
+                }
+                if(!student.hasEce599Credits && student.numEse599Credits >= ece.minCreditsESE599T){
+                  student.hasEce599Credits = true;
+                  satisfied += 1;
+                  if(unsatisfied > 0){
+                    unsatisfied -= 1;
+                  }
+                  else{
+                    pending -= 1;
+                  }
+                }
+                if(student.credits >= ece.creditMinimumT){
+                
+                  satisfied += 1;
+                  if(unsatisfied > 0){
+                    unsatisfied -= 1;
+                  }
+                  else{
+                    pending -= 1;
+                  }
+                  
+                  student.meetsCreditMinimum = true;
+                }
+              }
               student.satisfied = satisfied;
               student.pending = pending;
               student.unsatisfied = unsatisfied;
               if(changeGPA){
                 student.gpa = parseFloat(gpa);
-              }
-              resolve(student);
-            })
-          }
-          else{
-            student.electiveCredits += credits;
-            student.credits += credits;
-            changeGPA = true;
-            if(!student.meetsCreditMinimum){
-              afs.collection('Degrees').doc('ESE' + student.entrySemester + student.entryYear).valueChanges().subscribe(doc => {
-                ece = doc;
-                if(!student.hasEceHardwareCourse && ece.hardwareCourses.includes(course)){
-                  student.numEceHardwareCourse += 1;
-                  if(student.numEceHardwareCourse >= ece.numCreditsSubAreas1T){
-                    student.hasEceHardwareCourse = true;
-                  }
-                }
-                else if(!student.hasEceNetworkingCourse && ece.networkingCourses.includes(course)){
-                  student.numEceNetworkCourse += 1;
-                  if(student.numEceNetworkCourse >= ece.numCreditsSubAreas1T){
-                    student.hasEceNetworkingCourse = true;
-                  }
-                }
-                else if(!student.hasEceCadCourse && ece.cadCourses.includes(course)){
-                  student.numEceCadCourse += 1;
-                  if(student.numEceCadCourse >= ece.numCreditsSubAreas1T){
-                    student.hasEceCadCourse = true;
-                  }
-                }
-                else if(!student.hasEceTheoryCourse && ece.theoryCourses.includes(course)){
-                  student.numEceTheoryCourse += 1;
-                  if(student.numEceTheoryCourse >= ece.numCreditsSubAreas2T){
-                    student.hasEceTheoryCourse = true;
-                  }
-                }
-                if(student.track = "Non-Thesis"){
-                  if(course == "ESE697"){
-                    student.numEse697Credits += 1;
-                  }
-                  else if(ece.nonRegularCourses.includes(course)){
-                    student.numEceRegularCredits += 1;
-                  }
-                  if(!student.hasEceRegularCredits && student.numEceRegularCredits >= ece.numRegularCoursesNT){
-                    student.hasEceRegularCredits = true;
-                    satisfied += 1;
-                    if(unsatisfied > 0){
-                      unsatisfied -= 1;
-                    }
-                    else{
-                      pending -= 1;
-                    }
-                  }
-                  if(!student.hasEce697Credits && student.numEse697Credits >= ece.minCreditsESE697NT){
-                    student.hasEce697Credits = true;
-                    satisfied += 1;
-                    if(unsatisfied > 0){
-                      unsatisfied -= 1;
-                    }
-                    else{
-                      pending -= 1;
-                    }
-                  }
-                  if(student.credits >= ece.creditMinimumNT){
-                  
-                    satisfied += 1;
-                    if(unsatisfied > 0){
-                      unsatisfied -= 1;
-                    }
-                    else{
-                      pending -= 1;
-                    }
-                    
-                    student.meetsCreditMinimum = true;
-                  }
+                if(student.gpa > ece.gpaT){
+                  student.meetsGPA = true;
                 }
                 else{
-                  if(course == "ESE697"){
-                    student.numEse697Credits += 1;
-                  }
-                  else if(ece.nonRegularCourses.includes(course)){
-                    student.numEceRegularCredits += 1;
-                  }
-                  else if(course == "ESE599"){
-                    student.numEse599Credits += 1;
-                  }
-                  if(!student.hasEceRegularCredits && student.numEceRegularCredits >= ece.numRegularCoursesT){
-                    student.hasEceRegularCredits = true;
-                    satisfied += 1;
-                    if(unsatisfied > 0){
-                      unsatisfied -= 1;
-                    }
-                    else{
-                      pending -= 1;
-                    }
-                  }
-                  if(!student.hasEce697Credits && student.numEse697Credits >= ece.minCreditsESE697T){
-                    student.hasEce697Credits = true;
-                    satisfied += 1;
-                    if(unsatisfied > 0){
-                      unsatisfied -= 1;
-                    }
-                    else{
-                      pending -= 1;
-                    }
-                  }
-                  if(!student.hasEce599Credits && student.numEse599Credits >= ece.minCreditsESE599T){
-                    student.hasEce599Credits = true;
-                    satisfied += 1;
-                    if(unsatisfied > 0){
-                      unsatisfied -= 1;
-                    }
-                    else{
-                      pending -= 1;
-                    }
-                  }
-                  if(student.credits >= ece.creditMinimumT){
-                  
-                    satisfied += 1;
-                    if(unsatisfied > 0){
-                      unsatisfied -= 1;
-                    }
-                    else{
-                      pending -= 1;
-                    }
-                    
-                    student.meetsCreditMinimum = true;
-                  }
+                  student.meetsGPA = true;
                 }
-                student.satisfied = satisfied;
-                student.pending = pending;
-                student.unsatisfied = unsatisfied;
-                if(changeGPA){
-                  student.gpa = parseFloat(gpa);
-                }
-              })
-            }
+              }
+
+              resolve(student);
+            })
           }
         }
       }

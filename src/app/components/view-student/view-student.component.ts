@@ -40,8 +40,9 @@ export class ViewStudentComponent implements OnInit {
   ams:AMS;
   bmi:BMI;
   cse:CSE;
-  ese:ECE;
+  ece:ECE;
   requiredCourses: String[];
+  checked: boolean = true;
   constructor(private authService: AuthService, public router: Router, public afs: AngularFirestore, public sr: StudentRequirementsService) {
     if (!this.authService.isLoggedIn) {
       this.router.navigate(['login'])
@@ -119,22 +120,16 @@ export class ViewStudentComponent implements OnInit {
       else if(this.dept == 'CSE'){
         docRef = this.afs.collection("Degrees").doc("CSE"+this.s.reqVersionSemester+this.s.reqVersionYear);
         docRef.valueChanges().subscribe(val => {
-          this.ams = val
+          this.cse = val
    
-          if(this.s.track == 'CB'){
-            this.requiredCourses = this.ams.requiredCoursesCB;
+          if(this.s.track == 'Advanced Project'){
+            this.requiredCourses = this.cse.requiredCoursesA;
           }
-          else if(this.s.track == 'OR'){
-            this.requiredCourses = this.ams.requiredCoursesOR;
-          }
-          else if(this.s.track == 'CAM'){
-            this.requiredCourses = this.ams.requiredCoursesCAM;
-          }
-          else if(this.s.track == 'STAT'){
-            this.requiredCourses = this.ams.requiredCoursesSTAT;
+          else if(this.s.track == 'Special Project'){
+            this.requiredCourses = this.cse.requiredCoursesS;
           }
           else{
-            this.requiredCourses = this.ams.requiredCoursesQF;
+            this.requiredCourses = this.cse.requiredCoursesT;
           }
           console.log(this.requiredCourses)
         })
@@ -142,24 +137,15 @@ export class ViewStudentComponent implements OnInit {
       else{
         docRef = this.afs.collection("Degrees").doc("ESE"+this.s.reqVersionSemester+this.s.reqVersionYear);
         docRef.valueChanges().subscribe(val => {
-          this.ams = val
+          this.ece = val
      
-          if(this.s.track == 'CB'){
-            this.requiredCourses = this.ams.requiredCoursesCB;
-          }
-          else if(this.s.track == 'OR'){
-            this.requiredCourses = this.ams.requiredCoursesOR;
-          }
-          else if(this.s.track == 'CAM'){
-            this.requiredCourses = this.ams.requiredCoursesCAM;
-          }
-          else if(this.s.track == 'STAT'){
-            this.requiredCourses = this.ams.requiredCoursesSTAT;
+          if(this.s.track == 'Non-Thesis'){
+            this.requiredCourses = this.ece.requiredCoursesNT;
           }
           else{
-            this.requiredCourses = this.ams.requiredCoursesQF;
+            this.requiredCourses = this.ece.requiredCoursesT;
           }
-          console.log(this.requiredCourses)
+          
         })
       }
       this.getTrack();

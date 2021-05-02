@@ -30,10 +30,12 @@ export interface Student{
     credits?: number;
     hasThesis?: boolean;
     meetsCreditMinimum?: boolean;
+    numCreditsNeededToGraduate?: number;
     electiveCredits?: number;
     isMeetTimeLimit?: boolean;
     meetsElectiveCreditMinimum?: boolean;
     meetsGPA?: boolean;
+    coursesTaken?: String[]
 
 
     numAmsStatCourses?: number;
@@ -56,10 +58,10 @@ export interface Student{
     hasEceNetworkingCourse?: boolean;
     hasEceCadCourse?: boolean;
     hasEceTheoryCourse?: boolean;
-    numEse697Credits?:number;
     numEse599Credits?:number;
-    hasEce697Credits?: boolean;
+    numEse597Credits?:number;
     hasEce599Credits?: boolean;
+    hasEce597Credits?: boolean;
     numEceRegularCredits?: number;
     hasEceRegularCredits?:boolean
   }
