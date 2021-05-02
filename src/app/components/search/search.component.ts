@@ -34,7 +34,7 @@ export class SearchComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    var gpd = 'ESE';
+    var gpd = 'ECE';
     if(localStorage.getItem('gpdType') == 'AMS'){
       gpd = 'AMS';
     }

@@ -68,7 +68,7 @@ export class AddStudentComponent implements OnInit {
       unsatisfied: 0,
       semesters: value,
       graduated: false,
-      validCoursePlan: true,
+      validCoursePlan: false,
       gpa: 0,
       credits: 0,
       requiredCourses: [],
@@ -96,6 +96,9 @@ export class AddStudentComponent implements OnInit {
       this.s.hasCseTheoryCourse = false; 
       this.s.hasCseIISCourse = false;
       this.s.hasCseSystemsCourse = false;
+      if(this.s.track == 'Special Project'){
+        this.s.unsatisfied += 1;
+      }
     }
     else{
       this.s.unsatisfied = 8;
@@ -105,9 +108,9 @@ export class AddStudentComponent implements OnInit {
       this.s.numEceNetworkCourse = 0; 
       this.s.numEceRegularCredits = 0; 
       this.s.numEse599Credits = 0; 
-      this.s.numEse697Credits = 0; 
+      this.s.numEse597Credits = 0; 
       this.s.hasEce599Credits = false; 
-      this.s.hasEce697Credits = false; 
+      this.s.hasEce597Credits = false; 
       this.s.hasEceCadCourse = false; 
       this.s.hasEceHardwareCourse = false; 
       this.s.hasEceNetworkingCourse = false; 
@@ -126,6 +129,7 @@ export class AddStudentComponent implements OnInit {
         this.sr.setStudentRequirements(this.s, val);
       });
     });
+
     this.router.navigate(['search']);
   }
 
@@ -157,6 +161,10 @@ export class AddStudentComponent implements OnInit {
       });
     })
     return hash;
+  }
+
+  setThesis(){
+    this.s.hasThesis = !this.s.hasThesis;
   }
 
 }

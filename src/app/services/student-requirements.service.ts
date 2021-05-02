@@ -25,7 +25,7 @@ export class StudentRequirementsService {
     var innerMap: Map<string, string> = new Map;
     var degreeReq = degree;
 
-    return new Promise(resolve => {  
+ 
       if(dept == "AMS"){
         docRef = this.afs.collection("Degrees").doc("AMS"+ student.reqVersionSemester+ student.reqVersionYear);
         docRef.valueChanges().subscribe(val => {
@@ -130,7 +130,7 @@ export class StudentRequirementsService {
         innerMap.set("versionSemester", degreeReq.versionSemester.toString());
         innerMap.set("versionYear", degreeReq.versionYear.toString());
         innerMap.set("gpa", degreeReq.gpa.toString());
-        innerMap.set("credits", degreeReq.minCredits.toString());
+        innerMap.set("credits", degreeReq.credits.toString());
         innerMap.set("maxCreditsCSE599", degreeReq.maxCreditsCSE599.toString());
         innerMap.set("maxCreditsCSE587", degreeReq.maxCreditsCSE587.toString());
         if(track == "Advanced Project"){
@@ -174,19 +174,21 @@ export class StudentRequirementsService {
         innerMap.set("maxTransferCredits", degreeReq.maxTransferCredits.toString());
         
         if(track == "Non-Thesis"){
+          innerMap.set("requiredCourses", degreeReq.requiredCoursesNT.toString());
           innerMap.set("minRegularCourses", degreeReq.numRegularCoursesNT.toString());
           innerMap.set("thesis", "false");
-          innerMap.set("minCreditsESE697", degreeReq.minCreditsESE697NT.toString())
+          innerMap.set("minCreditsESE597", degreeReq.minCreditsESE597NT.toString())
           innerMap.set("minCreditsHardware", degreeReq.numCreditsSubAreas1NT.toString());
           innerMap.set("minCreditsNetworking", degreeReq.numCreditsSubAreas1NT.toString());
           innerMap.set("minCreditsCAD", degreeReq.numCreditsSubAreas1NT.toString());
           innerMap.set("minCreditsTheory", degreeReq.numCreditsSubAreas2NT.toString());
         }
         else{
+          innerMap.set("requiredCourses", degreeReq.requiredCoursesT.toString());
           innerMap.set("minRegularCourses", degreeReq.numRegularCoursesT.toString());
           innerMap.set("thesis", "true");
           innerMap.set("minCreditsESE599", degreeReq.minCreditsESE599T.toString());
-          innerMap.set("minCreditsESE697", degreeReq.minCreditsESE697T.toString())
+          innerMap.set("minCreditsESE597", degreeReq.minCreditsESE597T.toString())
           innerMap.set("minCreditsHardware", degreeReq.numCreditsSubAreas1T.toString());
           innerMap.set("minCreditsNetworking", degreeReq.numCreditsSubAreas1T.toString());
           innerMap.set("minCreditsCAD", degreeReq.numCreditsSubAreas1T.toString());
@@ -195,17 +197,10 @@ export class StudentRequirementsService {
       }
       
       student.requiredCourses = innerMap.get('requiredCourses').split(',');
-      if(student.dept != 'ESE')
-        this.afs.firestore.collection('Students').doc(student.id).set(student).then(resolve);
-      else{
-        this.afs.firestore.collection('Students').doc(student.id).set({
-          hardwareCourses: innerMap['hardwareCourses'],
-          networkingCourses: innerMap['networkingCourses'],
-          cadCourses: innerMap['cadCourses'],
-          theoryCourses: innerMap['theoryCourses'],
-        }).then(resolve);
-      }
-    });
+      console.log(student.id)
+      console.log(student.requiredCourses)
+      this.afs.firestore.collection('Students').doc(student.id).set(student).then();
+ 
     // var map = new Map;
     // map.set("studentReqs", innerMap)
     // this.afs.firestore.collection('StudentRequirements').doc(student.id).set({
