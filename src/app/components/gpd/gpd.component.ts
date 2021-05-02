@@ -39,7 +39,7 @@ export class GpdComponent implements OnInit {
   s: Student[];
   gpd: String;
   semester: String;
-  year: Number;
+  year: number;
   departments: String[];
   map = new Map([
     ["A", 4],

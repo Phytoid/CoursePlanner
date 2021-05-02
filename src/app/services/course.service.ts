@@ -44,6 +44,28 @@ export class CourseService {
     return this.courses;
   }
 
+  getCourseByDept(department: string, courseID: string){
+    this.courses = this.afs.collection('CourseInfo', ref => ref.where('department', '==', department)).snapshotChanges().pipe(map(changes => {
+      return changes.map(a => {
+        const data = a.payload.doc.data() as Courses;
+        data.course = a.payload.doc.id;
+        return data;
+      })
+    }))
+    return this.courses;
+  }
+
+  getCourseOfferings(){
+    this.courses = this.afs.collection('Courses').snapshotChanges().pipe(map(changes => {
+      return changes.map(a => {
+        const data = a.payload.doc.data() as Courses;
+        data.course = a.payload.doc.id;
+        return data;
+      })
+    }))
+    return this.courses;
+  }
+
   
   getCourses(){
     return this.courses;
