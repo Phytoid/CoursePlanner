@@ -62,23 +62,47 @@
         <div>
             <mat-label id="label">Start Time</mat-label>
             <mat-form-field style="width:75%" id="filter">
-                <input matInput type="time">
+                <input matInput type="time" (change)="timeSlotStart($event)">
             </mat-form-field>
         </div>
         <div>
             <mat-label id="label">End Time</mat-label>
             <mat-form-field style="width:75%" id="filter">
-                <input matInput type="time">
+                <input matInput type="time" (change)="timeSlotEnd($event)">
             </mat-form-field>
         </div>
         <div><br></div>
     </span>
-    <span class="dropdowns"> 
-        Max Number of Courses
+    <span class="dropdowns">
+        <form (submit)="coursesSemYear($event)" class="form">
+            <label for="maxCourses">
+                Max Number of Courses
+            </label>
+            <input matInput type="text">
+            <label for="Semester">
+                Semester
+            </label>
+            <div>
+                <select>
+                    <option value="Fall">Fall</option>
+                    <option value="Spring">Spring</option>
+                </select>
+            </div>
+            <div>
+                <label for="year">
+                    Year
+                </label>
+            </div>
+            <div>
+                <ngb-datepicker #dp id= "yearchooser" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}"></ngb-datepicker>
+            </div>
+            <input id="submit-btn" type="submit">
+        </form>
+        <!-- Max Number of Courses
         <div>
             <mat-label id="label">Number</mat-label>
             <mat-form-field style="width:75%" id="filter">
-                <input matInput type="text">
+                <input matInput type="text" (change)="numCourses($event)">
             </mat-form-field>
         </div>
         <div>
@@ -93,7 +117,7 @@
         <div>
             <mat-label id="label">Year</mat-label>
             <ngb-datepicker #dp id= "yearchooser" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}"></ngb-datepicker>
-        </div>
+        </div> -->
     </span>
 </div>
 <div>
