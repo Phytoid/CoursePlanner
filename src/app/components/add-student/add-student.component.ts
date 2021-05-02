@@ -142,11 +142,11 @@ export class AddStudentComponent implements OnInit {
     else if(dept == "AMS"){
       this.tracks = ["CAM", "CB", "OR", "STAT", "QF"];
     }
-    else if(dept == "ESE"){
-      this.tracks = ["Non-Thesis", "Thesis"]
+    else if(dept == "CSE"){
+      this.tracks = ["Advanced Project", "Special Project", "Thesis"]
     }
     else{
-      this.tracks = ["Advanced Project", "Special Project", "Thesis"]
+      this.tracks = ["Non-Thesis", "Thesis"]
     }
   }
 

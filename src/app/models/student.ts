@@ -30,10 +30,12 @@ export interface Student{
     credits?: number;
     hasThesis?: boolean;
     meetsCreditMinimum?: boolean;
+    numCreditsNeededToGraduate?: number;
     electiveCredits?: number;
     isMeetTimeLimit?: boolean;
     meetsElectiveCreditMinimum?: boolean;
     meetsGPA?: boolean;
+    coursesTaken?: String[]
 
 
     numAmsStatCourses?: number;
