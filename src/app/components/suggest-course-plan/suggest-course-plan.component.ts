@@ -699,11 +699,11 @@ export class SuggestCoursePlanComponent implements OnInit {
       let semArray = sem[i].split(" ");
       let semester = semArray[0];
       let year = semArray[1];
-      for (let j = 0; j < courses[j].length; j++) {
-        if (this.checkConstraints(courses[j], semester, year, dayStart, dayEnd, this.courseOfferings, cp, prerequisiteList) === 0) {
-          return 0;
-        }
-      }
+      //for (let j = 0; j < courses[j].length; j++) {
+        //if (this.checkConstraints(courses[j], semester, year, dayStart, dayEnd, this.courseOfferings, cp, prerequisiteList) === 0) {
+          //return 0;
+        //}
+      //}
     }
     return 1;
   }
@@ -717,9 +717,9 @@ export class SuggestCoursePlanComponent implements OnInit {
     let dicts = Object.values(coursePlan);
     let courses = Object.values(dicts);
     for (let i = 0; i < courses.length; i++) {
-      for (let j = 0; j < courses[i].length; j++) {
-        newCredits += courses[i][j].credits;
-      } 
+      //for (let j = 0; j < courses[i].length; j++) {
+        //newCredits += courses[i][j].credits;
+      //} 
     }
     if (newCredits + oldCredits < this.creditsNeededTotal) {
       return false;
