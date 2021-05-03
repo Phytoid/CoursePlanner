@@ -23,7 +23,7 @@ export class SuggestCoursePlanComponent implements OnInit {
   limitCourses=[];
   prefWeight: number = 0;
   //maxCourses: number = 0;
-  courseAdd: string[] = ['add', "weight"];
+  courseAdd: string[] = ['add'];
   courseAvoid: string[] = ['avoid'];
   timeStart=[]
   timeEnd=[]
@@ -223,9 +223,9 @@ export class SuggestCoursePlanComponent implements OnInit {
   checkboxCheck() {
     var cb = document.getElementById("weightCheckbox") as HTMLInputElement;
     if (cb.checked == false) {
-      this.courseAdd = ['courseName'];
+      this.courseAdd = ['add'];
     } else {
-      this.courseAdd = ['courseName', 'weight', 'actions'];
+      this.courseAdd = ['add', 'weight', 'actions'];
     }
   }
 

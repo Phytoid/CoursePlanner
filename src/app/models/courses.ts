@@ -17,5 +17,6 @@ export interface Courses {
     description?:String;
     semesterYear?: string;
     grade?:string;
+    semesterAndYear?:String;
 }
 
