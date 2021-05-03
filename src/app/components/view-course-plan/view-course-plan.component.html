@@ -1,6 +1,11 @@
 <div class="header">
     View Course Plan
-    <button class="btn" id="back-btn" [routerLink]="['/search']" routerLinkActive="router-link-active">Back</button>    
+    <div *ngIf="whosLoggedIn != 'Student'">
+        <button class="btn" id="back-btn" [routerLink]="['/search']" routerLinkActive="router-link-active">Back</button>
+    </div> 
+    <div *ngIf="whosLoggedIn == 'Student'">
+        <button class="btn" id="back-btn" routerLink="../student">Back</button>
+    </div>   
 </div>
 
 <div>

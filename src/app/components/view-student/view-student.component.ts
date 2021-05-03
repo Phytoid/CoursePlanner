@@ -164,7 +164,8 @@ export class ViewStudentComponent implements OnInit {
       if (event.srcElement[7].value.toLocaleLowerCase() === "spring") {
         value = value + 1;
       }
-      this.s = {
+      var student: Student;
+      student = {
         first: event.srcElement[0].value,
         last: event.srcElement[1].value,
         id: event.srcElement[2].value,
@@ -185,32 +186,40 @@ export class ViewStudentComponent implements OnInit {
       if (event.srcElement[23].value.trim().length > 0) {
         this.comments.push(event.srcElement[23].value);
       }
-      this.s.comments = this.comments;
+      student.comments = this.comments;
       const password = event.srcElement[4].value;
-      var moreThanStars = password.split("");
-      var moreThanStarsSet = new Set(moreThanStars);
-      console.log(moreThanStarsSet);
-      if (moreThanStarsSet.size === 1) {
-        this.afs.firestore.collection('Students').doc(this.s.id).update(this.s);
-        docRef.valueChanges().subscribe(val => {
-          this.sr.setStudentRequirements(this.s, val);
-        });
-      } else {
-        console.log(event.srcElement[4].value)
-        this.hashPassword(event.srcElement[4].value).then((hash) => {
-          this.s.password = hash.toString();
-          this.afs.firestore.collection('Students').doc(this.s.id).update(this.s);
+      this.afs.collection('Degrees').doc(student.dept + student.reqVersionSemester + student.reqVersionYear).ref.get().then((degree) => {
+        if(degree.data() == undefined){
+          alert("Degree requirement for this given semester and year does not exist.")
+          return;
+        }
+        var moreThanStars = password.split("");
+        var moreThanStarsSet = new Set(moreThanStars);
+        console.log(moreThanStarsSet);
+        if (moreThanStarsSet.size === 1) {
+          this.afs.firestore.collection('Students').doc(this.s.id).update(student);
           docRef.valueChanges().subscribe(val => {
-            this.sr.setStudentRequirements(this.s, val);
+            this.sr.setStudentRequirements(student, val);
           });
-        });
-      }
-      if(this.whosLoggedIn != "Student"){
-        this.router.navigate(['search']);
-      }
-      else{
-        this.router.navigate(['student']);
-      }
+        } else {
+          console.log(event.srcElement[4].value)
+          this.hashPassword(event.srcElement[4].value).then((hash) => {
+            student.password = hash.toString();
+            this.afs.firestore.collection('Students').doc(this.s.id).update(student);
+            docRef.valueChanges().subscribe(val => {
+              this.sr.setStudentRequirements(student, val);
+            });
+          });
+        }
+        if(this.whosLoggedIn != "Student"){
+          this.router.navigate(['search']);
+        }
+        else{
+          this.router.navigate(['student']);
+        }
+      }).catch(() => {
+        alert("Degree requirement for this given semester and year does not exist.")
+      })
     }
     
   }

@@ -438,7 +438,10 @@ export class GpdComponent implements OnInit {
       var docRef = this.afs.collection("Degrees").doc(strArray[4] + strArray[8] + strArray[9])
       var st: Student ;
       if(strArray[4] == 'AMS'){
-        st= {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 1, unsatisfied : 3, pending : 0, graduated : false, validCoursePlan : false, semesters : value, gpa: 0, credits: 0, requiredCourses : [], hasThesis: false, meetsGPA: false, meetsCreditMinimum: false, electiveCredits: 0, isMeetTimeLimit: false, numCreditsNeededToGraduate: 0,meetsElectiveCreditMinimum: false,numAmsStatCourses: 0, hasAmsFinalRec: false, hasAmsORStatComplete: false, coursesTaken: []};
+        st= {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 1, unsatisfied : 5, pending : 0, graduated : false, validCoursePlan : false, semesters : value, gpa: 0, credits: 0, requiredCourses : [], hasThesis: false, meetsGPA: false, meetsCreditMinimum: false, electiveCredits: 0, isMeetTimeLimit: false, numCreditsNeededToGraduate: 0,meetsElectiveCreditMinimum: false,numAmsStatCourses: 0, hasAmsFinalRec: false, hasAmsORStatComplete: false, coursesTaken: []};
+        if(st.track == 'OR'){
+          st.unsatisfied += 1;
+        }
       }
       else if(strArray[4] == 'BMI'){
         st= {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 1, unsatisfied : 3, pending : 0, graduated : false, validCoursePlan : false, semesters : value, gpa: 0, credits: 0, requiredCourses : [], hasThesis: false, meetsGPA: false, meetsCreditMinimum: false, electiveCredits: 0, isMeetTimeLimit: false, meetsElectiveCreditMinimum: false,numCreditsNeededToGraduate: 0, hasBMI592AllSemesters: false, coursesTaken: []};
@@ -446,15 +449,20 @@ export class GpdComponent implements OnInit {
       else if(strArray[4] == 'CSE'){
         st= {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 1, unsatisfied : 5, pending : 0, graduated : false, validCoursePlan : false, semesters : value, gpa: 0, credits: 0, requiredCourses : [], hasThesis: false, meetsCreditMinimum: false, electiveCredits: 0, isMeetTimeLimit: false, meetsGPA: false, meetsElectiveCreditMinimum: false, numCseBasicCourses: 0,  hasCseBasicCourses: false, hasCseTheoryCourse: false, hasCseIISCourse: false, hasCseSystemsCourse: false, numCreditsNeededToGraduate: 0, coursesTaken: [], numCseTheoryCourses :0, numCseSystemsCourses : 0, numCseIISCourses :0};
         if(st.track == 'Special Project'){
-          st.unsatisfied = 6;
+          st.unsatisfied += 1;
         }
       }
       else{
         
         st= {first : strArray[1], last : strArray[2], id : strArray[0], sbuID: strArray[0], email : strArray[3], dept : strArray[4], track : strArray[5], entrySemester : strArray[6], entryYear : strArray[7], reqVersionSemester : strArray[8], reqVersionYear : strArray[9], gradSemester : strArray[10], gradYear : strArray[11], advisor : "", comments : [], satisfied : 1, unsatisfied : 7, pending : 0, graduated : false, validCoursePlan : false, semesters : value, gpa: 0, credits: 0, requiredCourses : [], hasThesis: false, meetsCreditMinimum: false, electiveCredits: 0, isMeetTimeLimit: false, meetsElectiveCreditMinimum: false, numEceCadCourse: 0, numEceHardwareCourse: 0, numEceTheoryCourse: 0, numEceNetworkCourse: 0, numEceRegularCredits: 0, numEse599Credits: 0, numEse597Credits: 0, hasEce599Credits: false, meetsGPA: false, hasEce597Credits: false, hasEceCadCourse: false, hasEceHardwareCourse: false, hasEceNetworkingCourse: false, hasEceRegularCredits:false, hasEceTheoryCourse: false, numCreditsNeededToGraduate: 0, coursesTaken: []};
+        if(st.track == "Thesis"){
+          st.unsatisfied += 1;
+        }
       }
-      
-      console.log(st)
+   
+      if(st.track.toLowerCase().includes("thesis") && st.track != "Non-Thesis"){
+        st.unsatisfied += 1;
+      }
 
       var hash = await this.hashPassword(strArray[12])
       st.password = hash.toString()
@@ -499,6 +507,7 @@ export class GpdComponent implements OnInit {
     var coursePlanDict = [];
     var warningsStringArray = [];
     var studentArray : Map<string, Map<string, string>> = new Map();
+ 
     for (var i = 0; i < g.length; i++) {
       if (g[i] == courseDataHeader) {
         continue;
@@ -584,27 +593,27 @@ export class GpdComponent implements OnInit {
         // this.editGPA(studentID, course, semesterAndYear, grade);
         afs.collection('Students').doc(studentID).ref.get().then(val => {
           student = val.data();
-          console.log(student);
           if(student.dept == localStorage.getItem('gpdType')){ 
-            var arr = student.coursesTaken;
-            arr.push(course);
+            // var arr = student.coursesTaken;
+            // arr.push(course);
+            student.coursesTaken.push(course);
             afs.collection('Students').doc(studentID).update({
-              ['coursesTaken'] : arr,
+              ['coursesTaken'] : student.coursesTaken,
               ['coursePlan' + '.' + semesterAndYear + '.' + courseIdentifier] : `${grade.toLocaleUpperCase()}`
             }).then(() => {
+              
             }).catch((error) => {
               console.log(error);
               console.log("Student ID: " + studentID + " does not exist.");
             });
           } else {
-          console.log("Not correct GPD")
+            alert("Not correct GPA for student: " + student.id)
+            console.log("Not correct GPD")
           }
         });
-      
         coursePlanDict.push(dictionary_identifier);
       }
     }
-    
 
     if (warningsStringArray.length == 0) {
       alert("Student information and course plan grades have been updated successfully.");
@@ -615,9 +624,12 @@ export class GpdComponent implements OnInit {
       }
       alert("Valid student information and course plan grades have been updated successfully. The following warning(s) were found:\n\n" + warning_string);
     }
-    
+
     editGPA(studentArray, afs, addToDatabase, updateStudent);
+    
+    
   }
+
 
   async hashPassword (password) {
     return new Promise((resolve, reject) => {
@@ -894,6 +906,7 @@ export class GpdComponent implements OnInit {
 
 
   async editGPA(map: Map<string, Map<string, string>>, afs, addToDatabase, updateStudent){
+    console.log("here")
     for(var studentID of map.keys()){
       console.log(studentID);
       afs.collection('Students').doc(studentID).ref.get().then((s) => {
@@ -901,6 +914,7 @@ export class GpdComponent implements OnInit {
         console.log(student)
       })
       for (var course of map.get(studentID).keys()){
+        console.log("here2")
         await addToDatabase(course, studentID, afs, map, updateStudent);
         
       }
@@ -909,6 +923,7 @@ export class GpdComponent implements OnInit {
   }
 
   addToDatabase(course, studentID, afs, map, updateStudent){
+    console.log("her3")
     var gr = map.get(studentID).get(course);
     var grades = new Map([
       ["A", 4],
@@ -946,7 +961,7 @@ export class GpdComponent implements OnInit {
           
           // Removes course from course requirement if fullfills grade needed
           course = course.substring(0, 6);
-          
+          console.log(g);
           if(g >= 2.0){
             s = await updateStudent(course, student, gpa, credits, afs)
           }
@@ -1008,7 +1023,6 @@ export class GpdComponent implements OnInit {
       var bmi: BMI;
       var cse: CSE;
       var ece: ECE;
-      
       // Check if student satisfies credit min
       if(isElective){
         if(student.dept == 'AMS'){
@@ -1199,6 +1213,7 @@ export class GpdComponent implements OnInit {
                 student.meetsGPA = true;
               }
             }
+            resolve(student);
           })
         }
 
@@ -1459,8 +1474,6 @@ export class GpdComponent implements OnInit {
           }
         }
       }
-      // student.gpa = parseFloat(gpa);
-      // resolve(student);
     })
   }
 

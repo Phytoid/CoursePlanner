@@ -13,7 +13,7 @@
             <button id="submit-btn" [routerLink]="['/viewStudent']" [queryParams]="{sbuID: student.sbuID}">View/Edit Student Information</button>
         </div>
         <div id="card-content">
-            <button id="submit-btn" >Suggest Course Plan</button>
+            <button id="submit-btn" routerLink="/viewCoursePlan" [queryParams]="{sbuID: student.sbuID}" >Suggest Course Plan</button>
         </div>
     </div> 
 </body>

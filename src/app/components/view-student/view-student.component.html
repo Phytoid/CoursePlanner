@@ -57,9 +57,13 @@
             </div>
             <div class="form-group">
                 <label for="entrySemester">Entry Semester</label>
-                <select class="form-control" required value="{{s.entrySemester}}">
+                <select *ngIf="whosLoggedIn != 'Student'" class="form-control" required value="{{s.entrySemester}}">
                     <option value="Spring">Spring</option>
                     <option value="Fall">Fall</option>
+                </select>
+                <select *ngIf="whosLoggedIn == 'Student'" class="form-control" required value="{{s.entrySemester}}">
+                    <option disabled hidden  value="Spring">Spring</option>
+                    <option disabled hidden value="Fall">Fall</option>
                 </select>
             </div>
             <div>
@@ -67,12 +71,12 @@
                 <mat-card> {{s.entryYear}} </mat-card>
             </div>
             <div class="form-group">
-                <label for="entryYear">Entry Year</label>
-                <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}" style="display:block"></ngb-datepicker>
+                <label *ngIf="whosLoggedIn != 'Student'"  for="entryYear">Entry Year</label>
+                <ngb-datepicker *ngIf="whosLoggedIn != 'Student'"  #dp [(ngModel)]="model" (navigate)="date = $event.next" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}" style="display:block"></ngb-datepicker>
             </div>
             <div class="form-group">
-                <label for="reqSemester">Requirement Version Semester</label>
-                <select class="form-control" required value="{{s.reqVersionSemester}}">
+                <label *ngIf="whosLoggedIn != 'Student'"  for="reqSemester">Requirement Version Semester</label>
+                <select *ngIf="whosLoggedIn != 'Student'" class="form-control" required value="{{s.reqVersionSemester}}">
                     <option value="Spring">Spring</option>
                     <option value="Fall">Fall</option>
                 </select>
@@ -82,14 +86,18 @@
                 <mat-card> {{s.reqVersionYear}} </mat-card>
             </div>
             <div class="form-group">
-                <label for="reqYear">Requirement Version Year</label>
-                <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}" style="display:block"></ngb-datepicker>
+                <label *ngIf="whosLoggedIn != 'Student'"  for="reqYear">Requirement Version Year</label>
+                <ngb-datepicker *ngIf="whosLoggedIn != 'Student'" #dp [(ngModel)]="model" (navigate)="date = $event.next" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}" style="display:block"></ngb-datepicker>
             </div>
             <div class="form-group">
                 <label for="gradSemester">Graduation Semester</label>
-                <select class="form-control" required value="{{s.gradSemester}}">
+                <select *ngIf="whosLoggedIn != 'Student'" class="form-control" required value="{{s.gradSemester}}">
                     <option value="Spring">Spring</option>
                     <option value="Fall">Fall</option>
+                </select>
+                <select *ngIf="whosLoggedIn == 'Student'" class="form-control" required value="{{s.gradSemester}}">
+                    <option disabled hidden value="Spring">Spring</option>
+                    <option disabled hidden value="Fall">Fall</option>
                 </select>
             </div>
             <div>
@@ -97,8 +105,8 @@
                 <mat-card> {{s.gradYear}} </mat-card>
             </div>
             <div class="form-group">
-                <label for="gradYear">Graduation Year</label>
-                <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}" style="display:block"></ngb-datepicker>
+                <label *ngIf="whosLoggedIn != 'Student'"  for="gradYear">Graduation Year</label>
+                <ngb-datepicker *ngIf="whosLoggedIn != 'Student'"  #dp [(ngModel)]="model" (navigate)="date = $event.next" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}" style="display:block"></ngb-datepicker>
             </div>
             <div class="form-group" >
                 <label for="advisor">Advisor</label>
@@ -110,7 +118,7 @@
                 </div>
             </div>
             <div>
-                <div style="color:gray;font-style: italic;">Double click a comment to delete it.</div>
+                <div *ngIf="whosLoggedIn != 'Student'" style="color:gray;font-style: italic;">Double click a comment to delete it.</div>
                 <label for="comment">Comments:</label>
                 <!-- <mat-card *ngFor="let comment of s.comments" (dblclick)="deleteComment(event)">
                     {{comment}} 
@@ -210,7 +218,7 @@
         <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </p>
     </div>
-
+    <br>
     <div *ngIf="track=='CAM'">
         <div *ngIf="s.requiredCourses.length == 0">
             <p>Required Courses Left:
@@ -226,6 +234,17 @@
         
                 {{s.requiredCourses}}
             </p>
+        </div> 
+        <br>
+        <div *ngIf="s.meetsElectiveCreditMinimum">
+            <p>Number of elective courses needed: {{ams.numElectiveCoursesCAM}}
+           
+            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox></p>
+        </div>
+        <div *ngIf="!s.meetsElectiveCreditMinimum">
+            <p>Number of elective courses needed: {{ams.numElectiveCoursesCAM}}
+            
+            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox></p>
         </div> 
     </div>
 
@@ -247,13 +266,13 @@
         <br>
         <div *ngIf="s.meetsElectiveCreditMinimum">
             <p>Number of elective courses needed: {{ams.numElectiveCoursesCB}}
-            </p>
-            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
+            
+            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox></p>
         </div>
         <div *ngIf="!s.meetsElectiveCreditMinimum">
             <p>Number of elective courses needed: {{ams.numElectiveCoursesCB}}
-            </p>
-            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+            
+            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox></p>
         </div>  
     </div>
 
@@ -286,6 +305,19 @@
             Number of STAT courses taken: {{s.numAmsStatCourses}}
             <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </div>
+        <br>
+        <div *ngIf="s.meetsElectiveCreditMinimum">
+            <p>Number of elective courses needed: {{ams.numElectiveCoursesOR}}
+            
+            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
+            </p>
+        </div>
+        <div *ngIf="!s.meetsElectiveCreditMinimum">
+            <p>Number of elective courses needed: {{ams.numElectiveCoursesOR}}
+                <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+            </p>
+            
+        </div> 
 
     </div>
 
@@ -307,13 +339,13 @@
         <br>
         <div *ngIf="s.meetsElectiveCreditMinimum">
             <p>Number of elective courses needed: {{ams.numElectiveCoursesSTAT}}
-            </p>
-            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
+            
+            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox></p>
         </div>
         <div *ngIf="!s.meetsElectiveCreditMinimum">
             <p>Number of elective courses needed: {{ams.numElectiveCoursesSTAT}}
-            </p>
-            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+            
+            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox></p>
         </div>  
     </div>
 
@@ -335,13 +367,13 @@
         <br>
         <div *ngIf="s.meetsElectiveCreditMinimum">
             <p>Number of elective courses needed: {{ams.numElectiveCoursesQF}}
-            </p>
-            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
+            
+            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox></p>
         </div>
         <div *ngIf="!s.meetsElectiveCreditMinimum">
             <p>Number of elective courses needed: {{ams.numElectiveCoursesQF}}
-            </p>
-            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+            
+            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox></p>
         </div>  
     </div>
 </div>
