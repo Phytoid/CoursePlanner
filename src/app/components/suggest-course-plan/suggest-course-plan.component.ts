@@ -8,6 +8,10 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { MatYearView } from '@angular/material/datepicker';
 import { Student } from 'src/app/models/student';
+import { AMS } from 'src/app/models/ams';
+import { BMI } from 'src/app/models/bmi';
+import { CSE } from 'src/app/models/cse';
+import { ECE } from 'src/app/models/ece';
 
 @Component({
   selector: 'app-suggest-course-plan',
@@ -42,6 +46,18 @@ export class SuggestCoursePlanComponent implements OnInit {
   coursePlan: Map<string, Map<string, string>>;
   courseOfferings: Courses[];
   credits: number;
+  creditsNeededTotal: number;
+  track: string;
+  departmentCourses: string[];
+  electives: string[];
+  reqYear: string;
+  reqSemester: string;
+  ams: AMS;
+  bmi: BMI;
+  cse: CSE;
+  ece: ECE;
+  degreeRequirementsPresent: boolean;
+
 
   constructor(public courseServices:CourseService, public afs: AngularFirestore, public router: Router) { 
   }
@@ -49,9 +65,13 @@ export class SuggestCoursePlanComponent implements OnInit {
   coursesToAvoidList=[]
   ngOnInit(): void {
     this.semesterList = [];
-    let arr = [];
-    let courseOffArr = [];
+    var arr = [];
+    this.degreeRequirementsPresent = false;
+    var courseOffArr = [];
     var courseNames = [];
+    var deptArr = [];
+
+    // Get all courses
     this.courseServices.getCourses().subscribe(s => {
       s.forEach(element => {
           arr.push(element);
@@ -63,20 +83,57 @@ export class SuggestCoursePlanComponent implements OnInit {
       var courseNamesSetArray = Array.from(coursesNamesSet);
       this.courseNames = courseNamesSetArray;
     });
+    this.courses = arr;
+
+    // Get all course offerings
     this.courseServices.getCourseOfferings().subscribe(s => {
       s.forEach(element => {
           courseOffArr.push(element);
       });
     });
     this.courseOfferings = courseOffArr;
-    this.courses = arr;
-    let deptArr = [];
+
+    // Get all courses for the department
     for (let i = 0; i < this.courses.length; i++) {
       if (this.courses[i].department = this.dept) {
         deptArr.push(this.courses[i]);
       }
     }
+    this.departmentCourses = deptArr;
+
+    // Make a copy of all courses
     this.coursesCopy = arr;
+
+    // Get degree requirements
+    let degreeRequirements = [];
+    this.courseServices.getDegreeReqs().subscribe(s => {
+      s.forEach(element => {
+          degreeRequirements.push(element);
+      });
+    });
+    for (let i = 0; i < degreeRequirements.length; i++) {
+      if (degreeRequirements[i].department.toLocaleUpperCase() === this.dept.toLocaleUpperCase() && degreeRequirements[i].versionSemester.toLocaleLowerCase() === this.reqSemester.toLocaleLowerCase() && degreeRequirements[i].versionYear === this.reqYear) {
+        if (this.dept.toLocaleUpperCase() === 'AMS') {
+          this.ams = degreeRequirements[i];
+          this.degreeRequirementsPresent = true;
+          break;
+        } else if (this.dept.toLocaleUpperCase() === 'BMI') {
+          this.bmi = degreeRequirements[i];
+          this.degreeRequirementsPresent = true;
+          break;
+        } else if (this.dept.toLocaleUpperCase() === 'CSE') {
+          this.cse = degreeRequirements[i];
+          this.degreeRequirementsPresent = true;
+          break;
+        } else if (this.dept.toLocaleUpperCase() === 'ECE') {
+          this.ece = degreeRequirements[i];
+          this.degreeRequirementsPresent = true;
+          break;
+        }
+      }
+    }
+
+    // Get SBU ID from params
     this.router.routerState.root.queryParams.subscribe(params => {
       this.sbuID = params['sbuID'];
     });
@@ -84,8 +141,12 @@ export class SuggestCoursePlanComponent implements OnInit {
       this.s = val;
       this.gradSemester = this.s.gradSemester;
       this.gradYear = this.s.gradYear;
+      this.reqSemester = this.s.reqVersionSemester;
+      this.reqYear = this.s.reqVersionYear;
       this.requiredCourses = this.s.requiredCourses;
       this.credits = this.s.credits;
+      this.creditsNeededTotal = this.s.numCreditsNeededToGraduate;
+      this.track = this.s.track;
       for (let i = 0; i < this.requiredCourses.length; i++) {
         this.requiredCourses[i] = this.requiredCourses[i].substring(0,3) + " " + this.requiredCourses[i].substring(3,6);
       }
@@ -205,6 +266,7 @@ export class SuggestCoursePlanComponent implements OnInit {
     this.timeStart = arr;
     console.log(this.timeStart);
   }
+
   timeSlotEnd(event): void{
     var timeslot = event.target.value;
     var arr=[];
@@ -212,6 +274,7 @@ export class SuggestCoursePlanComponent implements OnInit {
     this.timeEnd = arr;
     console.log(this.timeEnd);
   }
+
   coursesSemYear(event): void{
     //event.target.value
     var courses = event.target[0].value;
@@ -225,7 +288,12 @@ export class SuggestCoursePlanComponent implements OnInit {
     console.log(this.sem);
     console.log(this.year);
   }
+
   suggestCoursePlan(): void {
+    if (this.degreeRequirementsPresent === false) {
+      alert("No degree requirements are currently available with requirement version " + this.reqSemester + " " + this.reqYear);
+      return;
+    }
     var preferred_courses = [];
     for (let i = 0; i < this.coursesToAddList.length; i++) {
       preferred_courses.push(this.coursesToAddList[i].courseName);
@@ -258,23 +326,48 @@ export class SuggestCoursePlanComponent implements OnInit {
         continue;
       }
     }
+    if (this.dept.toLocaleUpperCase() === 'AMS') {
+      if (this.track.toLocaleUpperCase() === 'OR') {
+        this.electives = this.ams.electiveCoursesOR;
+      } else {
+        this.electives = this.departmentCourses;
+      }
+    } else if (this.dept.toLocaleUpperCase() === 'ECE') {
+      this.electives = this.ece.cadCourses.concat(this.ece.hardwareCourses).concat(this.ece.networkingCourses).concat(this.ece.theoryCourses);
+    } else if (this.dept.toLocaleUpperCase() === 'BMI') {
+      if (this.track.toLocaleLowerCase().includes("clinical")) {
+        this.electives = this.bmi.electivesCI;
+      } else if (this.track.toLocaleLowerCase().includes("translational")) {
+        this.electives = this.bmi.electiveCoursesTBI;
+      } else {
+        this.electives = this.bmi.electivesII;
+      }
+    } else {
+      this.electives = this.cse.iisCourses.concat(this.cse.systemsCourses).concat(this.cse.theoryCourses);
+      if (this.track.toLocaleLowerCase().includes("advanced")) {
+        this.electives = this.electives.filter((element) => !this.cse.notAllowedCoursesA.includes(element));
+      } else if (this.track.toLocaleLowerCase().includes("special")) {
+        this.electives = this.electives.filter((element) => !this.cse.notAllowedCoursesS.includes(element));
+      }
+    }
     var semester_list = this.semesterList;
     var cp_list = [];
-    var fail_counter = 0;
   }
 
-  suggestCoursePlanSmartMode(required_courses, preferred_courses, avoid_courses, electives_list, semester_list, day_start, day_end, max_n): void {
+  suggestCoursePlanSmartMode(required_courses, preferred_courses, avoid_courses, electives_list, semester_list, day_start, day_end, max_n) {
 
   }
 
-  suggestCoursePlanDefaultMode(required_courses, preferred_courses, avoid_courses, electives_list, semester_list, day_start, day_end, max_n): void {
+  suggestCoursePlanDefaultMode(required_courses, preferred_courses, avoid_courses, electives_list, semester_list, day_start, day_end, max_n) {
     var coursePlanDict = {};
-
-    var currentCredits = this.credits;
-
     required_courses = required_courses.sort((a, b) => parseInt(a.substr(a.length - 3)) - parseInt(b.substr(b.length - 3)));
     var required_coursesCopy = this.requiredCourses;
     var prerequisitesList = {};
+    var creditList = {};
+
+    for (let i = 0; i < this.courses.length; i++) {
+      creditList[this.courses[i].course.substring(0,3) + " " + this.courses[i].course.substring(4,6)] = this.courses[i].credits;
+    }
 
     // MAKE SURE ALL COURSES WITH PREREQUISITES COME AFTER IT IN THE LIST
     for (let i = 0; i < required_courses.length; i++) {
@@ -292,7 +385,7 @@ export class SuggestCoursePlanComponent implements OnInit {
       if (prerequisite == "") {
         continue;
       } else {
-        var regex = /^[A-Z]{3}\s{1}[0-9]{3}$/;
+        var regex = /[A-Z]{3}\s{1}[0-9]{3}/;
         var matches = prerequisite.match(regex);
         for (let j = 0; j < matches.length; j++) {
           if (parseInt(matches[j].substring(4,6)) > 499) { // If it is a graduate course
@@ -321,7 +414,11 @@ export class SuggestCoursePlanComponent implements OnInit {
     }
 
     for (let i = 0; i < semester_list; i++) {
-      coursePlanDict[semester_list[i]] = [];
+      if (this.track.toLocaleUpperCase() === 'BMI') {
+        coursePlanDict[semester_list[i]] = ['BMI 592'];
+      } else {
+        coursePlanDict[semester_list[i]] = [];
+      }
     }
 
     // ADD ANOTHER SEMESTER IF WE CANNOT GRADUATE IN TIME
@@ -367,7 +464,6 @@ export class SuggestCoursePlanComponent implements OnInit {
             if (this.checkConstraints(required_courses[j], semesterArray[0], semesterArray[1], day_start, day_end, this.courseOfferings, coursePlanDict, prerequisitesList) === 1) {
               coursePlanDict[semester_list[i]] = coursePlanDict[semester_list[i]].push(required_courses[j]);
               required_courses[j].splice(j, 1);
-              prerequisitesList[j].splice(j, 1);
               j--;
             } else {
               continue;
@@ -390,7 +486,6 @@ export class SuggestCoursePlanComponent implements OnInit {
             if (this.checkConstraints(required_courses[j], semesterArray[0], semesterArray[1], day_start, day_end, null, coursePlanDict, prerequisitesList) === 1) {
               coursePlanDict[semester_list[i]] = coursePlanDict[semester_list[i]].push(required_courses[j]);
               required_courses[j].splice(j, 1);
-              prerequisitesList[j].splice(j, 1);
               j--;
             } else {
               continue;
@@ -423,6 +518,59 @@ export class SuggestCoursePlanComponent implements OnInit {
         return null;
       }
     }
+
+    if (this.canGraduate(coursePlanDict, this.requiredCourses) === true) {
+      return(coursePlanDict);
+    }
+
+    if (preferred_courses.length !== 0) {
+      var cb = document.getElementById("weightCheckbox") as HTMLInputElement;
+      if (cb.checked === false) {
+        this.shuffle(preferred_courses);
+      } else {
+        this.shuffle(semester_list);
+      }
+      for (let i = 0; i < preferred_courses.length; i++) {
+        for (let j = 0; j < semester_list; j++) {
+          let semesterArray = semester_list[j].split(" ")
+          if (this.checkConstraints(preferred_courses[i], semesterArray[0], semesterArray[1], day_start, day_end, this.courseOfferings, coursePlanDict, prerequisitesList) === 1) {
+            coursePlanDict[semester_list[j]] = coursePlanDict[semester_list[j]].push(preferred_courses[i]);
+            preferred_courses[i].splice(i, 1);
+            i--;
+          }
+        }
+      }
+    }
+
+    if (this.canGraduate(coursePlanDict, this.requiredCourses) === true) {
+      return(coursePlanDict);
+    }
+
+    electives_list = electives_list.filter((element) => !required_coursesCopy.includes(element));
+    electives_list = electives_list.filter((element) => !preferred_courses.includes(element));
+
+    if (electives_list.length !== 0) {
+      this.shuffle(electives_list);
+      for (let i = 0; i < electives_list.length; i++) {
+        for (let j = 0; j < semester_list; j++) {
+          let semesterArray = semester_list[j].split(" ")
+          if (this.checkConstraints(electives_list[i], semesterArray[0], semesterArray[1], day_start, day_end, this.courseOfferings, coursePlanDict, prerequisitesList) === 1) {
+            coursePlanDict[semester_list[j]] = coursePlanDict[semester_list[j]].push(electives_list[i]);
+            electives_list[i].splice(i, 1);
+            i--;
+          }
+        }
+      }
+    }
+
+    if (this.canGraduate(coursePlanDict, this.requiredCourses) === true) {
+      return(coursePlanDict);
+    } else {
+      return null;
+    }
+    
+
+
   }
 
   checkConstraints(course, semester, year, dayStart, dayEnd, courseOfferings, currentCoursePlan, prerequisiteList) {
@@ -438,19 +586,23 @@ export class SuggestCoursePlanComponent implements OnInit {
       for (let i = 0; i < courseOfferings.length; i++) {
         if (courseOfferings[i].semester.toLocaleLowerCase() === semester.toLocaleLowerCase() && courseOfferings[i].year === year && courseOfferings[i].department.toLocaleUpperCase() === courseDept.toLocaleUpperCase() && courseOfferings[i].courseID === courseID) {
           if (this.convertTime(dayStart) < this.convertTime(courseOfferings[i].startTime) && this.convertTime(dayEnd) > this.convertTime(courseOfferings[i].endTime)) {
-            for (let j = 0; j < array.length; j++) {
-              if (pre === "") {
-                return 1;
-              }
-              for (let k = 0; k < pre.length; k++) {
-                if (array[j].includes(prerequisite[k])) {
-                  if (this.semesterList.indexOf(semester + year) > j) {
-                    return 1;
-                  } else {
-                    continue;
+            if (this.withinSemesterOverlap(currentCoursePlan, semester, year, courseOfferings) === true) {
+              for (let j = 0; j < array.length; j++) {
+                if (pre === "") {
+                  return 1;
+                }
+                for (let k = 0; k < pre.length; k++) {
+                  if (array[j].includes(prerequisite[k])) {
+                    if (this.semesterList.indexOf(semester + year) > j) {
+                      return 1;
+                    } else {
+                      continue;
+                    }
                   }
                 }
+                return 0;
               }
+            } else {
               return 0;
             }
           } else {
@@ -488,20 +640,23 @@ export class SuggestCoursePlanComponent implements OnInit {
       if (hourInt === 12) {
         return minuteInt;
       } else {
-        return (hourInt * 100) + minute;
+        return (hourInt * 100) + minuteInt;
       }
     } else {
       if (hourInt === 12) {
         return 1200 + minuteInt;
       } else {
-        return ((hourInt + 12) * 100) + minute;
+        return ((hourInt + 12) * 100) + minuteInt;
       }
     }
   }
 
   extractPrerequisites(prerequisite) {
-    var regex = /^[A-Z]{3}\s{1}[0-9]{3}$/;
+    var regex = /[A-Z]{3}\s{1}[0-9]{3}/;
     var matches = prerequisite.match(regex);
+    if (matches === null) {
+      return "";
+    }
     var returnString = "";
     for (let i = 0; i < matches.length; i++) {
       if (parseInt(matches[i].substring(4,6)) > 499) {
@@ -534,7 +689,7 @@ export class SuggestCoursePlanComponent implements OnInit {
       });
       return tmp;
     }, [[]]);
-  } // This generator is adapted from: https://gist.github.com/cybercase/db7dde901d7070c98c48
+  } // The code in this permutation generator is largely taken from: https://gist.github.com/cybercase/db7dde901d7070c98c48
 
   checkIfCoursePlanIsValid(coursePlan, dayStart, dayEnd, prerequisiteList) {
     var sem = Object.keys(coursePlan);
@@ -552,5 +707,96 @@ export class SuggestCoursePlanComponent implements OnInit {
     }
     return 1;
   }
+
+  canGraduate(coursePlan, requiredCourses) {
+    let newCredits = 0;
+    let oldCredits = this.credits;
+    if (requiredCourses !== []) {
+      return false;
+    }
+    let dicts = Object.values(coursePlan);
+    let courses = Object.values(dicts);
+    for (let i = 0; i < courses.length; i++) {
+      for (let j = 0; j < courses[i].length; j++) {
+        newCredits += courses[i][j].credits;
+      } 
+    }
+    if (newCredits + oldCredits < this.creditsNeededTotal) {
+      return false;
+    }
+    return true;
+  }
+
+  withinSemesterOverlap(coursePlan, semester, year, courseOfferings) {
+    var concat = semester + " " + year;
+    var desired_courses = coursePlan[concat];
+    var monday = [];
+    var tuesday = [];
+    var wednesday = [];
+    var thursday = [];
+    var friday = [];
+    for (let i = 0; i < desired_courses.length; i++) {
+      for (let j = 0; j < courseOfferings.length; j++) {
+        if (courseOfferings[j].semester.toLocaleLowerCase() === semester.toLocaleLowerCase() && courseOfferings[j].year === year && courseOfferings[j].department.toLocaleUpperCase() === desired_courses[i].department.toLocaleUpperCase() && courseOfferings[j].courseID === desired_courses[i].courseID) {
+          if (courseOfferings[j].day.toLocaleUpperCase().includes("M")) {
+            monday.push([this.convertTime(courseOfferings[j].startTime), this.convertTime(courseOfferings[j].endTime)])
+          }
+          if (courseOfferings[i].day.toLocaleUpperCase().includes("TU")) {
+            tuesday.push([this.convertTime(courseOfferings[j].startTime), this.convertTime(courseOfferings[j].endTime)])
+          }
+          if (courseOfferings[i].day.toLocaleUpperCase().includes("W")) {
+            wednesday.push([this.convertTime(courseOfferings[j].startTime), this.convertTime(courseOfferings[j].endTime)])
+          }
+          if (courseOfferings[i].day.toLocaleUpperCase().includes("TH")) {
+            thursday.push([this.convertTime(courseOfferings[j].startTime), this.convertTime(courseOfferings[j].endTime)])
+          }
+          if (courseOfferings[i].day.toLocaleUpperCase().includes("F")) {
+            friday.push([this.convertTime(courseOfferings[j].startTime), this.convertTime(courseOfferings[j].endTime)])
+          } 
+        }
+      }
+    }
+    monday.sort(([a, b], [c, d]) => a - c || b - d);
+    tuesday.sort(([a, b], [c, d]) => a - c || b - d);
+    wednesday.sort(([a, b], [c, d]) => a - c || b - d);
+    thursday.sort(([a, b], [c, d]) => a - c || b - d);
+    friday.sort(([a, b], [c, d]) => a - c || b - d);
+    for (let i = 0; i < monday.length - 1; i++) {
+      if (monday[i][1] > monday[i+1][0]) {
+        return false;
+      }
+    }
+    for (let i = 0; i < tuesday.length - 1; i++) {
+      if (tuesday[i][1] > tuesday[i+1][0]) {
+        return false;
+      }
+    }
+    for (let i = 0; i < wednesday.length - 1; i++) {
+      if (wednesday[i][1] > wednesday[i+1][0]) {
+        return false;
+      }
+    }
+    for (let i = 0; i < thursday.length - 1; i++) {
+      if (thursday[i][1] > thursday[i+1][0]) {
+        return false;
+      }
+    }
+    for (let i = 0; i < friday.length - 1; i++) {
+      if (friday[i][1] > friday[i+1][0]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  shuffle(a) { // MODERN VERSION OF THE FISHER-YATES SHUFFLE ALGORITHM
+    for (let i = a.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        let x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+  } // THIS FUNCTION TAKEN FROM : https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
 }
 
