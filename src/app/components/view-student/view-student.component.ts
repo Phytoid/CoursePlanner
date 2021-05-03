@@ -132,7 +132,7 @@ export class ViewStudentComponent implements OnInit {
         })
       }
       else{
-        docRef = this.afs.collection("Degrees").doc("ESE"+this.s.reqVersionSemester+this.s.reqVersionYear);
+        docRef = this.afs.collection("Degrees").doc("ECE"+this.s.reqVersionSemester+this.s.reqVersionYear);
         docRef.valueChanges().subscribe(val => {
           this.ece = val
      
@@ -237,7 +237,7 @@ export class ViewStudentComponent implements OnInit {
     else if(this.dept == "AMS"){
       this.tracks = ["CAM", "CB", "OR", "STAT", "QF"];
     }
-    else if(this.dept == "ESE"){
+    else if(this.dept == "ECE"){
       this.tracks = ["Non-Thesis", "Thesis"]
     }
     else{
