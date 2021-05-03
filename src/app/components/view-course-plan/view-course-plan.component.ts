@@ -22,7 +22,9 @@ export class ViewCoursePlanComponent implements OnInit {
   s:Student;
   sbuID: string;
   whosLoggedIn: string;
-  track:string;
+  dataSource: MatTableDataSource<any>
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(private authService: AuthService, public studentService: StudentService, public router: Router, public afs: AngularFirestore, public sr: StudentRequirementsService) {
     if (!this.authService.isLoggedIn) {
       this.router.navigate(['login'])
@@ -34,11 +36,45 @@ export class ViewCoursePlanComponent implements OnInit {
     this.router.routerState.root.queryParams.subscribe(params => {
       this.sbuID = params['sbuID'];
     })
-    this.afs.collection('Students').doc(this.sbuID).valueChanges().subscribe(val => {
-      //this.coursePlan = this.s.coursePlan;
-      this.track = this.s.track;
+    this.afs.collection('Students').doc(this.sbuID).ref.get().then(val => {
+      this.s = val.data();
+  
+      
+      var courseArr = []
+      var map : Map<string, Map<string, string>> = new Map(Object.entries(this.s.coursePlan))
+      var keys = Object.keys(this.s.coursePlan);
+      for(var semesterYear of map.keys()){
+        var innerMap : Map<string, string> = new Map(Object.entries(map.get(semesterYear)))
+        var semester = semesterYear.slice(0, semesterYear.length - 3);
+        var year = semesterYear.slice(semesterYear.length - 4);
+        for(var c of innerMap.keys()){
+          var grade = innerMap.get(c);
+          if(grade === ""){
+            grade = "No grade yet"
+          }
+          var course: Courses = {
+            year: parseInt(year),
+            semesterYear : semesterYear, 
+            course: c, 
+            grade:grade
+          }
+          courseArr.push(course);
+        }
+      }
+      courseArr.sort(function(a:Courses,b:Courses){
+        if(a.year === b.year){
+          return a.semesterYear.localeCompare(b.semesterYear) ? 1 : -1;
+        }
+        return a.year > b.year ? 1: -1;
+      })
+      console.log(courseArr)
+      this.dataSource = new MatTableDataSource(courseArr);
+      console.log(this.dataSource)
+
     });
-    console.log(this.track);
-    console.log(this.coursePlan);
+
+  }
+  ngAfterInit(): void{
+    location.reload();
   }
 }
