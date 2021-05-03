@@ -72,7 +72,7 @@
             <th mat-header-cell *matHeaderCellDef style="font-size:12pt">Course Plan</th>
             <td mat-cell *matCellDef="let student">
                 <button mat-button routerLink="/suggestCoursePlan" [routerLink]="['/suggestCoursePlan']" [queryParams]="{sbuID: student.sbuID}" class="coursePlanButton" style="background-color:lavender;font-family:Verdana">Suggest Course Plan</button>
-                <button routerLink="/viewCoursePlan" mat-button class="coursePlanButton" style="background-color:lavenderblush;font-family:Verdana">View Course Plan</button>
+                <button routerLink="/viewCoursePlan" [queryParams]="{sbuID: student.sbuID}" mat-button class="coursePlanButton" style="background-color:lavenderblush;font-family:Verdana">View Course Plan</button>
             </td>
         </ng-container>
         <ng-container matColumnDef="satisfied">
