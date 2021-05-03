@@ -59,8 +59,6 @@ export class ViewStudentComponent implements OnInit {
       this.s = val;
       this.model = {year: parseInt(this.s.gradYear), day: 1, month: 1};
       this.comments = this.s.comments;
-      console.log(this.comments);
-      console.log(this.s.dept)
       this.dept = this.s.dept
       this.track = this.s.track;
       this.password = this.s.password;
@@ -135,7 +133,7 @@ export class ViewStudentComponent implements OnInit {
         })
       }
       else{
-        docRef = this.afs.collection("Degrees").doc("ESE"+this.s.reqVersionSemester+this.s.reqVersionYear);
+        docRef = this.afs.collection("Degrees").doc("ECE"+this.s.reqVersionSemester+this.s.reqVersionYear);
         docRef.valueChanges().subscribe(val => {
           this.ece = val
      
@@ -245,7 +243,7 @@ export class ViewStudentComponent implements OnInit {
     else if(this.dept == "AMS"){
       this.tracks = ["CAM", "CB", "OR", "STAT", "QF"];
     }
-    else if(this.dept == "ESE"){
+    else if(this.dept == "ECE"){
       this.tracks = ["Non-Thesis", "Thesis"]
     }
     else{
