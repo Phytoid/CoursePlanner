@@ -73,31 +73,15 @@
         </div>
         <div><br></div>
     </span>
-    <span class="dropdowns">
-        <form (submit)="coursesSemYear($event)" class="form">
-            <label for="maxCourses">
-                Max Number of Courses
-            </label>
-            <input matInput type="text">
-            <label for="Semester">
-                Semester
-            </label>
-            <div>
-                <select>
-                    <option value="Fall">Fall</option>
-                    <option value="Spring">Spring</option>
-                </select>
-            </div>
-            <div>
-                <label for="year">
-                    Year
-                </label>
-            </div>
-            <div>
-                <ngb-datepicker #dp id= "yearchooser" name="year" [maxDate]="{year:2030, month: 1, day: 1}" [minDate]="{year:1985, month: 1, day: 1}"></ngb-datepicker>
-            </div>
-            <input id="submit-btn" type="submit">
-        </form>
+    <span class="dropdowns" style="overflow:auto">
+        <div> 
+            <mat-card *ngFor="let semester of semesterList">
+                <mat-label id="label" style="padding-right: 10%;">{{semester}}</mat-label>
+                <mat-form-field class="semesterList" style="width:50%" id="filter">
+                    <input matInput type="number" min="0">
+                </mat-form-field>
+            </mat-card>
+        </div>
         <!-- Max Number of Courses
         <div>
             <mat-label id="label">Number</mat-label>
@@ -123,7 +107,7 @@
 <div>
     <span class = "row">
         <table mat-table #table matSort class="mat-elevation-z8 column" [dataSource]="coursesToAddList" matSortDirection="asc" style="width:45%"> 
-            <ng-container matColumnDef="courseName">
+            <ng-container matColumnDef="add">
                 <th mat-header-cell *matHeaderCellDef>Courses To Add</th>
                 <td mat-cell *matCellDef="let coursesToAddList; let i = index">{{coursesToAddList.courseName}}</td>
             </ng-container>
@@ -142,7 +126,7 @@
             <tr mat-row *matRowDef="let row; columns: courseAdd;"></tr>
         </table>
         <table mat-table #table matSort class="mat-elevation-z8 column" [dataSource]="coursesToAvoidList" matSortDirection="asc" style="width:45%"> 
-            <ng-container matColumnDef="courseName">
+            <ng-container matColumnDef="avoid">
                 <th mat-header-cell *matHeaderCellDef>Courses To Avoid</th>
                 <td mat-cell *matCellDef="let coursesToAvoidList">{{coursesToAvoidList.courseName}}</td>
             </ng-container>
