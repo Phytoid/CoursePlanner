@@ -59,8 +59,6 @@ export class ViewStudentComponent implements OnInit {
       this.s = val;
       this.model = {year: parseInt(this.s.gradYear), day: 1, month: 1};
       this.comments = this.s.comments;
-      console.log(this.comments);
-      console.log(this.s.dept)
       this.dept = this.s.dept
       this.track = this.s.track;
       this.password = this.s.password;
@@ -85,7 +83,6 @@ export class ViewStudentComponent implements OnInit {
           else{
             this.requiredCourses = this.ams.requiredCoursesQF;
           }
-          console.log(this.requiredCourses)
         })
       }
       else if(this.dept == 'BMI'){
@@ -135,7 +132,7 @@ export class ViewStudentComponent implements OnInit {
         })
       }
       else{
-        docRef = this.afs.collection("Degrees").doc("ESE"+this.s.reqVersionSemester+this.s.reqVersionYear);
+        docRef = this.afs.collection("Degrees").doc("ECE"+this.s.reqVersionSemester+this.s.reqVersionYear);
         docRef.valueChanges().subscribe(val => {
           this.ece = val
      
@@ -183,12 +180,7 @@ export class ViewStudentComponent implements OnInit {
         gradSemester: event.srcElement[17].value,
         gradYear: event.srcElement[20].value,
         advisor: event.srcElement[22].value,
-        satisfied: 0,
-        pending: 0,
-        unsatisfied: 0,
         semesters: value,
-        graduated: false,
-        validCoursePlan: true,
       }
       if (event.srcElement[23].value.trim().length > 0) {
         this.comments.push(event.srcElement[23].value);
@@ -199,7 +191,7 @@ export class ViewStudentComponent implements OnInit {
       var moreThanStarsSet = new Set(moreThanStars);
       console.log(moreThanStarsSet);
       if (moreThanStarsSet.size === 1) {
-        this.afs.firestore.collection('Students').doc(this.s.id).set(this.s);
+        this.afs.firestore.collection('Students').doc(this.s.id).update(this.s);
         docRef.valueChanges().subscribe(val => {
           this.sr.setStudentRequirements(this.s, val);
         });
@@ -207,7 +199,7 @@ export class ViewStudentComponent implements OnInit {
         console.log(event.srcElement[4].value)
         this.hashPassword(event.srcElement[4].value).then((hash) => {
           this.s.password = hash.toString();
-          this.afs.firestore.collection('Students').doc(this.s.id).set(this.s);
+          this.afs.firestore.collection('Students').doc(this.s.id).update(this.s);
           docRef.valueChanges().subscribe(val => {
             this.sr.setStudentRequirements(this.s, val);
           });
@@ -227,7 +219,7 @@ export class ViewStudentComponent implements OnInit {
     var index = this.comments.indexOf(event);
     this.comments.splice(index, 1);
     this.s.comments = this.comments;
-    this.afs.firestore.collection('Students').doc(this.s.id).set(this.s);
+    this.afs.firestore.collection('Students').doc(this.s.id).update(this.s);
   }
 
   deleteStudent(){
@@ -245,7 +237,7 @@ export class ViewStudentComponent implements OnInit {
     else if(this.dept == "AMS"){
       this.tracks = ["CAM", "CB", "OR", "STAT", "QF"];
     }
-    else if(this.dept == "ESE"){
+    else if(this.dept == "ECE"){
       this.tracks = ["Non-Thesis", "Thesis"]
     }
     else{

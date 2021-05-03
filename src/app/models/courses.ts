@@ -7,13 +7,16 @@ export interface Courses {
     courseName?:String;
     professor?:String;
     semester?:Semester;
-    year?:Number;
+    year?:number;
     startTime?:Date;
     endTime?:Date;
-    graduatePreq?:String;
+    graduatePreq?:string;
     enrollment?:Number;
     section?:Number;
     credits?:Number;
     description?:String;
+    semesterYear?: string;
+    grade?:string;
+    semesterAndYear?:String;
 }
 

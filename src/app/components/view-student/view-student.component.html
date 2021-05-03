@@ -110,6 +110,7 @@
                 </div>
             </div>
             <div>
+                <div style="color:gray;font-style: italic;">Double click a comment to delete it.</div>
                 <label for="comment">Comments:</label>
                 <!-- <mat-card *ngFor="let comment of s.comments" (dblclick)="deleteComment(event)">
                     {{comment}} 
@@ -129,7 +130,7 @@
             <br>
             <div class="form-group" *ngIf="whosLoggedIn != 'Student'">
                 <div>
-                    <label for="comment">Add Comments</label>
+                    <label for="comment">Add a Comment</label>
                     <input type="text" name="comments" id="comments" style="height: 125px;">
                 </div>
             </div>
@@ -166,16 +167,18 @@
         Total Credits: {{s.credits}}
         <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
     </div>
-    
+    <br>
     <div *ngIf="s.hasAmsFinalRec">
-        <p>Final Recomendation</p>
+        <p>Final Recomendation
         <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
+        </p>
     </div>
-    <div *ngIf="!s.meetsCreditMinimum">
-        <p>Final Recomendation</p>
-        <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+    <div *ngIf="!s.hasAmsFinalRec">
+        <p>Final Recomendation
+            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+        </p>
     </div>
-    
+    <br>
     <div *ngIf="s.meetsGPA">
         <p>
             Minimum GPA: {{ams.gpa}} 
@@ -197,7 +200,7 @@
             <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </p>
     </div>
-
+    <br>
     <div *ngIf="s.gradYear - s.entryYear <= 3">
         Must graduate in {{ams.timeLimit}} years
         <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
@@ -211,11 +214,12 @@
     <div *ngIf="track=='CAM'">
         <div *ngIf="s.requiredCourses.length == 0">
             <p>Required Courses Left:
-                <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+                <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
         
                 {{s.requiredCourses}}
             </p>
         </div>
+        <br>
         <div *ngIf="s.requiredCourses.length != 0">
             <p>Required Courses Left:
                 <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
@@ -228,7 +232,7 @@
     <div *ngIf="track== 'CB'">
         <div *ngIf="s.requiredCourses.length == 0">
             <p>Required Courses Left:
-                <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+                <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
         
                 {{s.requiredCourses}}
             </p>
@@ -240,6 +244,7 @@
                 {{s.requiredCourses}}
             </p>
         </div> 
+        <br>
         <div *ngIf="s.meetsElectiveCreditMinimum">
             <p>Number of elective courses needed: {{ams.numElectiveCoursesCB}}
             </p>
@@ -255,7 +260,7 @@
     <div *ngIf="track=='OR'">
         <div *ngIf="s.requiredCourses.length == 0">
             <p>Required Courses Left:
-                <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+                <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
         
                 {{s.requiredCourses}}
             </p>
@@ -267,12 +272,14 @@
                 {{s.requiredCourses}}
             </p>
         </div> 
+        <br>
         <div *ngIf="s.hasAmsORStatComplete">
             <p>Number of statistic courses needed: {{ams.numStatisticCoursesOR}}
             </p>
             Number of STAT courses taken: {{s.numAmsStatCourses}}
             <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
         </div>
+        
         <div *ngIf="!s.hasAmsORStatComplete">
             <p>Number of statistic courses needed: {{ams.numStatisticCoursesOR}}
             </p>
@@ -285,7 +292,7 @@
     <div *ngIf="track=='STAT'">
         <div *ngIf="s.requiredCourses.length == 0">
             <p>Required Courses Left:
-                <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+                <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
         
                 {{s.requiredCourses}}
             </p>
@@ -297,6 +304,7 @@
                 {{s.requiredCourses}}
             </p>
         </div> 
+        <br>
         <div *ngIf="s.meetsElectiveCreditMinimum">
             <p>Number of elective courses needed: {{ams.numElectiveCoursesSTAT}}
             </p>
@@ -312,7 +320,7 @@
     <div *ngIf="track=='QF'">
         <div *ngIf="s.requiredCourses.length == 0">
             <p>Required Courses Left:
-                <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+                <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
         
                 {{s.requiredCourses}}
             </p>
@@ -324,6 +332,7 @@
                 {{s.requiredCourses}}
             </p>
         </div> 
+        <br>
         <div *ngIf="s.meetsElectiveCreditMinimum">
             <p>Number of elective courses needed: {{ams.numElectiveCoursesQF}}
             </p>
@@ -351,7 +360,7 @@
         Total Credits: {{s.credits}}
         <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
     </div>
-
+    <br>
     <div *ngIf="s.meetsGPA">
         <p>
             Minimum GPA: {{bmi.gpa}} 
@@ -373,9 +382,9 @@
             <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </p>
     </div>
-    
+    <br>
     <p>Minimum Credits per semester: {{bmi.creditMinimumPerSemester}}</p>
-
+    <br>
     <div *ngIf="s.gradYear - s.entryYear <= 3">
         Must graduate in {{bmi.timeLimit}} years
         <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
@@ -385,10 +394,10 @@
         <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </p>
     </div>
-
+    <br>
     <div *ngIf="s.requiredCourses.length == 0">
         <p>Required Courses Left:
-            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
     
             {{s.requiredCourses}}
         </p>
@@ -420,9 +429,9 @@
             Total number of credits needed: {{cse.credits}}
         </p>
         Total Credits: {{s.credits}}
-            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
+            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
     </div>
-
+    <br>
     <div *ngIf="s.meetsGPA">
         <p>
             Minimum GPA: {{cse.gpa}} 
@@ -442,7 +451,7 @@
             <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </p>
     </div>
-
+    <br>
     <div *ngIf="s.requiredCourses.length == 0">
         <p>Required Courses Left:
             <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
@@ -457,7 +466,7 @@
         {{s.requiredCourses}}
         </p>
     </div> 
-
+    <br>
     <div *ngIf="s.hasCseTheoryCourses">
         <p>
             Number of Theory courses needed: {{cse.numBreadthCourses}}
@@ -470,12 +479,12 @@
             <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </p>
     </div>
-
+    <br>
     <div *ngIf="s.hasCseSystemsCourse">
         <p>
             Number of Systems courses needed: {{cse.numBreadthCourses}}
           
-            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
         </p>
     </div>
     <div *ngIf="!s.hasCseSystemsCourse">
@@ -485,12 +494,12 @@
             <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </p>
     </div>
-
+    <br>
     <div *ngIf="s.hasCseIISCourse">
         <p>
             Number of Information and Intelligent Systems courses needed: {{cse.numBreadthCourses}}
           
-            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
         </p>
         
     </div>
@@ -501,25 +510,26 @@
             <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </p>
     </div>
-
-    <div *ngIf="s.track == 'Special Track'">
+    <br>
+    <div *ngIf="s.track == 'Special Project'"> 
         <div *ngIf="s.hasCseBasicCourses">
             <p>
-                Number of basic courses needed: {{cse.numCseBasicCourses}}
+                Number of basic courses needed: {{cse.minBasicProjectS}}
             </p> 
             Number of basic courses taken: {{s.numCseBasicCourses}}
-                <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+                <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
         </div>
         <div *ngIf="!s.hasCseBasicCourses">
-            <p>Number of basic courses needed: {{cse.numCseBasicCourses}}</p>
+            <p>Number of basic courses needed: {{cse.minBasicProjectS}}</p>
             Number of basic courses taken: {{s.numCseBasicCourses}}
                 <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </div>
     </div>
 </div>
 
-<div *ngIf= "dept == 'ESE'">
-    <div *ngIf='s.track == Non-Thesis'>
+<div *ngIf= "dept == 'ECE'">
+
+    <div *ngIf='s.track == "Non-Thesis"'>
         <h3>Degree Requirements</h3>
         <div *ngIf="s.meetsCreditMinimum">
             <p>Credits needed to graduate: {{ece.creditMinimumNT}}</p>
@@ -529,22 +539,22 @@
         <div *ngIf="!s.meetsCreditMinimum">
             <p>Credits needed to graduate: {{ece.creditMinimumNT}}</p>
             Total Credits: {{s.credits}}
-            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
+            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </div>
-
+        <br>
         <div *ngIf="s.meetsGPA">
             <p>
-                Minimum GPA: {{ece.gpa}} 
+                Minimum GPA: {{ece.gpaNT}} 
             </p>
             <p>
                 Current GPA: {{s.gpa}}
                 
-                <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+                <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
             </p>
         </div>
         <div *ngIf="!s.meetsGPA">
             <p>
-                Minimum GPA: {{ece.gpa}} 
+                Minimum GPA: {{ece.gpaNT}} 
             </p>
             <p>
                 Current GPA: {{s.gpa}}
@@ -552,7 +562,7 @@
                 <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
             </p>
         </div>
-
+        <br>
         <div *ngIf="s.hasEceHardwareCourse">
             <p>Number of Hardware courses needed: {{ece.numCreditsSubAreas1NT}}</p>
             Number of Hardware courses taken: {{s.numEceHardwareCourse}}
@@ -565,12 +575,12 @@
             Number of Hardware courses taken: {{s.numEceHardwareCourse}}
             <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </div>
-
+        <br>
         <div *ngIf="s.hasEceNetworkingCourse">
             <p>Number of Networking courses needed: {{ece.numCreditsSubAreas1NT}}
             </p>
             Number of Networking courses taken: {{s.numEceNetworkCourse}}
-            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
             
         </div>
         <div *ngIf="!s.hasEceNetworkingCourse">
@@ -579,12 +589,12 @@
             Number of Networking courses taken: {{s.numEceNetworkCourse}}
             <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </div>
-
+        <br>
         <div *ngIf="s.hasEceCadCourse">
             <p>Number of CAD and VLSI courses needed: {{ece.numCreditsSubAreas1NT}}
             </p>
             Number of CAD and VLSI courses taken: {{s.numEceCadCourse}}
-            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
             
         </div>
         <div *ngIf="!s.hasEceCadCourse">
@@ -593,12 +603,12 @@
             Number of CAD and VLSI courses taken: {{s.numEceCadCourse}}
             <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </div>
-
+        <br>
         <div *ngIf="s.hasEceTheoryCourse">
             <p>Number of Theory and Software courses needed: {{ece.numCreditsSubAreas2NT}}
             </p> 
             Number of Theory and Software courses taken: {{s.numEceCadCourse}}
-            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
         </div>
         <div *ngIf="!s.hasEceTheoryCourse">
             <p>Number of Theory and Software courses needed: {{ece.numCreditsSubAreas2NT}}
@@ -607,12 +617,12 @@
             <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </div>
   
- 
+        <br>
         <div *ngIf="s.hasEce597Credits">
             <p>Number of ECE597 Credits needed: {{ece.minCreditsESE597NT}}
             </p> 
             Number of ECE597 taken: {{s.numEse597Credits}}
-            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
         </div>
         <div *ngIf="!s.hasEce597Credits">
             <p>Number of ECE597 Credits needed: {{ece.minCreditsESE597NT}}
@@ -621,12 +631,12 @@
             <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </div>
    
-
+        <br>
         <div *ngIf="s.hasEceRegularCredits">
             <p>Number of Regular courses needed: {{ece.numRegularCoursesNT}}
             </p> 
             Number of Regular courses taken: {{s.numEceRegularCredits}}
-            <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+            <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
         </div>
         <div *ngIf="!s.hasEceTheoryCourse">
             <p>Number of Regular courses needed: {{ece.numRegularCoursesNT}}
@@ -637,7 +647,7 @@
     
     </div>
 
-    <div *ngIf='s.track == Thesis'>
+    <div *ngIf='s.track == "Thesis"'>
         <h3>Degree Requirements</h3>
         <div *ngIf="s.meetsCreditMinimum">
             <p>Credits needed to graduate: {{ece.creditMinimumT}}</p>
@@ -650,10 +660,10 @@
             Total Credits: {{s.credits}}
             <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         </div>
-
+        <br>
         <div *ngIf="s.meetsGPA">
             <p>
-                Minimum GPA: {{ece.gpa}} 
+                Minimum GPA: {{ece.gpaT}} 
             </p>
             <p>
                 Current GPA: {{s.gpa}}
@@ -664,7 +674,7 @@
         </div>
         <div *ngIf="!s.meetsGPA">
             <p>
-                Minimum GPA: {{ece.gpa}} 
+                Minimum GPA: {{ece.gpaT}} 
             </p>
             <p>
                 Current GPA: {{s.gpa}}
@@ -672,7 +682,7 @@
                 <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
             </p>
         </div>
-
+        <br>
         <div *ngIf="s.hasEceHardwareCourse">
             <p>Number of Hardware courses needed: {{ece.numCreditsSubAreas1T}}</p>
             Number of Hardware courses taken: {{s.numEceHardwareCourse}}
@@ -685,7 +695,7 @@
             <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
    
         </div>
-
+        <br>
         <div *ngIf="s.hasEceNetworkingCourse">
             <p>Number of Networking courses needed: {{ece.numCreditsSubAreas1T}}</p>
                 Number of Networking courses taken: {{s.numEceNetworkCourse}}
@@ -699,7 +709,7 @@
                 <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
     
         </div>
-
+        <br>
         <div *ngIf="s.hasEceCadCourse">
             <p>Number of CAD and VLSI courses needed: {{ece.numCreditsSubAreas1T}}</p>
                 Number of CAD and VLSI courses taken: {{s.numEceCadCourse}}
@@ -714,7 +724,7 @@
        
         </div>
 
-
+        <br>
         <div *ngIf="s.hasEceTheoryCourse">
             <p>Number of Theory and Software courses needed: {{ece.numCreditsSubAreas2T}}</p>
                 Number of Theory and Software courses taken: {{s.numEceTheoryCourse}}
@@ -728,11 +738,11 @@
           
         </div>
     
- 
+        <br>
         <div *ngIf="s.hasEce597Credits">
             <p>Number of ECE597 Credits needed: {{ece.minCreditsESE597T}}</p>
                 Number of ECE597 taken: {{s.numEse597Credits}}
-                <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+                <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
             
         </div>
         <div *ngIf="!s.hasEce597Credits">
@@ -741,11 +751,11 @@
                 <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
         
         </div>
-
+        <br>
         <div *ngIf="s.hasEce599Credits">
             <p>Number of ECE599 Credits needed: {{ece.minCreditsESE599T}}</p>
                 Number of ECE599 credits: {{s.numEse599Credits}}
-                <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+                <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
       
         </div>
         <div *ngIf="!s.hasEce599Credits">
@@ -755,11 +765,11 @@
      
         </div>
    
-
+        <br>
         <div *ngIf="s.hasEceRegularCredits">
             <p>Number of Regular courses needed: {{ece.numRegularCoursesT}}</p>
                 Number of Regular courses taken: {{s.numEceRegularCredits}}
-                <mat-checkbox disabled [checked]= "!checked" ></mat-checkbox>
+                <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
      
         </div>
         <div *ngIf="!s.hasEceTheoryCourse">
@@ -771,11 +781,12 @@
     </div>
 </div>
 
+<br>
 <div *ngIf='s.hasThesis'>
     Thesis <mat-checkbox disabled [checked]= "checked" ></mat-checkbox>
 </div>
 <div *ngIf='!s.hasThesis'>
-    <div *ngIf=whosLoggedIn != 'Student'>
+    <div *ngIf="whosLoggedIn != 'Student'">
         <div *ngIf="s.track == 'Thesis' || s.track == 'Imaging, Thesis' || s.track == 'Clinical, Thesis' || s.track == 'Translational, Thesis'">
             Thesis <mat-checkbox (change)='setThesis()' [checked]= "!checked" ></mat-checkbox>
         </div>

@@ -1,3 +1,4 @@
+import { Courses } from './../../models/courses';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -5,6 +6,9 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { StudentRequirementsService } from 'src/app/services/student-requirements.service';
 import { Student } from '../../models/student';
 import { StudentService } from 'src/app/services/student.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+
 
 @Component({
   selector: 'app-view-course-plan',

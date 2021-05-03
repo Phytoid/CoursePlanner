@@ -23,7 +23,7 @@ export interface Student{
     project?:string;
     comments?:string[];
     validCoursePlan?:boolean;
-    plan?:Plan;
+    coursePlan?:Map<string, Map<string, string>>
     password?:string;
     gpa?: number;
     requiredCourses?: string[];
@@ -35,8 +35,8 @@ export interface Student{
     isMeetTimeLimit?: boolean;
     meetsElectiveCreditMinimum?: boolean;
     meetsGPA?: boolean;
-    coursesTaken?: String[]
-    coursePlan?: String[];
+    coursesTaken?: String[];
+    hasRequiredCourses?: boolean;
 
     numAmsStatCourses?: number;
     hasAmsORStatComplete?: boolean;
@@ -46,6 +46,9 @@ export interface Student{
 
     numCseBasicCourses?:number;
     hasCseBasicCourses?: boolean;
+    numCseTheoryCourses?:number;
+    numCseSystemsCourses?:number;
+    numCseIISCourses?:number;
     hasCseTheoryCourse?: boolean;
     hasCseSystemsCourse?: boolean;
     hasCseIISCourse?: boolean;

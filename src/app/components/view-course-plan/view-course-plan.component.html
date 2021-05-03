@@ -4,7 +4,7 @@
 </div>
 
 <div>
-    <table mat-table #table matSort class="mat-elevation-z8" [dataSource]="coursePlan" matSortDirection="asc" style="width:100%"> 
+    <table mat-table #table matSort class="mat-elevation-z8" [dataSource]="dataSource" matSortDirection="asc" style="width:100%"> 
         <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Course Name</th>
                 <!-- <td mat-cell *matCellDef="let coursesToAddList">{{coursesToAddList.courseName}}</td> -->
