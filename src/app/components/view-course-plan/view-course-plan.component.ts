@@ -18,6 +18,7 @@ export class ViewCoursePlanComponent implements OnInit {
   s:Student;
   sbuID: string;
   whosLoggedIn: string;
+  track:string;
   constructor(private authService: AuthService, public studentService: StudentService, public router: Router, public afs: AngularFirestore, public sr: StudentRequirementsService) {
     if (!this.authService.isLoggedIn) {
       this.router.navigate(['login'])
@@ -31,7 +32,9 @@ export class ViewCoursePlanComponent implements OnInit {
     })
     this.afs.collection('Students').doc(this.sbuID).valueChanges().subscribe(val => {
       //this.coursePlan = this.s.coursePlan;
+      this.track = this.s.track;
     });
-    //console.log(this.dept);
+    console.log(this.track);
+    console.log(this.coursePlan);
   }
 }
