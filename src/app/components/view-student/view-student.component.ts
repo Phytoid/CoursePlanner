@@ -59,8 +59,6 @@ export class ViewStudentComponent implements OnInit {
       this.s = val;
       this.model = {year: parseInt(this.s.gradYear), day: 1, month: 1};
       this.comments = this.s.comments;
-      console.log(this.comments);
-      console.log(this.s.dept)
       this.dept = this.s.dept
       this.track = this.s.track;
       this.password = this.s.password;
@@ -85,7 +83,6 @@ export class ViewStudentComponent implements OnInit {
           else{
             this.requiredCourses = this.ams.requiredCoursesQF;
           }
-          console.log(this.requiredCourses)
         })
       }
       else if(this.dept == 'BMI'){
