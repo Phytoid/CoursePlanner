@@ -867,10 +867,10 @@ export class GpdComponent implements OnInit {
         var student: Student = s.data();
         console.log(student)
       })
-        for (var course of map.get(studentID).keys()){
-          await addToDatabase(course, studentID, afs, map, updateStudent);
-          
-        }
+      for (var course of map.get(studentID).keys()){
+        await addToDatabase(course, studentID, afs, map, updateStudent);
+        
+      }
     }
     return;
   }
