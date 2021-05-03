@@ -15,5 +15,6 @@ export interface Courses {
     section?:Number;
     credits?:Number;
     description?:String;
+    semesterAndYear?:String;
 }
 

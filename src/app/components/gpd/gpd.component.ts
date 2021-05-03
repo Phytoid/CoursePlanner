@@ -797,13 +797,44 @@ export class GpdComponent implements OnInit {
 
   async uploadCourse(event) {
     let fileList: FileList = event.target.files;
-    let courseDataHeader = "department,course_num,section,semester,year,timeslot";
     let text = (await fileList.item(0).text()).split(/\r?\n/);
+    let courseDataHeader = "department,course_num,section,semester,year,timeslot";
     if (text[0] != courseDataHeader) {
       alert("Course offerings file does not match proper format.");
       return;
-    } 
-    for(var i = 0; i < text.length; i++){
+    }
+    var array = [];
+    for (var i = 0; i < text.length; i++) {
+      var strArray = text[i].split(",")
+      if (strArray.length != 6) {
+        alert("One of your lines looks like it is missing a comma or has too many. Please revise your file and check again.");
+        return;
+      }
+    }
+    for (var i = 0; i < text.length; i++) {
+      var strArray = text[i].split(",")
+      if (text[i] == courseDataHeader) {
+        continue;
+      } else if (text[i] == "") {
+        continue;
+      } else {
+        var semester = strArray[3];
+        var year = strArray[4];
+        array.push(semester + " " + year);
+      }
+    }
+    let uniqueArray = [...new Set(array)];
+    let ok = this;
+    this.afs.collection('Courses', ref => ref.where('semesterAndYear', 'in', uniqueArray)).get().toPromise().then((querySnapshot) => {
+      querySnapshot.forEach(doc => {
+        doc.ref.delete();
+      });  
+    }).then(response => ok.uploadCourse2(text));
+  }
+
+  async uploadCourse2(text) {
+    let courseDataHeader = "department,course_num,section,semester,year,timeslot";
+    for (var i = 0; i < text.length; i++){
       if (text[i] == courseDataHeader) {
         continue;
       } else if (text[i] == "") {
@@ -817,6 +848,7 @@ export class GpdComponent implements OnInit {
         var section = strArray[2];
         var semester = strArray[3];
         var year = strArray[4];
+        var semesterAndYear = semester + " " + year;
         var timeSlot = strArray[5];
         var timeArray = timeSlot.split(" ");
         var days = timeArray[0];
@@ -831,6 +863,7 @@ export class GpdComponent implements OnInit {
         courseID: courseID,
         section: section,
         semester: semester,
+        semesterAndYear: semesterAndYear,
         year: year,
         day: days,
         startTime: startTime,

@@ -36,7 +36,6 @@ export interface Student{
     meetsElectiveCreditMinimum?: boolean;
     meetsGPA?: boolean;
     coursesTaken?: String[]
-    coursePlan?: String[];
 
     numAmsStatCourses?: number;
     hasAmsORStatComplete?: boolean;
