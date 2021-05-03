@@ -39,7 +39,7 @@ export class GpdComponent implements OnInit {
   s: Student[];
   gpd: String;
   semester: String;
-  year: Number;
+  year: number;
   departments: String[];
 
   constructor(private authService: AuthService, public router: Router, public studentService: StudentService, public afs: AngularFirestore, public courseService: CourseService, public dialog: MatDialog, public sr: StudentRequirementsService) {

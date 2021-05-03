@@ -23,7 +23,7 @@ export interface Student{
     project?:string;
     comments?:string[];
     validCoursePlan?:boolean;
-    plan?:Plan;
+    coursePlan?:Map<string, Map<string, string>>
     password?:string;
     gpa?: number;
     requiredCourses?: string[];

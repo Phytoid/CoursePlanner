@@ -15,19 +15,19 @@ export interface ECE extends DegreeReqs{
     // needsThesis?:Boolean; // Did the student pick the thesis option?
     // meetsThesisReq?:Boolean; // Did the student complete the thesis requirements?
     // numberOfLectureBasedCourses?:Number; // Did the student take a required additional number of lecture courses (3 for non-thesis, 1 for thesis)?
-    department: String;
-    track?:String[]; // The BMI student's track (Clinical, Imaging, Translational)
-    versionSemester?: String;
+    department: string;
+    track?:string[]; // The BMI student's track (Clinical, Imaging, Translational)
+    versionSemester?: string;
     versionYear?: Number;
-    hardwareCourses: String[]; // All hardware courses
-    networkingCourses: String[]; // All networking courses
-    cadCourses: String[]; // all CAD courses
-    theoryCourses: String[]; // all theory courses
-    subAreas1: String[]; // Subarea 1 (hardware, networking, cad)
-    subAreas2: String[]; // Subarea 2 (theory)
-    requiredCoursesNT: String[]; // Required courses for Non-thesis
-    requiredCoursesT: String[]; // Required courses for thesis
-    nonRegularCourses: String[]; //non reqular courses
+    hardwareCourses: string[]; // All hardware courses
+    networkingCourses: string[]; // All networking courses
+    cadCourses: string[]; // all CAD courses
+    theoryCourses: string[]; // all theory courses
+    subAreas1: string[]; // Subarea 1 (hardware, networking, cad)
+    subAreas2: string[]; // Subarea 2 (theory)
+    requiredCoursesNT: string[]; // Required courses for Non-thesis
+    requiredCoursesT: string[]; // Required courses for thesis
+    nonRegularCourses: string[]; //non reqular courses
     numCreditsSubAreas1NT: Number; // Number of credits fron subarea 1 needed by non-thesis
     numCreditsSubAreas2NT: Number; // Number of credits from subarea 2 needed by non-thesis
     maxCreditsESE698NT: Number; // Max credits of ese698 that will count to degree for non thesis

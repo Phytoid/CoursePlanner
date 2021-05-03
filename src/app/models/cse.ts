@@ -10,31 +10,31 @@ export interface CSE extends DegreeReqs{
     // specialOption?:Boolean; // Is the student on the special project track?
     // thesisOption?:Boolean; // Is the student on the thesis project track?
     // meetsTrackReq?:Boolean; // Has the student taken the courses in requiredCourses?
-    department: String;
-    track?:String[]; // The BMI student's track (Clinical, Imaging, Translational)
-    versionSemester?: String;
+    department: string;
+    track?:string[]; // The BMI student's track (Clinical, Imaging, Translational)
+    versionSemester?: string;
     versionYear?: Number;
     credits: Number // Min credits needed to graduate
     maxCreditsCSE587: Number // max credits that count from cse587
     oneGraduateClass: Boolean // if student needs one class last semester to graduate
-    requiredCoursesA: String[] // Required courses for advanced track
-    notAllowedCoursesA: String[] // Courses not allowed for advanced track
-    requiredCoursesS: String[] // Required courses for special track
-    notAllowedCoursesS: String[] // Courses not allowed for special track
+    requiredCoursesA: string[] // Required courses for advanced track
+    notAllowedCoursesA: string[] // Courses not allowed for advanced track
+    requiredCoursesS: string[] // Required courses for special track
+    notAllowedCoursesS: string[] // Courses not allowed for special track
     minBasicProjectS: Number; // Min number of basic project classes needed for special track
-    basicProjectCourses: String[]; // basic project courses
+    basicProjectCourses: string[]; // basic project courses
     minCreditEverythingS: Number; // Min number of classes needed from the everything course list for special track
-    everythingCoursesS: String[]; // All courses special project can take for credit
+    everythingCoursesS: string[]; // All courses special project can take for credit
 
-    specialCoursesS: String[]; // Special courses that special track can take for credit
+    specialCoursesS: string[]; // Special courses that special track can take for credit
     maxSpecialCreditsS: Number; // Max number of special credits special track student can take and count towards degree
-    requiredCoursesT: String[]; // Required courses for thesis
+    requiredCoursesT: string[]; // Required courses for thesis
     maxCreditsCSE599: Number; // Max credits from cse599 that will count
     thesis: boolean; // If thesis student required a thesis to graduate
     gpa?:Number; // Does the student have a 3.0 GPA or better?
     numBreadthCourses?: Number;
-    theoryCourses: String[];
-    systemsCourses: String[];
-    iisCourses: String[];
+    theoryCourses: string[];
+    systemsCourses: string[];
+    iisCourses: string[];
 }   
     
